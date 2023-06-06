@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 
 import {
   neural900,
@@ -195,7 +194,7 @@ function ResponsiveAppBar() {
                 <MenuItem key="/dashboard" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Dashboard</Typography>
                 </MenuItem>
-                <MenuItem key="/mycourse" onClick={handleCloseNavMenu}>
+                <MenuItem key="/course" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Course</Typography>
                 </MenuItem>
                 <MenuItem key="/mycourse" onClick={handleCloseNavMenu}>
@@ -207,7 +206,7 @@ function ResponsiveAppBar() {
                 <MenuItem key="/aboutus" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Achievements</Typography>
                 </MenuItem>
-                <MenuItem key="/mycourse" onClick={handleCloseNavMenu}>
+                <MenuItem key="/cart" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">My Cart</Typography>
                 </MenuItem>
                 <MenuItem key="/login" onClick={handleLogout}>
@@ -330,7 +329,7 @@ function ResponsiveAppBar() {
               }}
             >
               <Button
-                key="/courses"
+                key="/dashboard"
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: "24px",
@@ -372,7 +371,7 @@ function ResponsiveAppBar() {
                 My Course
               </Button>
               <Button
-                key="/courses"
+                key="/quiz"
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: "24px",
@@ -386,7 +385,7 @@ function ResponsiveAppBar() {
                 Quiz
               </Button>
               <Button
-                key="/courses"
+                key="/achievements"
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: "24px",
@@ -401,7 +400,7 @@ function ResponsiveAppBar() {
               </Button>
 
               <Button
-                key="/courses"
+                key="/cart"
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: "24px",

@@ -1,8 +1,9 @@
 import React from 'react'
+import ResponsiveFooter from './ResponsiveFooter'
 
 function Footer() {
   return (
-    <div>Footer</div>
+    <ResponsiveFooter/>
   )
 }
 
