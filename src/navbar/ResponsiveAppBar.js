@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-
 import {
   neural900,
   orange,
@@ -19,6 +18,7 @@ import {
 } from "../design/color";
 import { ThemeProvider } from "@mui/material/styles";
 import myTheme from "./Theme";
+import { Link } from "react-router-dom";
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -67,7 +67,7 @@ function ResponsiveAppBar() {
               sx={{
                 display: { xs: "none", md: "flex" },
                 fontFamily: "Poppins",
-                fontWeight: 1000,
+                fontWeight: 900,
                 fontSize: 20,
                 fontStyle: "normal",
                 lineHeight: "125%",
@@ -197,8 +197,11 @@ function ResponsiveAppBar() {
                 <MenuItem key="/course" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Course</Typography>
                 </MenuItem>
-                <MenuItem key="/mycourse" onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">My Course</Typography>
+                <MenuItem key="/mycourse"  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center" as={Link} to="/mycourses" sx={{textDecoration: "none", ":visited": {
+                    color: "black"
+                  } }}
+                  >My Course</Typography>
                 </MenuItem>
                 <MenuItem key="/pricing" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Quiz</Typography>
@@ -232,7 +235,7 @@ function ResponsiveAppBar() {
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 400,
+                    fontWeight: 600,
                     lineHeight: "140%",
                   }}
                 >
@@ -246,7 +249,7 @@ function ResponsiveAppBar() {
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 400,
+                    fontWeight: 600,
                     lineHeight: "140%",
                   }}
                 >
@@ -260,7 +263,7 @@ function ResponsiveAppBar() {
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 400,
+                    fontWeight: 600,
                     lineHeight: "140%",
                   }}
                 >
@@ -274,7 +277,7 @@ function ResponsiveAppBar() {
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 400,
+                    fontWeight: 600,
                     lineHeight: "140%",
                   }}
                 >
@@ -288,7 +291,7 @@ function ResponsiveAppBar() {
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 400,
+                    fontWeight: 600,
                     lineHeight: "140%",
                     backgroundColor: orange,
                     ":hover": {
@@ -307,7 +310,7 @@ function ResponsiveAppBar() {
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 400,
+                    fontWeight: 600,
                     lineHeight: "140%",
                     backgroundColor: purplishBlue,
                     ":hover": {
@@ -336,7 +339,7 @@ function ResponsiveAppBar() {
                   color: neural900,
                   display: "block",
                   fontSize: 12,
-                  fontWeight: 400,
+                  fontWeight: 600,
                   lineHeight: "140%",
                 }}
               >
@@ -350,7 +353,7 @@ function ResponsiveAppBar() {
                   color: neural900,
                   display: "block",
                   fontSize: 12,
-                  fontWeight: 400,
+                  fontWeight: 600,
                   lineHeight: "140%",
                 }}
               >
@@ -359,13 +362,16 @@ function ResponsiveAppBar() {
               <Button
                 key="/mycourse"
                 onClick={handleCloseNavMenu}
+                as={Link}
+                to="/mycourses"
                 sx={{
                   my: "24px",
                   color: neural900,
                   display: "block",
                   fontSize: 12,
-                  fontWeight: 400,
+                  fontWeight: 600,
                   lineHeight: "140%",
+                  textDecoration: "none"
                 }}
               >
                 My Course
@@ -378,7 +384,7 @@ function ResponsiveAppBar() {
                   color: neural900,
                   display: "block",
                   fontSize: 12,
-                  fontWeight: 400,
+                  fontWeight: 600,
                   lineHeight: "140%",
                 }}
               >
@@ -392,7 +398,7 @@ function ResponsiveAppBar() {
                   color: neural900,
                   display: "block",
                   fontSize: 12,
-                  fontWeight: 400,
+                  fontWeight: 600,
                   lineHeight: "140%",
                 }}
               >
@@ -408,7 +414,7 @@ function ResponsiveAppBar() {
                   color: neural900,
                   display: "block",
                   fontSize: 12,
-                  fontWeight: 400,
+                  fontWeight: 600,
                   lineHeight: "140%",
                 }}
               >
