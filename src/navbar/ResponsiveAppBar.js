@@ -361,9 +361,10 @@ function ResponsiveAppBar() {
               </Button>
               <Button
                 key="/mycourse"
-                onClick={handleCloseNavMenu}
-                as={Link}
-                to="/mycourses"
+                // onClick={handleCloseNavMenu}
+                // as={Link}
+                // to="/mycourses"
+                href="/mycourses"
                 sx={{
                   my: "24px",
                   color: neural900,

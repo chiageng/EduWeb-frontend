@@ -55,7 +55,7 @@ function Course({ course }) {
           <PlayCircleFilledWhiteIcon sx={{ color: useColor }} />
           <Button
             size="small"
-            href={`./courses/${course._id}`}
+            href={`./mycourses/${course._id}`}
             style={{
               textDecoration: "none",
               fontFamily: "Poppins",

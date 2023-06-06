@@ -1,9 +1,9 @@
 const DUMMY_TOPICS =  [
-  {'_id': '1','topic': 'topic 1'},
-  {'_id': '2','topic': 'topic 2'},
-  {'_id': '3','topic': 'topic 3'},
-  {'_id': '4','topic': 'topic 4'},
-  {'_id': '5','topic': 'topic 5'},
+  {'_id': '1','title': 'title 1', 'description' : 'description 1'},
+  {'_id': '2','title': 'title 2', 'description' : 'description 2'},
+  {'_id': '3','title': 'title 3', 'description' : 'description 3'},
+  {'_id': '4','title': 'title 4', 'description' : 'description 4'},
+  {'_id': '5','title': 'title 5', 'description' : 'description 5'},
 ]
 
 const DUMMY_QUIZZES =  [
