@@ -10,6 +10,8 @@ import { fontType } from "../design/font";
 import { neural500, neural900, orangeLight } from "../design/color";
 
 export default function Topic({ topic }) {
+  const currentUrl = window.location.href;
+
   return (
     <>
       {/* Topic card for Webpage */}
@@ -30,6 +32,7 @@ export default function Topic({ topic }) {
               fontFamily={fontType}
               fontWeight={700}
               color={neural900}
+              fontSize="18px"
             >
               {topic.title}
             </Typography>
@@ -54,6 +57,7 @@ export default function Topic({ topic }) {
           >
             <Button
               key="/courses"
+              href={`${currentUrl}/videos`}
               sx={{
                 my: "24px",
                 display: "block",

@@ -1,6 +1,6 @@
 import React from "react";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link, useParams } from "react-router-dom";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Box, Typography } from "@mui/material";
 import { neural500, neural900 } from "../design/color";

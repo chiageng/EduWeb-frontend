@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Course from "../components/Course";
 import { courses } from "../Courses";
 import { Grid, Box, Typography } from "@mui/material";
 import { neural500, neural900 } from "../design/color";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 function CoursesScreen() {
