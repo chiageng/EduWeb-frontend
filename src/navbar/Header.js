@@ -11,7 +11,6 @@ function Header() {
     console.log("enter")
   }
 
-  console.log(currentUrl);
   return (
     <>
     {output}

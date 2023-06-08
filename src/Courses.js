@@ -14,12 +14,13 @@ const DUMMY_QUIZZES = [
   { _id: "5", title: "quiz 5", done: false },
 ];
 
-const DUMMY_QUIZ = [
+export const DUMMY_QUIZ = [
   {
     id: "1",
     question: "Earth moving around the sun at  ____________ per hour",
     answers: ["670,000 miles", "67,000 miles", "6,700 miles", "670 miles"],
     correctAnswer: "67,000 miles",
+    explanation: "Because this is the explanation"
   },
   {
     id: "2",

@@ -12,6 +12,7 @@ import CoursesScreen from "./screens/CoursesScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import MyQuizzesScreen from "./screens/MyQuizzesScreen";
+import { MyQuizScreen } from "./screens/MyQuizScreen";
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
             <Route
               path="/mycourses/:id/myquiz"
               element={<MyQuizzesScreen></MyQuizzesScreen>}
+            ></Route>
+            <Route
+              path="/mycourses/:id/myquiz/:quizid"
+              element={<MyQuizScreen></MyQuizScreen>}
             ></Route>
             <Route
               path="/mycourses/:id/videos"
