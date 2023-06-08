@@ -1,8 +1,9 @@
 import React from 'react'
+import { Container } from '@mui/material'
 
 function HomeScreen() {
   return (
-    <div>HomeScreen</div>
+    <Container>HomeScreen</Container>
   )
 }
 

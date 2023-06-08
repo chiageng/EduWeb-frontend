@@ -1,12 +1,12 @@
 import React from "react";
 import Course from "../components/Course";
 import { courses } from "../Courses";
-import { Grid, Box, Typography } from "@mui/material";
+import { Grid, Box, Typography, Container } from "@mui/material";
 import { neural500, neural900 } from "../design/color";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-function CoursesScreen() {
+function MyCoursesScreen() {
   const breadcrumb = (
     <Breadcrumbs
       separator={<NavigateNextIcon fontSize="small" />}
@@ -21,6 +21,7 @@ function CoursesScreen() {
   );
 
   return (
+    <Container>
     <Box pt={5} pb={10}>
       <Typography
         variant="h3"
@@ -44,7 +45,8 @@ function CoursesScreen() {
         ))}
       </Grid>
     </Box>
+    </Container>
   );
 }
 
-export default CoursesScreen;
+export default MyCoursesScreen;

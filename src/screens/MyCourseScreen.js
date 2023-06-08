@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Container } from "@mui/material";
 import { neural500, neural900 } from "../design/color";
 import Topic from "../components/Topic";
 import { courses } from "../Courses";
@@ -41,6 +41,7 @@ function MyCourseScreen() {
     </Breadcrumbs>
   );
   return (
+    <Container>
     <Box pt={5} pb={10}>
       <Typography
         variant="h3"
@@ -60,6 +61,7 @@ function MyCourseScreen() {
         <Topic key={topic._id} topic={topic}/>
       ))}
     </Box>
+    </Container>
   );
 }
 

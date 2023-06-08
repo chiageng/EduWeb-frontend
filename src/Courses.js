@@ -27,6 +27,8 @@ export const courses = [
     'topics':DUMMY_TOPICS,
     'quiz': DUMMY_QUIZZES,
     'progress': '20',
+    'price': '300.00',
+    'instructor': 'CS Wong',
   }, 
   {
     '_id': '2',
@@ -39,6 +41,8 @@ export const courses = [
     'topics': DUMMY_TOPICS,
     'quiz': DUMMY_QUIZZES,
     'progress': '30',
+    'price': '300.00',
+    'instructor': 'YH Lee',
   },
   {
     '_id': '3',
@@ -51,6 +55,8 @@ export const courses = [
     'topics': DUMMY_TOPICS,
     'quiz': DUMMY_QUIZZES,
     'progress': '0',
+    'price': '300.00',
+    'instructor': 'CG Chng',
   },
   {
     '_id': '4',
@@ -63,6 +69,8 @@ export const courses = [
     'topics': DUMMY_TOPICS,
     'quiz': DUMMY_QUIZZES,
     'progress': '100',
+    'price': '300.00',
+    'instructor': 'Bobo',
   },
   {
     '_id': '5',
@@ -75,6 +83,8 @@ export const courses = [
     'topics':DUMMY_TOPICS,
     'quiz': DUMMY_QUIZZES,
     'progress': '50',
+    'price': '300.00',
+    'instructor': 'CS Wong',
   }, 
   {
     '_id': '6',
@@ -87,6 +97,8 @@ export const courses = [
     'topics': DUMMY_TOPICS,
     'quiz': DUMMY_QUIZZES,
     'progress': '40',
+    'price': '300.00',
+    'instructor': 'YH Lee',
   },
   {
     '_id': '7',
@@ -99,6 +111,8 @@ export const courses = [
     'topics': DUMMY_TOPICS,
     'quiz': DUMMY_QUIZZES,
     'progress': '80',
+    'price': '300.00',
+    'instructor': 'CG Chng',
   },
   {
     '_id': '8',
@@ -111,6 +125,8 @@ export const courses = [
     'topics': DUMMY_TOPICS,
     'quiz': DUMMY_QUIZZES,
     'progress': '70',
+    'price': '300.00',
+    'instructor': 'Bobo',
   }
   
 ]

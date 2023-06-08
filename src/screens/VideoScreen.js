@@ -10,6 +10,7 @@ import {
   Card,
   CardContent,
   Button,
+  Container,
 } from "@mui/material";
 import {
   neural300,
@@ -72,6 +73,7 @@ function VideoScreen() {
   );
 
   return (
+    <Container>
     <Box pt={5} pb={10}>
       <Typography
         variant="h3"
@@ -177,6 +179,7 @@ function VideoScreen() {
         </Grid>
       </Grid>
     </Box>
+    </Container>
   );
 }
 
