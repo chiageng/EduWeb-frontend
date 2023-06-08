@@ -77,7 +77,7 @@ function Course({ course }) {
             borderRadius: "8px",
           }}
         >
-          <Button size="small" sx={{ color: neural900, fontSize: 12, fontWeight: 600, fontFamily: "Poppins" }}>
+          <Button size="small" href={`/mycourses/${course._id}/myquiz`}sx={{ color: neural900, fontSize: 12, fontWeight: 600, fontFamily: "Poppins" }}>
             View Quiz
           </Button>
         </Box>

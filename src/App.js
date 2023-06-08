@@ -11,6 +11,7 @@ import "../node_modules/video-react/dist/video-react.css";
 import CoursesScreen from "./screens/CoursesScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import MyQuizzesScreen from "./screens/MyQuizzesScreen";
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
             <Route
               path="/mycourses/:id"
               element={<MyCourseScreen></MyCourseScreen>}
+            ></Route>
+            <Route
+              path="/mycourses/:id/myquiz"
+              element={<MyQuizzesScreen></MyQuizzesScreen>}
             ></Route>
             <Route
               path="/mycourses/:id/videos"
