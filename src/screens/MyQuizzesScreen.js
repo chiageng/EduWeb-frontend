@@ -60,7 +60,7 @@ function MyQuizzesScreen() {
         {breadcrumb}
         <Grid container spacing={2}>
           {topics.map((topic) => (
-            <Grid item xs={12} md={4}>
+            <Grid key={topic._id} item xs={12} md={4}>
               <QuizCard key={topic._id} topic={topic} />
             </Grid>
           ))}

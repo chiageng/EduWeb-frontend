@@ -20,13 +20,16 @@ export const DUMMY_QUIZ = [
     question: "Earth moving around the sun at  ____________ per hour",
     answers: ["670,000 miles", "67,000 miles", "6,700 miles", "670 miles"],
     correctAnswer: "67,000 miles",
-    explanation: "Because this is the explanation"
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
   {
     id: "2",
     question: "Earth is Mostly Comprised of the following except ________",
     answers: ["Iron", "Air", "Silicon", "Oxygen"],
     correctAnswer: "Air",
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
   {
     id: "3",
@@ -38,12 +41,16 @@ export const DUMMY_QUIZ = [
       "160 degrees Fahrenheit",
     ],
     correctAnswer: "134 degrees Fahrenheit",
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
   {
     id: "5",
     question: "Earth is 4.5 Billion Years Old",
     answers: ["True", "False"],
     correctAnswer: "True",
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
   {
     id: "6",
@@ -55,18 +62,24 @@ export const DUMMY_QUIZ = [
       "-128.5 degrees Fahrenheit",
     ],
     correctAnswer: "-128.5 degrees Fahrenheit",
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
   {
     id: "7",
     question: "The Earth Atmosphere Extends to a Distance of 10,000 km",
     answers: ["False", "True", "Maybe"],
     correctAnswer: "True",
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
   {
     id: "8",
     question: "A year on Earth is exactly ______ days ",
     answers: ["366", "365", "365.2564", "300"],
     correctAnswer: "365.2564",
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
   {
     id: "9",
@@ -78,12 +91,16 @@ export const DUMMY_QUIZ = [
       "nearly 30 meters per minute",
     ],
     correctAnswer: "nearly 30 kilometers per second",
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
   {
     id: "10",
     question: "Earth is Almost a Sphere",
     answers: ["True", "False", "I don't know"],
     correctAnswer: "True",
+    explanation: "Because this is the explanation",
+    mySolution: "",
   },
 ];
 

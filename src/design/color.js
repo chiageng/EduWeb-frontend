@@ -23,3 +23,5 @@ export const neural300 = "#BABABA"
 export const neural200 = "#D1D1D1"
 export const neural100 = "#E8E8E8"
 export const white = "#FFFFFF"
+
+export const red = '#F75353'

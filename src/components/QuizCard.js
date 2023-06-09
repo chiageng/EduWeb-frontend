@@ -13,11 +13,14 @@ import {
   neural900,
   orangeLight,
   purplishBlueLight,
+  white,
 } from "../design/color";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function QuizCard() {
-  const currentUrl = window.location.href;
+export default function QuizCard({topic}) {
+  const params = useParams();
 
   return (
     <>
@@ -27,8 +30,16 @@ export default function QuizCard() {
           display: { xs: "none", md: "flex" },
           mx: 0,
           borderRadius: "10px",
+          backgroundColor: white,
+          textDecoration: 'none',
+          color: neural900,
           mb: "16px",
+          ':hover': {
+            cursor: 'pointer'
+          }
         }}
+        as={Link}
+        to={`/mycourses/${params.id}/myquiz/${topic._id}`}
       >
         <Box sx={{ display: "flex", flexGrow: 1 }}>
           <CardContent>
@@ -90,9 +101,16 @@ export default function QuizCard() {
           display: { xs: "flex", md: "none" },
           mx: 0,
           borderRadius: "10px",
+          backgroundColor: white,
+          textDecoration: 'none',
+          color: neural900,
           mb: "4px",
-          width: '100%'
+          ':hover': {
+            cursor: 'pointer'
+          }
         }}
+        as={Link}
+        to={`/mycourses/${params.id}/myquiz/${topic._id}`}
       >
         <Box sx={{ display: "flex", flexGrow: 1 }}>
           <CardContent>

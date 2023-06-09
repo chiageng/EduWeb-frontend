@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DUMMY_QUIZ, DUMMY_QUIZ as Quest } from "../Courses";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -8,7 +8,6 @@ import { Container, Breadcrumbs, Card, CardContent } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { courses } from "../Courses";
 import {
-  neural300,
   neural500,
   neural700,
   neural900,
@@ -16,31 +15,36 @@ import {
   purplishBlueDark,
   white,
   orangeLight,
+  purplishBluePale,
+  purplishBlueLight,
 } from "../design/color";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
 import QuizQuestion from "../components/QuizQuestion";
 import { fontType } from "../design/font";
+import SimpleBackdrop from "../components/SimpleBackdrop";
 
 export const MyQuizScreen = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [chosenAnswer, setChosenAnswer] = useState("");
-  let score = 0;
+  const [score, setScore] = useState(0)
   const [submit, setSubmit] = useState(false);
   const [end, setEnd] = useState(false);
   const params = useParams();
   const course = courses.find((course) => course._id === params.id);
   const quiz = DUMMY_QUIZ;
   const selections = quiz[currentQuestion].answers;
-  const mySolutions = [];
+
+  
 
   const submitHandler = (e) => {
-    mySolutions[currentQuestion] = chosenAnswer;
-    if (e.target.value === quiz[currentQuestion].correctAnswer) {
-      score += 1;
+    if (quiz[currentQuestion].mySolution === '') {
+      quiz[currentQuestion].mySolution = chosenAnswer;
+      if (chosenAnswer === quiz[currentQuestion].correctAnswer) {
+        setScore(prev => prev + 1);
+      }
     }
     setSubmit(true);
-    console.log(mySolutions)
   }
 
   const clickHandler = (e) => {
@@ -48,15 +52,27 @@ export const MyQuizScreen = () => {
   }
 
   const nextHandler = () => {
-    setCurrentQuestion(prev => prev + 1);
-    setChosenAnswer("");
-    setSubmit(false);
+    if (currentQuestion + 1 === quiz.length) {
+      setEnd(true);
+      
+    } else {
+      setCurrentQuestion(prev => prev + 1);
+      setChosenAnswer("");
+      setSubmit(false);
+    }
   }
 
   const prevHandler = () => {
     setCurrentQuestion(prev => prev - 1);
-    setChosenAnswer(mySolutions[currentQuestion]);
+    setSubmit(true);
   }
+
+  useEffect(() => {
+    if (quiz[currentQuestion].mySolution !== '') {
+      setChosenAnswer(quiz[currentQuestion].mySolution);
+      setSubmit(true);
+    }
+  }, [submitHandler, nextHandler, prevHandler])
 
   const breadcrumb = (
     <Breadcrumbs
@@ -101,6 +117,7 @@ export const MyQuizScreen = () => {
 
   return (
     <Container>
+      {end &&  <SimpleBackdrop end={end} result={score} totalQuestions={quiz.length} onClick={() => setEnd(false)}/>}
       <Box pt={5} pb={10}>
         {breadcrumb}
         <Typography
@@ -127,7 +144,7 @@ export const MyQuizScreen = () => {
             mb: "8px",
           }}
         >
-          Question 1 / 40
+          Question {currentQuestion + 1} / {quiz.length}
         </Typography>
         <Typography
           variant="h3"
@@ -140,16 +157,16 @@ export const MyQuizScreen = () => {
             mb: "32px",
           }}
         >
-          {quiz[0].question}
+          {quiz[currentQuestion].question}
         </Typography>
 
-        {/* Before submission */}
+        {/* Before submission Design for Quiz Question*/}
         {!submit && <QuizQuestion
           selections={selections}
           onClick={clickHandler}
         ></QuizQuestion>}
 
-        {/* After submission */}
+        {/* After submission Design for Quiz Question*/}
         {submit && <QuizQuestion
           selections={selections}
           onClick={clickHandler}
@@ -197,40 +214,10 @@ export const MyQuizScreen = () => {
                   {quiz[currentQuestion].explanation}
                 </Typography>
               </CardContent>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexGrow: 1,
-                  justifyContent: "right",
-                  pl: 1,
-                  pb: 1,
-                }}
-              >
-                <Button
-                  key="/courses"
-                  href={`/videos`}
-                  style={{ textAlign: "center" }}
-                  sx={{
-                    my: "24px",
-                    display: "block",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    lineHeight: "140%",
-                    borderRadius: 10,
-                    mr: 3,
-                    fontFamily: fontType,
-                    backgroundColor: white,
-                    color: neural900,
-                    height: "40px",
-                    ":hover": { backgroundColor: orangeLight },
-                  }}
-                >
-                </Button>
-              </Box>
             </Box>
           </Card>}
 
-        {/* Before submission webpage design */}
+        {/* Before submission submit button webpage design */}
         {!submit && <Grid container display={{ xs: "none", md: "flex" }}>
           <Grid item md={10}></Grid>
           <Grid item md={2}>
@@ -242,15 +229,17 @@ export const MyQuizScreen = () => {
                 fontSize: 14,
                 borderRadius: 3,
                 ":hover": { backgroundColor: purplishBlueDark },
+                ':disabled': {backgroundColor: purplishBlueLight},
               }}
               onClick={submitHandler}
+              disabled={chosenAnswer === ''}
             >
               Submit
             </Button>
           </Grid>
         </Grid>}
 
-        {/* Before submission phone design */}
+        {/* Before submission submit button phone design */}
        {!submit && <Grid container display={{xs: "flex", md: "none"}}>
         <Button
               sx={{
@@ -261,14 +250,16 @@ export const MyQuizScreen = () => {
                 width: '90%',
                 borderRadius: 3,
                 ":hover": { backgroundColor: purplishBlueDark },
+                ':disabled': {backgroundColor: purplishBlueLight}
               }}
               onClick={submitHandler}
+              disabled={chosenAnswer === ''}
             >
               Submit
             </Button>
         </Grid>}
 
-        {/* After submission webpage design */}
+        {/* After submission buttons webpage design */}
         {submit && <Grid container display={{ xs: "none", md: "flex" }} justifyContent="space-between">
           <Grid item md={2}><Button
               sx={{
@@ -278,7 +269,10 @@ export const MyQuizScreen = () => {
                 fontSize: 14,
                 borderRadius: 3,
                 ":hover": { backgroundColor: purplishBlueDark },
+                ':disabled': {backgroundColor: purplishBlueLight}
               }}
+              onClick={prevHandler}
+              disabled={currentQuestion === 0}
             >
               Previous Question
             </Button></Grid>
@@ -293,13 +287,14 @@ export const MyQuizScreen = () => {
                 borderRadius: 3,
                 ":hover": { backgroundColor: purplishBlueDark },
               }}
+              onClick={nextHandler}
             >
               Next Question
             </Button>
           </Grid>
         </Grid>}
 
-        {/* After submission phone design */}
+        {/* After submission buttons phone design */}
         {submit && <Grid container display={{xs: "flex", md: "none"}}>
         <Button
               sx={{
@@ -310,9 +305,11 @@ export const MyQuizScreen = () => {
                 width: '90%',
                 borderRadius: 3,
                 ":hover": { backgroundColor: purplishBlueDark },
+                ':disabled': {backgroundColor: purplishBlueLight},
                 mb: 2
               }}
-              onClick={submitHandler}
+              onClick={prevHandler}
+              disabled={currentQuestion === 0}
             >
               Previous Question
             </Button>
@@ -326,7 +323,7 @@ export const MyQuizScreen = () => {
                 borderRadius: 3,
                 ":hover": { backgroundColor: purplishBlueDark },
               }}
-              onClick={submitHandler}
+              onClick={nextHandler}
             >
               Next Question
             </Button>
