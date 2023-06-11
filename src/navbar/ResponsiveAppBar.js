@@ -50,7 +50,7 @@ function ResponsiveAppBar() {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <AppBar position="static">
+      <AppBar position="sticky">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             {/* Nav Logo for webpage */}
@@ -262,6 +262,7 @@ function ResponsiveAppBar() {
                 </Button>
                 <Button
                   key="/blog"
+                  href="/mycourses"
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: "24px",
@@ -272,10 +273,11 @@ function ResponsiveAppBar() {
                     lineHeight: "140%",
                   }}
                 >
-                  Blog
+                  My Courses
                 </Button>
                 <Button
-                  key="/pricing"
+                  key="/shoppingcart"
+                  href="/shoppingcart"
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: "24px",
@@ -286,7 +288,7 @@ function ResponsiveAppBar() {
                     lineHeight: "140%",
                   }}
                 >
-                  Pricing
+                  shopping cart
                 </Button>
                 <Button
                   key="/aboutus"

@@ -13,6 +13,8 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import MyQuizzesScreen from "./screens/MyQuizzesScreen";
 import { MyQuizScreen } from "./screens/MyQuizScreen";
+import ShoppingCartScreen from "./screens/ShoppingCartScreen";
+
 
 function App() {
   return (
@@ -39,6 +41,7 @@ function App() {
               path="/mycourses/:id/videos"
               element={<VideoScreen />}
             ></Route>
+            <Route path="/shoppingcart" element={<ShoppingCartScreen />}></Route>
             <Route path="/login" element={<LoginScreen />}></Route>
             <Route path="/signup" element={<RegisterScreen />}></Route>
         </Routes>
