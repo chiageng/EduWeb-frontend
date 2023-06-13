@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,12 +8,14 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Container } from '@mui/material'
 import { neural900, purplishBlue, purplishBlueDark, purplishBluePale, white } from '../design/color';
 import { fontType } from '../design/font';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../actions/userActions';
+import Message from '../components/Message';
 
 function Copyright(props) {
   return (
@@ -32,16 +33,22 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function RegisterScreen() {
+  const [email, setEmail] = React.useState("cgeng12@hotmail.com");
+  const [password, setPassword] = React.useState("123456");
+
+  const dispatch = useDispatch();
+  const userRegister = useSelector((state) => state.userRegister);
+  const {error, loading, user} = userRegister;
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    dispatch(registerUser({email, password}));
   };
 
   return (
+    <>
+    {error && <Message type="error" >{error.message}</Message>}
     <ThemeProvider theme={theme} >
       <Grid container component="main" sx={{ height: '100vh'}}>
         <CssBaseline />
@@ -79,6 +86,8 @@ export default function RegisterScreen() {
                 margin="normal"
                 required
                 fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -94,6 +103,8 @@ export default function RegisterScreen() {
                 margin="normal"
                 required
                 fullWidth
+                value={password}
+                onChange={(e) => setEmail(e.target.value)}
                 name="password"
                 label="Password"
                 type="password"
@@ -113,7 +124,7 @@ export default function RegisterScreen() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                href="/mycourses"
+                onClick={handleSubmit}
                 sx={{ mt: 3, backgroundColor: purplishBlue, fontFamily: fontType, fontWeight: 600 }}
               >
                 Sign Up
@@ -140,5 +151,6 @@ export default function RegisterScreen() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </>
   );
 }

@@ -3,10 +3,10 @@ import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import AlertTitle from "@mui/material/AlertTitle";
 import Collapse from "@mui/material/Collapse";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Container } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-function Message({ type }) {
+function Message({ type, children }) {
   const [open, setOpen] = useState(true);
   const action = (
     <IconButton
@@ -32,14 +32,17 @@ function Message({ type }) {
   }
 
   return (
-    <Box sx={{ width: "100%", mt: 1 }}>
+    <Container>
+
+    <Box sx={{ width: "90%", mt: 1, position: 'absolute'}}>
       <Collapse in={open}>
         <Alert severity={type} action={action} sx={{ mb: 2 }}>
           <AlertTitle>{output}</AlertTitle>
-          This is an {type} alert — <strong>check it out!</strong>
+          {children} — <strong>check it out!</strong>
         </Alert>
       </Collapse>
     </Box>
+    </Container>
   );
 }
 

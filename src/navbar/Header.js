@@ -8,7 +8,6 @@ function Header() {
 
   if (currentUrl == '/login' || currentUrl == '/signup') {
     output =(<></>)
-    console.log("enter")
   }
 
   return (
