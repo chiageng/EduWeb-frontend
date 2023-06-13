@@ -15,6 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from '@mui/material'
 import { neural900, purplishBlue, purplishBlueDark, purplishBluePale, white } from '../design/color';
 import { fontType } from '../design/font';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../actions/userActions';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -32,13 +35,24 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LoginScreen() {
+  const [email, setEmail] = React.useState("cgeng12@hotmail.com");
+  const [password, setPassword] = React.useState("123456");
+
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const {error, loading, user} = userLogin;
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (user) {
+      navigate('/courses');
+    }
+  }, [user])
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    dispatch(loginUser({email, password}));
   };
 
   return (
@@ -79,6 +93,8 @@ export default function LoginScreen() {
                 margin="normal"
                 required
                 fullWidth
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -94,6 +110,8 @@ export default function LoginScreen() {
                 margin="normal"
                 required
                 fullWidth
+                value={password}
+                onChange={e => setPassword(e.target.value)}
                 name="password"
                 label="Password"
                 type="password"
@@ -113,7 +131,6 @@ export default function LoginScreen() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                href="/mycourses"
                 sx={{ mt: 3, backgroundColor: purplishBlue, fontFamily: fontType, fontWeight: 600 }}
               >
                 Sign In

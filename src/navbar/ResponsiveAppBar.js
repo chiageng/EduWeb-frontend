@@ -15,11 +15,15 @@ import { neural900, orange, purplishBlue } from "../design/color";
 import { ThemeProvider } from "@mui/material/styles";
 import myTheme from "./Theme";
 import { Link } from "react-router-dom";
+import { logout } from "../actions/userActions";
+import { useDispatch } from "react-redux";
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({user}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [login, setLogin] = React.useState(false);
+
+  const dispatch = useDispatch();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -39,7 +43,7 @@ function ResponsiveAppBar() {
   const handleLogout = () => {
     handleCloseUserMenu();
     handleCloseNavMenu();
-    setLogin(false);
+    dispatch(logout());
   };
 
   const handleLogin = () => {
@@ -96,7 +100,7 @@ function ResponsiveAppBar() {
             </Typography>
 
             {/* When not login Navigation bar for phone */}
-            {!login && (
+            {!user && (
               <Box
                 sx={{
                   flexGrow: 1,
@@ -163,7 +167,7 @@ function ResponsiveAppBar() {
             )}
 
             {/* When login Navigation bar for phone */}
-            {login && (
+            {user && (
               <Box
                 sx={{
                   flexGrow: 1,
@@ -237,7 +241,7 @@ function ResponsiveAppBar() {
             )}
 
             {/* When not login Navigation Bar Webpage */}
-            {!login && (
+            {!user && (
               <Box
                 sx={{
                   flexGrow: 1,
@@ -346,7 +350,7 @@ function ResponsiveAppBar() {
             )}
 
             {/* When login, Navigation bar for webpage*/}
-            {login && (
+            {user && (
               <Box
                 sx={{
                   flexGrow: 1,
