@@ -137,10 +137,10 @@ export const MyQuizScreen = () => {
           variant="h3"
           fontFamily={fontType}
           sx={{
-            fontSize: 18,
+            fontSize: 14,
             fontWeight: 400,
             fontStyle: "normal",
-            color: neural900,
+            color: neural500,
             mb: "8px",
           }}
         >
@@ -150,8 +150,8 @@ export const MyQuizScreen = () => {
           variant="h3"
           fontFamily={fontType}
           sx={{
-            fontSize: 18,
-            fontWeight: 400,
+            fontSize: 24,
+            fontWeight: 600,
             fontStyle: "normal",
             color: neural900,
             mb: "32px",

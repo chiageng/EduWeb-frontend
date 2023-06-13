@@ -1,26 +1,21 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { Button, Grid } from "@mui/material";
-import { fontType } from "../design/font";
+import { Grid } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import {
   green,
-  greenLight,
   neural900,
-  purplishBlue,
-  purplishBlueLight,
+
   red,
   white,
 } from "../design/color";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { pink } from "@mui/material/colors";
+import CancelIcon from '@mui/icons-material/Cancel';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 export default function QuizQuestion({
   selections,
@@ -74,6 +69,10 @@ export default function QuizQuestion({
                                 correctAnswer === selection ? white : neural900,
                             },
                           }}
+                          icon={correctAnswer === selection 
+                            ? <CheckCircleIcon style={{ color:white }}/>
+                            : chosenAnswer === selection && chosenAnswer !== correctAnswer ? <CancelIcon style={{ color:white }}/>
+                            : <RadioButtonUncheckedIcon/>}
                         />
                       }
                     ></FormControlLabel>
@@ -128,7 +127,9 @@ export default function QuizQuestion({
                               color:
                                 correctAnswer === selection ? white : neural900,
                             },
+                            
                           }}
+                         
                         />
                       }
                     ></FormControlLabel>
