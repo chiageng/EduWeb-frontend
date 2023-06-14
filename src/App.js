@@ -14,6 +14,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import MyQuizzesScreen from "./screens/MyQuizzesScreen";
 import { MyQuizScreen } from "./screens/MyQuizScreen";
 import ShoppingCartScreen from "./screens/ShoppingCartScreen";
+import MyProfileScreen from "./screens/MyProfileScreen";
 
 
 function App() {
@@ -36,6 +37,10 @@ function App() {
             <Route
               path="/mycourses/:id/myquiz/:quizid"
               element={<MyQuizScreen></MyQuizScreen>}
+            ></Route>
+             <Route
+              path="/myprofile"
+              element={<MyProfileScreen></MyProfileScreen>}
             ></Route>
             <Route
               path="/mycourses/:id/videos"

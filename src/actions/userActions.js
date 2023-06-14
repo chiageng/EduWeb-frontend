@@ -5,9 +5,23 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
+
+  USER_LOGOUT_REQUEST,
+  USER_LOGOUT_SUCCESS,
+  USER_LOGOUT_FAIL,
+  USER_LOGOUT_RESET,
+  
+  USER_REGISTER_RESET,
+
+  USER_PROFILE_REQUEST,
+  USER_PROFILE_SUCCESS,
+  USER_PROFILE_FAIL,
+  USER_PROFILE_RESET,
   LOGOUT,
+
 } from "../constants/user";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const registerUser =
   ({ email, password }) =>
@@ -15,7 +29,7 @@ export const registerUser =
     try {
       dispatch({ type: USER_REGISTER_REQUEST });
 
-      const { data } = await axios.post("http://localhost:8000/api/register", {
+      const { data } = await axios.post("/api/register", {
         email,
         password,
       });
@@ -24,6 +38,7 @@ export const registerUser =
         type: USER_REGISTER_SUCCESS,
         payload: data,
       });
+
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
@@ -34,6 +49,8 @@ export const registerUser =
 
 export const loginUser = ({email, password}) => async (dispatch) => {
   try {
+    dispatch({type: USER_LOGOUT_RESET})
+
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
@@ -44,7 +61,7 @@ export const loginUser = ({email, password}) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:8000/api/login",
+      "/api/login",
       { email: email, password: password },
       config
     );
@@ -64,6 +81,68 @@ export const loginUser = ({email, password}) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-  localStorage.removeItem('user');
-  dispatch({type: LOGOUT})
+  try {
+    dispatch({
+      type: USER_LOGOUT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.get(
+      "/api/logout",
+      config
+    );
+
+    dispatch({
+      type: USER_LOGOUT_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({type: LOGOUT})
+
+    localStorage.removeItem("user");
+
+  } catch (error) {
+    dispatch({
+      type: USER_LOGOUT_FAIL,
+      payload: error.response.data,
+    });
+  }
 }
+
+// replicate
+// export const getUserProfile = () => async (dispatch, getState) => {
+//   try {
+//     dispatch({
+//       type: USER_PROFILE_REQUEST,
+//     });
+
+//     const {userLogin: {user}} = getState();
+
+//     const config = {
+//       headers: {
+//         "Content-type": "application/json",
+//         Authorization: `Bearer ${user.accessToken}`
+//       },
+//     };
+//     const { data } = await axios.get(
+//       `http://localhost:8000/api/myprofile`,
+//       config,
+//     );
+
+//     dispatch({
+//       type: USER_PROFILE_SUCCESS,
+//       payload: data
+//     })	
+
+
+//   } catch (error) {
+//     dispatch({
+//       type: USER_PROFILE_FAIL,
+//       payload: error.response.data,
+//     });
+//   }
+// };
