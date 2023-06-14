@@ -113,6 +113,39 @@ export const logout = () => async (dispatch) => {
   }
 }
 
+export const forceLogout = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_LOGOUT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.get(
+      "/api/logout",
+      config
+    );
+
+    dispatch({
+      type: USER_LOGOUT_SUCCESS,
+      payload: {message: "Session Expired. Please login again"},
+    });
+
+    dispatch({type: LOGOUT})
+
+    localStorage.removeItem("user");
+
+  } catch (error) {
+    dispatch({
+      type: USER_LOGOUT_FAIL,
+      payload: error.response.data,
+    });
+  }
+}
+
 // replicate
 // export const getUserProfile = () => async (dispatch, getState) => {
 //   try {

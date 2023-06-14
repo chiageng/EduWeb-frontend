@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import axios from 'axios';
-import { logout } from '../actions/userActions';
+import { forceLogout, logout } from '../actions/userActions';
 
 function Header() {
   const currentUrl = window.location.pathname;
@@ -14,7 +14,7 @@ function Header() {
   const dispatch = useDispatch()
 
   const userLogout = useSelector(state => state.userLogout);
-  const { message} = userLogout;
+  const { message } = userLogout;
 
 
   const userLogin = useSelector(state => state.userLogin);
@@ -28,6 +28,8 @@ function Header() {
     }
   }, [userLogin, userLogout])
 
+  console.log(message);
+
   // check token expired and logout automatically when token expired
   axios.interceptors.response.use(
     function (response) {
@@ -37,12 +39,12 @@ function Header() {
     function (error) {
       // any status codes that falls outside the range of 2xx cause this function to trigger
       let res = error.response;
-      if (res.status === 401 && res.config && !res.sconfig.__isRetryRequest) {
+      if (res.status === 401) {
         return new Promise((resolve, reject) => {
           axios.get('/api/logout')
           .then(data => {
             console.log("/401 error > logout")
-            dispatch(logout());
+            dispatch(forceLogout());
           })
           .catch(err => {
             console.log("AXIOS INTERCEPTORS ERR", err)
@@ -60,7 +62,7 @@ function Header() {
 
   return (
     <>
-    {message && <Message type="success">{message.message}</Message>}
+    {message && <Message type="info">{message.message}</Message>}
     {output}
     </>
   )

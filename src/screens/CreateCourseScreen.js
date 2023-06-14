@@ -5,20 +5,15 @@ import {
   TextField,
   Grid,
   Card,
-  CardContent,
   MenuItem,
   Select,
   Button,
-  Badge,
 } from "@mui/material";
 import React, { useState } from "react";
 import {
   neural900,
-  neural700,
-  neural300,
   neural500,
   white,
-  orangeLight,
   purplishBlueDark,
   purplishBluePale,
   purplishBlue,
@@ -27,6 +22,8 @@ import {
 import { fontType } from "../design/font";
 import Resizer from "react-image-file-resizer";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { createCourse } from "../actions/courseActions";
 
 function CreateCourseScreen() {
   const [title, setTitle] = useState("");
@@ -34,6 +31,8 @@ function CreateCourseScreen() {
   const [price, setPrice] = useState("");
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleImageRemove = async () => {
     try {
@@ -64,8 +63,9 @@ function CreateCourseScreen() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(createCourse({title, price, image}))
   };
 
   return (
