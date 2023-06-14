@@ -15,6 +15,7 @@ import MyQuizzesScreen from "./screens/MyQuizzesScreen";
 import { MyQuizScreen } from "./screens/MyQuizScreen";
 import ShoppingCartScreen from "./screens/ShoppingCartScreen";
 import MyProfileScreen from "./screens/MyProfileScreen";
+import CreateCourseScreen from "./screens/CreateCourseScreen";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/" element={<HomeScreen />}></Route>
             <Route path="/courses" element={<CoursesScreen />}></Route>
             <Route path="/mycourses" element={<MyCoursesScreen />}></Route>
+            <Route path="/createcourse" element={<CreateCourseScreen />}></Route>
             <Route
               path="/mycourses/:id"
               element={<MyCourseScreen></MyCourseScreen>}
