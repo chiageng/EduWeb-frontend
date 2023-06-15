@@ -28,7 +28,6 @@ function Header() {
     }
   }, [userLogin, userLogout])
 
-  console.log(message);
 
   // check token expired and logout automatically when token expired
   axios.interceptors.response.use(

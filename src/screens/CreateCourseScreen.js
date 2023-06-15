@@ -9,7 +9,7 @@ import {
   Select,
   Button,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   neural900,
   neural500,
@@ -22,8 +22,9 @@ import {
 import { fontType } from "../design/font";
 import Resizer from "react-image-file-resizer";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createCourse } from "../actions/courseActions";
+import { useNavigate } from "react-router-dom";
 
 function CreateCourseScreen() {
   const [title, setTitle] = useState("");
@@ -33,6 +34,15 @@ function CreateCourseScreen() {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const courseCreate = useSelector(state => state.courseCreate);
+  const { loading:createLoading, success, error } = courseCreate;
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (success) {
+      navigate('/courses')
+    }
+  }, [courseCreate])
 
   const handleImageRemove = async () => {
     try {

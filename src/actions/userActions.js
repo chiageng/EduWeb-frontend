@@ -22,6 +22,7 @@ import {
 } from "../constants/user";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { COURSES_VIEW_RESET } from "../constants/course";
 
 export const registerUser =
   ({ email, password }) =>
@@ -102,6 +103,7 @@ export const logout = () => async (dispatch) => {
     });
 
     dispatch({type: LOGOUT})
+    dispatch({type: COURSES_VIEW_RESET})
 
     localStorage.removeItem("user");
 
@@ -135,6 +137,7 @@ export const forceLogout = () => async (dispatch) => {
     });
 
     dispatch({type: LOGOUT})
+    dispatch({type: COURSES_VIEW_RESET})
 
     localStorage.removeItem("user");
 

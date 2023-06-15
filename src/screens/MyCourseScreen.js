@@ -1,17 +1,40 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, {useEffect} from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Box, Typography, Container, Grid, Button } from "@mui/material";
-import { neural500, neural900, purplishBlue, white, purplishBlueDark } from "../design/color";
+import { neural500, neural900, purplishBlue, white, purplishBlueDark, orangeLight, orangePale } from "../design/color";
 import Topic from "../components/Topic";
 import { courses } from "../Courses";
 import { fontType } from "../design/font";
+import { useDispatch, useSelector } from "react-redux";
+import { viewCourse } from "../actions/courseActions";
 
 function MyCourseScreen() {
   const params = useParams();
-  const course = courses.find((course) => course._id === params.id);
-  const topics = course.topics;
+  // const course = courses.find((course) => course._id === params.id);
+  // const topics = course.topics;
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const courseView = useSelector(state => state.courseView);
+  const { loading, course, error } = courseView;
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { user } = userLogin;
+
+  useEffect(() => {
+    if (!user) {
+      navigate('./login');
+    }
+    dispatch(viewCourse(params.slug));
+  }, [params, userLogin])
+
+  // handle button for create topic for instructor
+  const handleButton = () => {
+    navigate(`./createtopic`)
+  }
+
 
   const breadcrumb = (
     <Breadcrumbs
@@ -37,7 +60,7 @@ function MyCourseScreen() {
         key="1"
         color={neural500}
       >
-        Video Topics
+        {course ? course.title : "Video Topic"}
       </Typography>
     </Breadcrumbs>
   );
@@ -47,7 +70,9 @@ function MyCourseScreen() {
       {breadcrumb}
       {/* View Quiz button for webpage */}
         <Grid container display="flex" justifyContent="space-between">
+          
           <Grid item>
+            
             <Typography
               variant="h3"
               fontFamily="Poppins"
@@ -56,13 +81,29 @@ function MyCourseScreen() {
                 fontWeight: 600,
                 fontStyle: "normal",
                 color: neural900,
-                mb: "32px",
+                mb: "18px",
               }}
             >
-              Video Topics
+              {course ? course.title : "Video Topic"}
             </Typography>
+            {user.user.is_staff && <Button
+              sx={{
+                backgroundColor: orangeLight,
+                fontFamily: fontType,
+                color: white,
+                fontSize: 14,
+                width: "100%",
+                borderRadius: 3,
+                textDecoration: 'none',
+                ":hover": { backgroundColor: orangeLight },
+              }}
+              onClick={handleButton}
+            >
+              Create Topic
+            </Button>}
           </Grid>
           <Grid item>
+          
             <Button
               sx={{
                 backgroundColor: purplishBlue,
@@ -85,9 +126,9 @@ function MyCourseScreen() {
 
 
         
-        {topics.map((topic) => (
+        {/* {topics && topics.map((topic) => (
           <Topic key={topic._id} topic={topic} />
-        ))}
+        ))} */}
       </Box>
     </Container>
   );

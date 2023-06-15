@@ -27,7 +27,7 @@ function Course({ course }) {
     <Card sx={{ maxWidth: 400 }}>
       <CardMedia
         sx={{ height: 200 }}
-        image={course.image}
+        image={course.image ? course.image.Location : '/images/Maths.jpg'}
         title={course.title}
       />
       <CardContent>
@@ -55,7 +55,7 @@ function Course({ course }) {
           <PlayCircleFilledWhiteIcon sx={{ color: useColor }} />
           <Button
             size="small"
-            href={`./mycourses/${course._id}`}
+            href={`./mycourses/${course.slug}`}
             style={{
               textDecoration: "none",
               fontFamily: "Poppins",
