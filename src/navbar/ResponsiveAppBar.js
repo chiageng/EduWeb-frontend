@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -19,9 +19,9 @@ import { logout } from "../actions/userActions";
 import { useDispatch } from "react-redux";
 
 function ResponsiveAppBar({user}) {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [login, setLogin] = React.useState(false);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [login, setLogin] = useState(false);
   
 
   const dispatch = useDispatch();

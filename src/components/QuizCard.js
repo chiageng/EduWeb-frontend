@@ -1,11 +1,9 @@
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
-import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { fontType } from "../design/font";
 import {
   green,

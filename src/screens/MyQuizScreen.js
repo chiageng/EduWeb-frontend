@@ -14,8 +14,6 @@ import {
   purplishBlue,
   purplishBlueDark,
   white,
-  orangeLight,
-  purplishBluePale,
   purplishBlueLight,
 } from "../design/color";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";

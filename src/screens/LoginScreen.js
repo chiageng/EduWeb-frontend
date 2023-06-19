@@ -1,5 +1,4 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -9,10 +8,8 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Container } from "@mui/material";
 import {
   neural900,
   purplishBlue,
@@ -24,7 +21,6 @@ import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
-import Message from "../components/Message";
 
 function Copyright(props) {
   return (
@@ -47,15 +43,15 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LoginScreen() {
-  const [email, setEmail] = React.useState("cgeng12@hotmail.com");
-  const [password, setPassword] = React.useState("123456");
+  const [email, setEmail] = useState("cgeng12@hotmail.com");
+  const [password, setPassword] = useState("123456");
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { error, loading, user } = userLogin;
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       navigate("/mycourses");
     }

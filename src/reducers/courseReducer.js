@@ -2,6 +2,7 @@ import {
   COURSE_CREATE_FAIL,
   COURSE_CREATE_REQUEST,
   COURSE_CREATE_SUCCESS,
+
   COURSES_VIEW_FAIL,
   COURSES_VIEW_REQUEST,
   COURSES_VIEW_RESET,
@@ -11,6 +12,10 @@ import {
   COURSE_VIEW_REQUEST,
   COURSE_VIEW_RESET,
   COURSE_VIEW_SUCCESS,
+
+  TOPIC_CREATE_FAIL,
+  TOPIC_CREATE_REQUEST,
+  TOPIC_CREATE_SUCCESS,
 } from "../constants/course";
 
 export const courseCreateReducers = (state = {}, action) => {
@@ -61,6 +66,22 @@ export const courseViewReducers = (state = {}, action) => {
 
     case COURSE_VIEW_RESET:
       return {};
+
+    default:
+      return state;
+  }
+};
+
+export const topicCreateReducers = (state = {}, action) => {
+  switch (action.type) {
+    case TOPIC_CREATE_REQUEST:
+      return { loading: true };
+
+    case TOPIC_CREATE_SUCCESS:
+      return { loading: false, success: true };
+
+    case TOPIC_CREATE_FAIL:
+      return { loading: false, error: action.payload };
 
     default:
       return state;

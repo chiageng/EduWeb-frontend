@@ -4,7 +4,6 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Box, Typography, Container, Grid, Button } from "@mui/material";
 import { neural500, neural900, purplishBlue, purplishBlueDark, white } from "../design/color";
-import Topic from "../components/Topic";
 import { courses } from "../Courses";
 import QuizCard from "../components/QuizCard";
 import { fontType } from "../design/font";

@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { neural900, purplishBlue, purplishBlueDark, purplishBluePale, white } from '../design/color';
 import { fontType } from '../design/font';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../actions/userActions';
 import Message from '../components/Message';

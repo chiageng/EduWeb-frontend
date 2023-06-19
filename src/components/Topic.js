@@ -36,15 +36,6 @@ export default function Topic({ topic }) {
             >
               {topic.title}
             </Typography>
-            <Typography
-              variant="subtitle1"
-              color={neural500}
-              fontSize="18px"
-              fontFamily={fontType}
-              component="div"
-            >
-              {topic.description}
-            </Typography>
           </CardContent>
           <Box
             sx={{

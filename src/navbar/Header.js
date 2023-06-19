@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import ResponsiveAppBar from './ResponsiveAppBar'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import axios from 'axios';
@@ -8,7 +8,6 @@ import { forceLogout, logout } from '../actions/userActions';
 
 function Header() {
   const currentUrl = window.location.pathname;
-  const location = useLocation()
 
   const navigate = useNavigate();
   const dispatch = useDispatch()

@@ -1,25 +1,14 @@
 import React from "react";
 import {
-  Container,
   Grid,
-  Card,
   Box,
-  CardContent,
   Typography,
   Button,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
 } from "@mui/material";
 import { fontType } from "../design/font";
 import {
   neural900,
-  neural700,
-  neural300,
   white,
-  orangeLight,
   neural500,
 } from "../design/color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";

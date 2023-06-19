@@ -1,29 +1,9 @@
 import {
   Container,
   Grid,
-  Card,
   Box,
-  CardContent,
-  Typography,
-  Button,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
 } from "@mui/material";
 import React from "react";
-import { fontType } from "../design/font";
-import {
-  neural900,
-  neural700,
-  neural300,
-  white,
-  orangeLight,
-  neural500,
-} from "../design/color";
-import { Image } from "@mui/icons-material";
-
 import CartHelper from "../components/CartHelper";
 import CheckoutHelper from "../components/CheckoutHelper";
 

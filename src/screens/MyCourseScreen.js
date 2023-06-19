@@ -4,11 +4,10 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Box, Typography, Container, Grid, Button } from "@mui/material";
 import { neural500, neural900, purplishBlue, white, purplishBlueDark, orangeLight, orangePale } from "../design/color";
-import Topic from "../components/Topic";
-import { courses } from "../Courses";
 import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
 import { viewCourse } from "../actions/courseActions";
+import Topic from '../components/Topic'
 
 function MyCourseScreen() {
   const params = useParams();
@@ -35,6 +34,7 @@ function MyCourseScreen() {
     navigate(`./createtopic`)
   }
 
+  
 
   const breadcrumb = (
     <Breadcrumbs
@@ -126,9 +126,9 @@ function MyCourseScreen() {
 
 
         
-        {/* {topics && topics.map((topic) => (
+        {course && course.lessons.map((topic) => (
           <Topic key={topic._id} topic={topic} />
-        ))} */}
+        ))}
       </Box>
     </Container>
   );

@@ -1,29 +1,16 @@
 import React from "react";
 import {
-  Container,
   Grid,
-  Card,
   Box,
-  CardContent,
   Typography,
-  Button,
   Divider,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
 } from "@mui/material";
 import { fontType } from "../design/font";
 import {
   neural900,
-  neural700,
-  neural300,
   white,
-  orangeLight,
   neural500,
 } from "../design/color";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { Image } from "@mui/icons-material";
 import CartListHelper from "./CartListHelper";
 
 function CartHelper() {
@@ -49,7 +36,11 @@ function CartHelper() {
       <Divider variant="middle" />
 
       {/* Header for table - webpage design */}
-      <Grid container display={{xs: "none", md: "flex"}} justifyContent="space-between">
+      <Grid
+        container
+        display={{ xs: "none", md: "flex" }}
+        justifyContent="space-between"
+      >
         <Grid item>
           <Typography
             component="div"
@@ -81,7 +72,7 @@ function CartHelper() {
       </Grid>
 
       {/* Header for table -phone design */}
-      <Grid container display={{xs: "flex", md: "none"}}>
+      <Grid container display={{ xs: "flex", md: "none" }}>
         <Grid item>
           <Typography
             component="div"
@@ -97,7 +88,7 @@ function CartHelper() {
           </Typography>
         </Grid>
       </Grid>
-      <CartListHelper/>
+      <CartListHelper />
     </Box>
   );
 }

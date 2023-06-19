@@ -1,5 +1,4 @@
 import React from "react";
-import Course from "../components/Course";
 import { courses } from "../Courses";
 import { Grid, Box, Typography, Container } from "@mui/material";
 import { neural500, neural900 } from "../design/color";
