@@ -17,24 +17,29 @@ function MyCourseScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const courseView = useSelector(state => state.courseView);
-  const { loading, course, error } = courseView;
+  const { loading, course, lessons, error } = courseView;
 
   const userLogin = useSelector(state => state.userLogin);
   const { user } = userLogin;
 
+  
   useEffect(() => {
     if (!user) {
       navigate('./login');
     }
     dispatch(viewCourse(params.slug));
-  }, [params, userLogin])
+    
+  }, [params, userLogin, user])
 
   // handle button for create topic for instructor
   const handleButton = () => {
     navigate(`./createtopic`)
   }
 
-  
+  // handle edit course button
+  const handleEdit = () => {
+    navigate(`./edit`)
+  }
 
   const breadcrumb = (
     <Breadcrumbs
@@ -86,12 +91,17 @@ function MyCourseScreen() {
             >
               {course ? course.title : "Video Topic"}
             </Typography>
-            {user.user.is_staff && <Button
+            <Grid container display="flex">
+              <Grid item mr={2}>
+              {user.user.is_staff && <Button
               sx={{
                 backgroundColor: orangeLight,
                 fontFamily: fontType,
-                color: white,
+                color: neural900,
                 fontSize: 14,
+                mb:2,
+                mr: 2,
+                fontWeight:600,
                 width: "100%",
                 borderRadius: 3,
                 textDecoration: 'none',
@@ -101,6 +111,31 @@ function MyCourseScreen() {
             >
               Create Topic
             </Button>}
+              </Grid>
+              <Grid item>
+              {user.user.is_staff && <Button
+              sx={{
+                backgroundColor: orangeLight,
+                fontFamily: fontType,
+                color: neural900,
+                fontSize: 14,
+                mb: 2,
+                fontWeight:600,
+                width: "100%",
+                borderRadius: 3,
+                textDecoration: 'none',
+                ":hover": { backgroundColor: orangeLight },
+              }}
+              onClick={handleEdit}
+            >
+              Edit Course
+            </Button>}
+              </Grid>
+            </Grid>
+            
+
+            
+
           </Grid>
           <Grid item>
           
@@ -126,8 +161,8 @@ function MyCourseScreen() {
 
 
         
-        {course && course.lessons.map((topic) => (
-          <Topic key={topic._id} topic={topic} />
+        {lessons && lessons.map((topic) => (
+          <Topic key={topic._id} topic={topic} user={user}/>
         ))}
       </Box>
     </Container>

@@ -42,12 +42,19 @@ function CreateTopicScreen() {
   const userLogin = useSelector(state => state.userLogin);
   const { user } = userLogin
 
+  const topicCreate = useSelector(state => state.topicCreate)
+  const { success } = topicCreate;
+
   const navigate = useNavigate();
 
   const params = useParams()
 
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (success) {
+      navigate(`/mycourses/${params.slug}`)
+    }
+  }, [topicCreate]);
 
   const handleImageRemove = async () => {
     try {

@@ -23,11 +23,12 @@ import { fontType } from "../design/font";
 import Resizer from "react-image-file-resizer";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { createCourse } from "../actions/courseActions";
-import { useNavigate } from "react-router-dom";
+import { createCourse, editCourse } from "../actions/courseActions";
+import { useNavigate, useParams } from "react-router-dom";
+import { viewCourse } from "../actions/courseActions";
 import { CourseForm } from "../components/CourseForm";
 
-function CreateCourseScreen() {
+function EditCourseScreen() {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState();
   const [price, setPrice] = useState("");
@@ -35,23 +36,42 @@ function CreateCourseScreen() {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const courseCreate = useSelector(state => state.courseCreate);
-  const { loading:createLoading, success, error } = courseCreate;
-  const navigate = useNavigate()
+  const params = useParams();
+  
+  const courseEdit = useSelector(state => state.courseEdit);
+  const { success } = courseEdit;
+
+  const courseView = useSelector((state) => state.courseView);
+  const {
+    loading: viewLoading,
+    course: courseExist,
+    error: viewError,
+  } = courseView;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (success) {
-      navigate('/courses')
+      navigate(`/mycourses/${params.slug}`);
     }
-  }, [courseCreate])
+    if (!courseExist) {
+      dispatch(viewCourse(params.slug));
+    }
+    if (courseExist) {
+      setTitle(courseExist.title);
+      setPrice(courseExist.price);
+      setImage(courseExist.image);
+      setPreview(courseExist.image.Location);
+    }
+  }, [courseEdit, params, courseExist]);
 
   const handleImageRemove = async () => {
     try {
-      const res = await axios.post('/api/course/remove-image', {image});
+      const res = await axios.post("/api/course/remove-image", { image });
       setImage();
       setPreview("");
     } catch (error) {
-      console.log("Error when delete image")
+      console.log("Error when delete image");
     }
   };
 
@@ -76,7 +96,7 @@ function CreateCourseScreen() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createCourse({title, price, image}))
+    dispatch(editCourse({ slug: params.slug, title, price, image }));
   };
 
   return (
@@ -93,7 +113,7 @@ function CreateCourseScreen() {
             mb: "32px",
           }}
         >
-          Create Course
+          Edit Course
         </Typography>
         <CourseForm
           title={title}
@@ -111,4 +131,4 @@ function CreateCourseScreen() {
   );
 }
 
-export default CreateCourseScreen;
+export default EditCourseScreen;

@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { neural900, orange, purplishBlue } from "../design/color";
 import { ThemeProvider } from "@mui/material/styles";
 import myTheme from "./Theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../actions/userActions";
 import { useDispatch } from "react-redux";
 
@@ -22,6 +22,8 @@ function ResponsiveAppBar({user}) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [login, setLogin] = useState(false);
+
+  const navigate = useNavigate()
   
 
   const dispatch = useDispatch();
@@ -45,6 +47,7 @@ function ResponsiveAppBar({user}) {
     handleCloseUserMenu();
     handleCloseNavMenu();
     dispatch(logout());
+    navigate('./login')
   };
 
   const handleLogin = () => {

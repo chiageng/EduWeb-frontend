@@ -3,6 +3,10 @@ import {
   COURSE_CREATE_REQUEST,
   COURSE_CREATE_SUCCESS,
 
+  COURSE_EDIT_FAIL,
+  COURSE_EDIT_REQUEST,
+  COURSE_EDIT_SUCCESS,
+
   COURSES_VIEW_FAIL,
   COURSES_VIEW_REQUEST,
   COURSES_VIEW_RESET,
@@ -16,6 +20,10 @@ import {
   TOPIC_CREATE_FAIL,
   TOPIC_CREATE_REQUEST,
   TOPIC_CREATE_SUCCESS,
+
+  TOPIC_DELETE_FAIL,
+  TOPIC_DELETE_REQUEST,
+  TOPIC_DELETE_SUCCESS,
 } from "../constants/course";
 
 export const courseCreateReducers = (state = {}, action) => {
@@ -59,7 +67,7 @@ export const courseViewReducers = (state = {}, action) => {
       return { loading: true };
 
     case COURSE_VIEW_SUCCESS:
-      return { loading: false, course: action.payload };
+      return { loading: false, course: action.payload.course, lessons: action.payload.lessons };
 
     case COURSE_VIEW_FAIL:
       return { loading: false, error: action.payload };
@@ -81,6 +89,38 @@ export const topicCreateReducers = (state = {}, action) => {
       return { loading: false, success: true };
 
     case TOPIC_CREATE_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const courseEditReducers = (state = {}, action) => {
+  switch (action.type) {
+    case COURSE_EDIT_REQUEST:
+      return { loading: true };
+
+    case COURSE_EDIT_SUCCESS:
+      return { loading: false, success: true };
+
+    case COURSE_EDIT_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const topicDeleteReducers = (state = {}, action) => {
+  switch (action.type) {
+    case TOPIC_DELETE_REQUEST:
+      return { loading: true };
+
+    case TOPIC_DELETE_SUCCESS:
+      return { loading: false, success: true };
+
+    case TOPIC_DELETE_FAIL:
       return { loading: false, error: action.payload };
 
     default:

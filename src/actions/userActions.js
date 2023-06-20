@@ -21,7 +21,6 @@ import {
 
 } from "../constants/user";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { COURSES_VIEW_RESET } from "../constants/course";
 
 export const registerUser =

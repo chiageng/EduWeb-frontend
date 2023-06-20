@@ -6,7 +6,7 @@ import {
   userProfileReducer,
   userRegisterReducers,
 } from "./reducers/userReducer";
-import { courseCreateReducers, courseViewReducers, coursesViewReducers, topicCreateReducers } from "./reducers/courseReducer";
+import { courseCreateReducers, courseEditReducers, courseViewReducers, coursesViewReducers, topicCreateReducers, topicDeleteReducers } from "./reducers/courseReducer";
 
 const userInfoFromStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user")) !== null
@@ -27,8 +27,10 @@ const store = configureStore({
     userLogout: userLogoutReducers,
     courseCreate: courseCreateReducers,
     coursesView: coursesViewReducers,
+    courseEdit: courseEditReducers,
     courseView: courseViewReducers,
-    topicCraete: topicCreateReducers,
+    topicCreate: topicCreateReducers,
+    topicDelete: topicDeleteReducers,
   },
   preloadedState: initialState,
   middleware: middleware,

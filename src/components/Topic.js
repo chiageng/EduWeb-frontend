@@ -7,16 +7,35 @@ import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { fontType } from "../design/font";
-import { neural500, neural900, orangeLight } from "../design/color";
+import { neural500, neural900, orangeLight, purplishBlue, purplishBlueDark, purplishBlueLight, purplishBluePale, red } from "../design/color";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
-export default function Topic({ topic }) {
+export default function Topic({ topic, user }) {
   const currentUrl = window.location.href;
+
+  const handleEdit = () => {
+
+  }
+
+  const handleDelete = () => {
+    const confirm = window.prompt("Are you sure wnat to delete? Type Yes to delete")
+    if (!confirm) {
+      return;
+    }
+    console.log("deleted")
+  }
 
   return (
     <>
       {/* Topic card for Webpage */}
       <Card
-        sx={{ display: { xs: "none", md: "flex" }, mx: 5, borderRadius: "10px", mb: "16px" }}
+        sx={{
+          display: { xs: "none", md: "flex" },
+          mx: 5,
+          borderRadius: "10px",
+          mb: "16px",
+        }}
       >
         <CardMedia
           component="img"
@@ -46,6 +65,64 @@ export default function Topic({ topic }) {
               pb: 1,
             }}
           >
+            {user && user.user.is_staff && (
+              <Button
+                key="/handleEdit"
+                onClick={handleEdit}
+                sx={{
+                  my: "24px",
+                  display: "block",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  lineHeight: "140%",
+                  borderRadius: 4,
+                  mr: 3,
+                  fontFamily: fontType,
+                  backgroundColor: purplishBlueLight,
+                  color: neural900,
+                  fontWeight: 600,
+                  ":hover": { backgroundColor: purplishBlueLight },
+                }}
+              >
+                <Grid container>
+                  <Grid item mt={0.5} px={2}>
+                    Edit Video
+                  </Grid>
+                  <Grid item pr={2}>
+                    <EditOutlinedIcon/>
+                  </Grid>
+                </Grid>
+              </Button>
+            )}
+            {user && user.user.is_staff && (
+              <Button
+                key="/handleDelete"
+                onClick={handleDelete}
+                sx={{
+                  my: "24px",
+                  display: "block",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  lineHeight: "140%",
+                  borderRadius: 4,
+                  mr: 3,
+                  fontFamily: fontType,
+                  backgroundColor: red,
+                  color: neural900,
+                  fontWeight: 600,
+                  ":hover": { backgroundColor: red },
+                }}
+              >
+                <Grid container>
+                  <Grid item mt={0.5} px={2}>
+                    Delete Video
+                  </Grid>
+                  <Grid item pr={2}>
+                    <DeleteOutlineIcon />
+                  </Grid>
+                </Grid>
+              </Button>
+            )}
             <Button
               key="/courses"
               href={`${currentUrl}/videos`}
@@ -78,7 +155,13 @@ export default function Topic({ topic }) {
       </Card>
 
       {/* Topic Card for phone  */}
-      <Card sx={{ display: { xs: "flex", md: "none" }, borderRadius: 3, mb: "16px" }}>
+      <Card
+        sx={{
+          display: { xs: "flex", md: "none" },
+          borderRadius: 3,
+          mb: "16px",
+        }}
+      >
         <CardMedia
           component="img"
           sx={{ width: 40, mx: 1, height: 40, mt: 2 }}
@@ -95,16 +178,7 @@ export default function Topic({ topic }) {
               fontWeight={700}
               color={neural900}
             >
-              Topic title
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              color={neural500}
-              fontSize="14px"
-              fontFamily={fontType}
-              component="div"
-            >
-              Topic description
+              {topic.title}
             </Typography>
           </CardContent>
           <Box

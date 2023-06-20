@@ -2,6 +2,9 @@ import {
   COURSE_CREATE_FAIL,
   COURSE_CREATE_REQUEST,
   COURSE_CREATE_SUCCESS,
+  COURSE_EDIT_FAIL,
+  COURSE_EDIT_REQUEST,
+  COURSE_EDIT_SUCCESS,
   COURSES_VIEW_FAIL,
   COURSES_VIEW_REQUEST,
   COURSES_VIEW_SUCCESS,
@@ -106,7 +109,11 @@ export const createTopic = (slug, title, video, image) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.post(`/api/course/${slug}/createtopic/`, {title, video, image}, config);
+    const { data } = await axios.post(
+      `/api/course/${slug}/createtopic/`,
+      { title, video, image },
+      config
+    );
 
     dispatch({
       type: TOPIC_CREATE_SUCCESS,
@@ -119,3 +126,65 @@ export const createTopic = (slug, title, video, image) => async (dispatch) => {
     });
   }
 };
+
+export const editCourse =
+  ({ slug, title, price, image }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: COURSE_EDIT_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.put(
+        `/api/course/${slug}/editcourse`,
+        { title, price, image },
+        config
+      );
+
+      dispatch({
+        type: COURSE_EDIT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: COURSE_EDIT_FAIL,
+        payload: error.response.data,
+      });
+    }
+  };
+
+export const deleteTopic =
+  ({ slug, title, price, image }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: COURSE_EDIT_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.put(
+        `/api/course/${slug}/editcourse`,
+        { title, price, image },
+        config
+      );
+
+      dispatch({
+        type: COURSE_EDIT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: COURSE_EDIT_FAIL,
+        payload: error.response.data,
+      });
+    }
+  };
