@@ -8,16 +8,19 @@ import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
 import { viewCourse } from "../actions/courseActions";
 import Topic from '../components/Topic'
+import Loader from "../components/Loader";
 
 function MyCourseScreen() {
   const params = useParams();
   // const course = courses.find((course) => course._id === params.id);
   // const topics = course.topics;
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const courseView = useSelector(state => state.courseView);
-  const { loading, course, lessons, error } = courseView;
+  const {  loading, course, lessons, error } = courseView;
+
+  const topicDelete = useSelector(state => state.topicDelete);
+  const { loading:topicLoading, success } = topicDelete;
 
   const userLogin = useSelector(state => state.userLogin);
   const { user } = userLogin;
@@ -28,8 +31,7 @@ function MyCourseScreen() {
       navigate('./login');
     }
     dispatch(viewCourse(params.slug));
-    
-  }, [params, userLogin, user])
+  }, [params, userLogin, user, topicDelete])
 
   // handle button for create topic for instructor
   const handleButton = () => {
@@ -71,7 +73,8 @@ function MyCourseScreen() {
   );
   return (
     <Container>
-      <Box pt={5} pb={10}>
+      {(loading || topicLoading) && <Loader/>}
+      {!loading && !topicLoading && <Box pt={5} pb={10}>
       {breadcrumb}
       {/* View Quiz button for webpage */}
         <Grid container display="flex" justifyContent="space-between">
@@ -164,7 +167,7 @@ function MyCourseScreen() {
         {lessons && lessons.map((topic) => (
           <Topic key={topic._id} topic={topic} user={user}/>
         ))}
-      </Box>
+      </Box>}
     </Container>
   );
 }

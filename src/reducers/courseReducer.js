@@ -20,10 +20,12 @@ import {
   TOPIC_CREATE_FAIL,
   TOPIC_CREATE_REQUEST,
   TOPIC_CREATE_SUCCESS,
+  TOPIC_CREATE_RESET,
 
   TOPIC_DELETE_FAIL,
   TOPIC_DELETE_REQUEST,
   TOPIC_DELETE_SUCCESS,
+  COURSE_EDIT_RESET,
 } from "../constants/course";
 
 export const courseCreateReducers = (state = {}, action) => {
@@ -90,6 +92,9 @@ export const topicCreateReducers = (state = {}, action) => {
 
     case TOPIC_CREATE_FAIL:
       return { loading: false, error: action.payload };
+    
+    case TOPIC_CREATE_RESET:
+      return { };
 
     default:
       return state;
@@ -107,6 +112,9 @@ export const courseEditReducers = (state = {}, action) => {
     case COURSE_EDIT_FAIL:
       return { loading: false, error: action.payload };
 
+    case COURSE_EDIT_RESET:
+      return {}
+      
     default:
       return state;
   }

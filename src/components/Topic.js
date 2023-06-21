@@ -10,20 +10,25 @@ import { fontType } from "../design/font";
 import { neural500, neural900, orangeLight, purplishBlue, purplishBlueDark, purplishBlueLight, purplishBluePale, red } from "../design/color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { deleteTopic } from "../actions/courseActions";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 export default function Topic({ topic, user }) {
   const currentUrl = window.location.href;
+  const dispatch = useDispatch();
+  const params = useParams()
 
   const handleEdit = () => {
 
   }
 
   const handleDelete = () => {
-    const confirm = window.prompt("Are you sure wnat to delete? Type Yes to delete")
+    const confirm = window.confirm("Are you sure wnat to delete?")
     if (!confirm) {
       return;
     }
-    console.log("deleted")
+    dispatch(deleteTopic({slug: params.slug, lesson_id: topic._id }))
   }
 
   return (

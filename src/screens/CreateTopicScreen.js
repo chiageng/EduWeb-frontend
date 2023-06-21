@@ -27,6 +27,8 @@ import {
 import { fontType } from "../design/font";
 import Progress from "../components/Progress";
 import { createTopic } from "../actions/courseActions";
+import { TOPIC_CREATE_RESET } from "../constants/course";
+import Loader from "../components/Loader";
 
 function CreateTopicScreen() {
   const [title, setTitle] = useState("");
@@ -43,7 +45,7 @@ function CreateTopicScreen() {
   const { user } = userLogin
 
   const topicCreate = useSelector(state => state.topicCreate)
-  const { success } = topicCreate;
+  const { loading:topicLoading, success } = topicCreate;
 
   const navigate = useNavigate();
 
@@ -52,6 +54,7 @@ function CreateTopicScreen() {
 
   useEffect(() => {
     if (success) {
+      dispatch({type: TOPIC_CREATE_RESET});
       navigate(`/mycourses/${params.slug}`)
     }
   }, [topicCreate]);
@@ -67,6 +70,7 @@ function CreateTopicScreen() {
   };
 
   const handleImage = (e) => {
+    e.preventDefault()
     setLoading(true);
     let file = e.target.files[0];
     setPreview(window.URL.createObjectURL(file));
@@ -87,6 +91,7 @@ function CreateTopicScreen() {
 
   const handleVideo = async (e) => {
     try {
+      e.preventDefault()
       setUploading(true)
       setProgress(0)
       const file = e.target.files[0];
@@ -114,6 +119,7 @@ function CreateTopicScreen() {
 
   const handleVideoRemove = async (e) => {
     try {
+      e.preventDefault()
       setUploading(true)
       console.log(video)
       const { data } = await axios.post("/api/course/remove-video", {video});
@@ -128,17 +134,20 @@ function CreateTopicScreen() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     dispatch(createTopic(params.slug, title, video, image))
     setVideo();
     setTitle("");
     setImage();
     setPreview("")
     setVideoFile("")
+    setLoading(false)
   };
 
   return (
     <Container>
-      <Box pt={5} pb={10}>
+      {topicLoading && <Loader/>}
+      {!topicLoading && <Box pt={5} pb={10}>
         <Typography
           variant="h3"
           fontFamily="Poppins"
@@ -299,7 +308,7 @@ function CreateTopicScreen() {
           </Grid>
           <Grid item></Grid>
         </Grid>
-      </Box>
+      </Box>}
     </Container>
   );
 }

@@ -18,6 +18,7 @@ import MyProfileScreen from "./screens/MyProfileScreen";
 import CreateCourseScreen from "./screens/CreateCourseScreen";
 import CreateTopicScreen from "./screens/CreateTopicScreen";
 import EditCourseScreen from "./screens/EditCourseScreen";
+import Loader from "./components/Loader";
 
 
 function App() {

@@ -14,6 +14,9 @@ import {
   TOPIC_CREATE_FAIL,
   TOPIC_CREATE_REQUEST,
   TOPIC_CREATE_SUCCESS,
+  TOPIC_DELETE_FAIL,
+  TOPIC_DELETE_REQUEST,
+  TOPIC_DELETE_SUCCESS,
 } from "../constants/course";
 import axios from "axios";
 
@@ -159,11 +162,11 @@ export const editCourse =
   };
 
 export const deleteTopic =
-  ({ slug, title, price, image }) =>
+  ({ slug, lesson_id, title, price, image }) =>
   async (dispatch) => {
     try {
       dispatch({
-        type: COURSE_EDIT_REQUEST,
+        type: TOPIC_DELETE_REQUEST,
       });
 
       const config = {
@@ -172,18 +175,17 @@ export const deleteTopic =
         },
       };
       const { data } = await axios.put(
-        `/api/course/${slug}/editcourse`,
-        { title, price, image },
+        `/api/course/${slug}/${lesson_id}`,
         config
       );
 
       dispatch({
-        type: COURSE_EDIT_SUCCESS,
+        type: TOPIC_DELETE_SUCCESS,
         payload: data,
       });
     } catch (error) {
       dispatch({
-        type: COURSE_EDIT_FAIL,
+        type: TOPIC_DELETE_FAIL,
         payload: error.response.data,
       });
     }

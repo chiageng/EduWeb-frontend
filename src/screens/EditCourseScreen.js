@@ -27,6 +27,7 @@ import { createCourse, editCourse } from "../actions/courseActions";
 import { useNavigate, useParams } from "react-router-dom";
 import { viewCourse } from "../actions/courseActions";
 import { CourseForm } from "../components/CourseForm";
+import { COURSE_EDIT_RESET } from "../constants/course";
 
 function EditCourseScreen() {
   const [title, setTitle] = useState("");
@@ -52,6 +53,7 @@ function EditCourseScreen() {
 
   useEffect(() => {
     if (success) {
+      dispatch({type: COURSE_EDIT_RESET})
       navigate(`/mycourses/${params.slug}`);
     }
     if (!courseExist) {
@@ -61,7 +63,7 @@ function EditCourseScreen() {
       setTitle(courseExist.title);
       setPrice(courseExist.price);
       setImage(courseExist.image);
-      setPreview(courseExist.image.Location);
+      setPreview(courseExist.image && courseExist.image.Location);
     }
   }, [courseEdit, params, courseExist]);
 

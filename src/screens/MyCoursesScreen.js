@@ -23,6 +23,11 @@ function MyCoursesScreen() {
 
 
   useEffect(() => {
+    console.log("enter")
+    if (!user) {
+      console.log("here")
+      navigate('/login')
+    }
     if (!courses) {
       dispatch(viewCourses());
     }
@@ -62,7 +67,7 @@ function MyCoursesScreen() {
       >
         My Course
       </Typography>
-      {user.user.is_staff && 
+      {user && user.user.is_staff && 
         <Grid container>
           <Grid item>
           <Button
