@@ -95,14 +95,15 @@ export const logout = () => async (dispatch) => {
       "/api/logout",
       config
     );
+    
+    dispatch({type: LOGOUT})
+    dispatch({type: COURSES_VIEW_RESET})
 
     dispatch({
       type: USER_LOGOUT_SUCCESS,
       payload: data,
     });
 
-    dispatch({type: LOGOUT})
-    dispatch({type: COURSES_VIEW_RESET})
 
     localStorage.removeItem("user");
 

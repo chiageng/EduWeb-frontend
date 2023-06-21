@@ -26,6 +26,16 @@ import {
   TOPIC_DELETE_REQUEST,
   TOPIC_DELETE_SUCCESS,
   COURSE_EDIT_RESET,
+
+  TOPIC_EDIT_FAIL,
+  TOPIC_EDIT_REQUEST,
+  TOPIC_EDIT_SUCCESS,
+  TOPIC_EDIT_RESET,
+
+  TOPIC_VIEW_FAIL,
+  TOPIC_VIEW_REQUEST,
+  TOPIC_VIEW_SUCCESS,
+  TOPIC_VIEW_RESET,
 } from "../constants/course";
 
 export const courseCreateReducers = (state = {}, action) => {
@@ -114,7 +124,7 @@ export const courseEditReducers = (state = {}, action) => {
 
     case COURSE_EDIT_RESET:
       return {}
-      
+
     default:
       return state;
   }
@@ -131,6 +141,44 @@ export const topicDeleteReducers = (state = {}, action) => {
     case TOPIC_DELETE_FAIL:
       return { loading: false, error: action.payload };
 
+    default:
+      return state;
+  }
+};
+
+export const topicViewReducers = (state = {}, action) => {
+  switch (action.type) {
+    case TOPIC_VIEW_REQUEST:
+      return { loading: true };
+
+    case TOPIC_VIEW_SUCCESS:
+      return { loading: false, topic: action.payload };
+
+    case TOPIC_VIEW_FAIL:
+      return { loading: false, error: action.payload };
+
+    case TOPIC_VIEW_RESET:
+      return {}
+      
+    default:
+      return state;
+  }
+};
+
+export const topicEditReducers = (state = {}, action) => {
+  switch (action.type) {
+    case TOPIC_EDIT_REQUEST:
+      return { loading: true };
+
+    case TOPIC_EDIT_SUCCESS:
+      return { loading: false, success: true };
+
+    case TOPIC_EDIT_FAIL:
+      return { loading: false, error: action.payload };
+
+    case TOPIC_EDIT_RESET:
+      return {}
+      
     default:
       return state;
   }

@@ -23,9 +23,7 @@ function MyCoursesScreen() {
 
 
   useEffect(() => {
-    console.log("enter")
     if (!user) {
-      console.log("here")
       navigate('/login')
     }
     if (!courses) {

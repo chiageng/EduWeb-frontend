@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { viewCourse } from "../actions/courseActions";
 import Topic from '../components/Topic'
 import Loader from "../components/Loader";
+import axios from "axios";
 
 function MyCourseScreen() {
   const params = useParams();
@@ -16,6 +17,8 @@ function MyCourseScreen() {
   // const topics = course.topics;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [toggle, setToggle] = useState(false)
+
   const courseView = useSelector(state => state.courseView);
   const {  loading, course, lessons, error } = courseView;
 
@@ -26,12 +29,7 @@ function MyCourseScreen() {
   const { user } = userLogin;
 
   
-  useEffect(() => {
-    if (!user) {
-      navigate('./login');
-    }
-    dispatch(viewCourse(params.slug));
-  }, [params, userLogin, user, topicDelete])
+  
 
   // handle button for create topic for instructor
   const handleButton = () => {
@@ -42,6 +40,32 @@ function MyCourseScreen() {
   const handleEdit = () => {
     navigate(`./edit`)
   }
+
+  const handlePublished = async () => {
+    if (course && course.published == false) {
+      // want to publish
+      let answer = window.confirm("Once you publish, it will be available for enrollment")
+      if (answer) {
+        const { data } = await axios.put(`/api/course/${params.slug}/publish`)
+        setToggle(prev => !prev)
+      }
+    } 
+
+    if (course && course.published) {
+      let answer = window.confirm("Once you unpublish, it will be not available for enrollment")
+      if (answer) {
+        const { data } = await axios.put(`/api/course/${params.slug}/unpublish`)
+        setToggle(prev => !prev)
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (!user) {
+      navigate('./login');
+    }
+    dispatch(viewCourse(params.slug));
+  }, [params, userLogin, user, topicDelete, toggle])
 
   const breadcrumb = (
     <Breadcrumbs
@@ -115,7 +139,7 @@ function MyCourseScreen() {
               Create Topic
             </Button>}
               </Grid>
-              <Grid item>
+              <Grid item mr={2}>
               {user.user.is_staff && <Button
               sx={{
                 backgroundColor: orangeLight,
@@ -132,6 +156,25 @@ function MyCourseScreen() {
               onClick={handleEdit}
             >
               Edit Course
+            </Button>}
+              </Grid>
+              <Grid item>
+              {user.user.is_staff && <Button
+              sx={{
+                backgroundColor: orangeLight,
+                fontFamily: fontType,
+                color: neural900,
+                fontSize: 14,
+                mb: 2,
+                fontWeight:600,
+                width: "100%",
+                borderRadius: 3,
+                textDecoration: 'none',
+                ":hover": { backgroundColor: orangeLight },
+              }}
+              onClick={handlePublished}
+            >
+              {course && course.published ? 'Unpublished' : "Published"}
             </Button>}
               </Grid>
             </Grid>

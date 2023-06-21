@@ -12,12 +12,12 @@ import {
 import {
   neural900,
 } from "../design/color";
-import { createTopic } from "../actions/courseActions";
-import { TOPIC_CREATE_RESET } from "../constants/course";
+import { createTopic, editTopic, viewTopic } from "../actions/courseActions";
+import { TOPIC_CREATE_RESET, TOPIC_EDIT_RESET } from "../constants/course";
 import Loader from "../components/Loader";
 import TopicForm from "../components/TopicForm";
 
-function CreateTopicScreen() {
+function EditTopicScreen() {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState();
   const [video, setVideo] = useState();
@@ -31,8 +31,11 @@ function CreateTopicScreen() {
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
 
-  const topicCreate = useSelector((state) => state.topicCreate);
-  const { loading: topicLoading, success } = topicCreate;
+  const topicView = useSelector(state => state.topicView);
+  const { loading: topicLoading, topic } = topicView;
+
+  const topicEdit = useSelector(state => state.topicEdit)
+  const {loading: editLoading, success} = topicEdit
 
   const navigate = useNavigate();
 
@@ -40,10 +43,20 @@ function CreateTopicScreen() {
 
   useEffect(() => {
     if (success) {
-      dispatch({ type: TOPIC_CREATE_RESET });
+      dispatch({ type: TOPIC_EDIT_RESET });
       navigate(`/mycourses/${params.slug}`);
     }
-  }, [topicCreate]);
+    if (!topic) {
+      dispatch(viewTopic({slug: params.slug, lesson_id: params.topic_id}))
+    }
+    if (topic) {
+      setTitle(topic.title)
+      setImage(topic.image)
+      setVideo(topic.video)
+      setPreview(topic.image && topic.image.Location)
+      setVideoFile(topic.video && topic.video.ETag)
+    }
+  }, [topicEdit, topic]);
 
   const handleImageRemove = async () => {
     try {
@@ -120,7 +133,7 @@ function CreateTopicScreen() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    dispatch(createTopic(params.slug, title, video, image));
+    dispatch(editTopic({slug: params.slug, lesson_id: params.topic_id, title, video, image}));
     setVideo();
     setTitle("");
     setImage();
@@ -145,7 +158,7 @@ function CreateTopicScreen() {
               mb: "32px",
             }}
           >
-            Create Topic
+            Edit Topic
           </Typography>
           <TopicForm
             setTitle={setTitle}
@@ -167,4 +180,4 @@ function CreateTopicScreen() {
   );
 }
 
-export default CreateTopicScreen;
+export default EditTopicScreen;

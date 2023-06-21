@@ -19,6 +19,7 @@ import CreateCourseScreen from "./screens/CreateCourseScreen";
 import CreateTopicScreen from "./screens/CreateTopicScreen";
 import EditCourseScreen from "./screens/EditCourseScreen";
 import Loader from "./components/Loader";
+import EditTopicScreen from "./screens/EditTopicScreen";
 
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
             <Route
               path="/mycourses/:slug/createtopic"
               element={<CreateTopicScreen/>}
+            ></Route>
+             <Route
+              path="/mycourses/:slug/edittopic/:topic_id"
+              element={<EditTopicScreen/>}
             ></Route>
             <Route
               path="/mycourses/:id/myquiz"

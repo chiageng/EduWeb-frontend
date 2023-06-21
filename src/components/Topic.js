@@ -7,29 +7,139 @@ import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { fontType } from "../design/font";
-import { neural500, neural900, orangeLight, purplishBlue, purplishBlueDark, purplishBlueLight, purplishBluePale, red } from "../design/color";
+import {
+  neural500,
+  neural900,
+  orangeLight,
+  purplishBlue,
+  purplishBlueDark,
+  purplishBlueLight,
+  purplishBluePale,
+  red,
+} from "../design/color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { deleteTopic } from "../actions/courseActions";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Topic({ topic, user }) {
   const currentUrl = window.location.href;
   const dispatch = useDispatch();
-  const params = useParams()
+  const params = useParams();
+  const navigate = useNavigate();
 
   const handleEdit = () => {
-
-  }
+    navigate(`/mycourses/${params.slug}/edittopic/${topic._id}`);
+  };
 
   const handleDelete = () => {
-    const confirm = window.confirm("Are you sure wnat to delete?")
+    const confirm = window.confirm("Are you sure wnat to delete?");
     if (!confirm) {
       return;
     }
-    dispatch(deleteTopic({slug: params.slug, lesson_id: topic._id }))
-  }
+    dispatch(deleteTopic({ slug: params.slug, lesson_id: topic._id }));
+  };
+
+  const old = (
+    <Box
+      sx={{
+        display: "flex",
+        flexGrow: 1,
+        justifyContent: "right",
+        pl: 1,
+        pb: 1,
+      }}
+    >
+      {user && user.user.is_staff && (
+        <Button
+          key="/handleEdit"
+          onClick={handleEdit}
+          sx={{
+            my: "24px",
+            display: "block",
+            fontSize: 14,
+            fontWeight: 600,
+            lineHeight: "140%",
+            borderRadius: 4,
+            height: 45,
+            width: 180,
+            mr: 3,
+            fontFamily: fontType,
+            backgroundColor: purplishBlueLight,
+            color: neural900,
+            fontWeight: 600,
+            ":hover": { backgroundColor: purplishBlueLight },
+          }}
+        >
+          <Grid container>
+            <Grid item mt={0.5} px={2}>
+              Edit Video
+            </Grid>
+            <Grid item pr={2}>
+              <EditOutlinedIcon />
+            </Grid>
+          </Grid>
+        </Button>
+      )}
+      {user && user.user.is_staff && (
+        <Button
+          key="/handleDelete"
+          onClick={handleDelete}
+          sx={{
+            my: "24px",
+            display: "block",
+            fontSize: 14,
+            fontWeight: 600,
+            lineHeight: "140%",
+            borderRadius: 4,
+            mr: 3,
+            fontFamily: fontType,
+            backgroundColor: red,
+            color: neural900,
+            fontWeight: 600,
+            ":hover": { backgroundColor: red },
+          }}
+        >
+          <Grid container>
+            <Grid item mt={0.5} px={2}>
+              Delete Video
+            </Grid>
+            <Grid item pr={2}>
+              <DeleteOutlineIcon />
+            </Grid>
+          </Grid>
+        </Button>
+      )}
+      <Button
+        key="/courses"
+        href={`${currentUrl}/videos`}
+        sx={{
+          my: "24px",
+          display: "block",
+          fontSize: 14,
+          fontWeight: 600,
+          lineHeight: "140%",
+          borderRadius: 10,
+          mr: 3,
+          fontFamily: fontType,
+          backgroundColor: orangeLight,
+          color: neural900,
+          fontWeight: 600,
+          ":hover": { backgroundColor: orangeLight },
+        }}
+      >
+        <Grid container>
+          <Grid item mt={0.5} px={2}>
+            Watch Videos
+          </Grid>
+          <Grid item pr={2}>
+            <PlayArrowOutlinedIcon />
+          </Grid>
+        </Grid>
+      </Button>
+    </Box>
+  );
 
   return (
     <>
@@ -61,101 +171,108 @@ export default function Topic({ topic, user }) {
               {topic.title}
             </Typography>
           </CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              flexGrow: 1,
-              justifyContent: "right",
-              pl: 1,
-              pb: 1,
-            }}
+          <Grid
+            container
+            spacing={0}
+            direction="row"
+            alignItems="flex-end"
+            justifyContent="flex-end"
+            mr={3}
           >
-            {user && user.user.is_staff && (
+            <Grid item>
+              {user && user.user.is_staff && (
+                <Button
+                  key="/handleEdit"
+                  onClick={handleEdit}
+                  sx={{
+                    my: "24px",
+                    display: "block",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    lineHeight: "140%",
+                    borderRadius: 4,
+                    height: 45,
+                    width: 180,
+                    mr: 3,
+                    fontFamily: fontType,
+                    backgroundColor: purplishBlueLight,
+                    color: neural900,
+                    fontWeight: 600,
+                    ":hover": { backgroundColor: purplishBlueLight },
+                  }}
+                >
+                  <Grid container>
+                    <Grid item mt={0.5} px={2}>
+                      Edit Video
+                    </Grid>
+                    <Grid item pr={2}>
+                      <EditOutlinedIcon />
+                    </Grid>
+                  </Grid>
+                </Button>
+              )}
+            </Grid>
+            <Grid item>
+              {user && user.user.is_staff && (
+                <Button
+                  key="/handleDelete"
+                  onClick={handleDelete}
+                  sx={{
+                    my: "24px",
+                    display: "block",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    lineHeight: "140%",
+                    borderRadius: 4,
+                    mr: 3,
+                    fontFamily: fontType,
+                    backgroundColor: red,
+                    color: neural900,
+                    fontWeight: 600,
+                    ":hover": { backgroundColor: red },
+                  }}
+                >
+                  <Grid container>
+                    <Grid item mt={0.5} px={2}>
+                      Delete Video
+                    </Grid>
+                    <Grid item pr={2}>
+                      <DeleteOutlineIcon />
+                    </Grid>
+                  </Grid>
+                </Button>
+              )}
+            </Grid>
+            <Grid item>
               <Button
-                key="/handleEdit"
-                onClick={handleEdit}
+                key="/courses"
+                href={`${currentUrl}/videos`}
                 sx={{
                   my: "24px",
                   display: "block",
                   fontSize: 14,
                   fontWeight: 600,
                   lineHeight: "140%",
-                  borderRadius: 4,
+                  borderRadius: 10,
                   mr: 3,
                   fontFamily: fontType,
-                  backgroundColor: purplishBlueLight,
+                  backgroundColor: orangeLight,
                   color: neural900,
                   fontWeight: 600,
-                  ":hover": { backgroundColor: purplishBlueLight },
+                  ":hover": { backgroundColor: orangeLight },
                 }}
               >
                 <Grid container>
                   <Grid item mt={0.5} px={2}>
-                    Edit Video
+                    Watch Videos
                   </Grid>
                   <Grid item pr={2}>
-                    <EditOutlinedIcon/>
+                    <PlayArrowOutlinedIcon />
                   </Grid>
                 </Grid>
               </Button>
-            )}
-            {user && user.user.is_staff && (
-              <Button
-                key="/handleDelete"
-                onClick={handleDelete}
-                sx={{
-                  my: "24px",
-                  display: "block",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  lineHeight: "140%",
-                  borderRadius: 4,
-                  mr: 3,
-                  fontFamily: fontType,
-                  backgroundColor: red,
-                  color: neural900,
-                  fontWeight: 600,
-                  ":hover": { backgroundColor: red },
-                }}
-              >
-                <Grid container>
-                  <Grid item mt={0.5} px={2}>
-                    Delete Video
-                  </Grid>
-                  <Grid item pr={2}>
-                    <DeleteOutlineIcon />
-                  </Grid>
-                </Grid>
-              </Button>
-            )}
-            <Button
-              key="/courses"
-              href={`${currentUrl}/videos`}
-              sx={{
-                my: "24px",
-                display: "block",
-                fontSize: 14,
-                fontWeight: 600,
-                lineHeight: "140%",
-                borderRadius: 10,
-                mr: 3,
-                fontFamily: fontType,
-                backgroundColor: orangeLight,
-                color: neural900,
-                fontWeight: 600,
-                ":hover": { backgroundColor: orangeLight },
-              }}
-            >
-              <Grid container>
-                <Grid item mt={0.5} px={2}>
-                  Watch Videos
-                </Grid>
-                <Grid item pr={2}>
-                  <PlayArrowOutlinedIcon />
-                </Grid>
-              </Grid>
-            </Button>
-          </Box>
+            </Grid>
+          </Grid>
         </Box>
       </Card>
 
