@@ -20,6 +20,7 @@ import CreateTopicScreen from "./screens/CreateTopicScreen";
 import EditCourseScreen from "./screens/EditCourseScreen";
 import Loader from "./components/Loader";
 import EditTopicScreen from "./screens/EditTopicScreen";
+import CourseScreen from "./screens/CourseScreen";
 
 
 function App() {
@@ -35,6 +36,10 @@ function App() {
             <Route
               path="/mycourses/:slug"
               element={<MyCourseScreen></MyCourseScreen>}
+            ></Route>
+            <Route
+              path="/courses/:slug"
+              element={<CourseScreen></CourseScreen>}
             ></Route>
             <Route
               path="/mycourses/:slug/edit"

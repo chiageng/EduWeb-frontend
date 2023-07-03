@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCourse } from "../actions/courseActions";
 import { useNavigate } from "react-router-dom";
 import { CourseForm } from "../components/CourseForm";
-import { TOPIC_CREATE_RESET } from "../constants/course";
+import { COURSES_VIEW_RESET, TOPIC_CREATE_RESET } from "../constants/course";
 
 function CreateCourseScreen() {
   const [title, setTitle] = useState("");
@@ -42,8 +42,8 @@ function CreateCourseScreen() {
 
   useEffect(() => {
     if (success) {
-      
-      navigate('/courses')
+      dispatch({type: COURSES_VIEW_RESET})
+      navigate('/mycourses')
     }
   }, [courseCreate])
 

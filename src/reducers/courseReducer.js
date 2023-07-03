@@ -17,6 +17,12 @@ import {
   COURSE_VIEW_RESET,
   COURSE_VIEW_SUCCESS,
 
+  
+  COURSES_PRICE_VIEW_FAIL,
+  COURSES_PRICE_VIEW_REQUEST,
+  COURSES_PRICE_VIEW_RESET,
+  COURSES_PRICE_VIEW_SUCCESS,
+
   TOPIC_CREATE_FAIL,
   TOPIC_CREATE_REQUEST,
   TOPIC_CREATE_SUCCESS,
@@ -36,6 +42,14 @@ import {
   TOPIC_VIEW_REQUEST,
   TOPIC_VIEW_SUCCESS,
   TOPIC_VIEW_RESET,
+
+  CHECK_ENROLL_FAIL,
+  CHECK_ENROLL_REQUEST,
+  CHECK_ENROLL_SUCCESS,
+
+  COURSE_ENROLL_FAIL,
+  COURSE_ENROLL_REQUEST,
+  COURSE_ENROLL_SUCCESS,
 } from "../constants/course";
 
 export const courseCreateReducers = (state = {}, action) => {
@@ -66,6 +80,25 @@ export const coursesViewReducers = (state = {}, action) => {
       return { loading: false, error: action.payload };
 
     case COURSES_VIEW_RESET:
+     return {};
+
+    default:
+      return state;
+  }
+};
+
+export const coursesPriceViewReducers = (state = {}, action) => {
+  switch (action.type) {
+    case COURSES_PRICE_VIEW_REQUEST:
+      return { loading: true };
+
+    case COURSES_PRICE_VIEW_SUCCESS:
+      return { loading: false, courses: action.payload };
+
+    case COURSES_PRICE_VIEW_FAIL:
+      return { loading: false, error: action.payload };
+
+    case COURSES_PRICE_VIEW_RESET:
      return {};
 
     default:
@@ -183,3 +216,36 @@ export const topicEditReducers = (state = {}, action) => {
       return state;
   }
 };
+
+export const checkEnrolledReducers = (state = {}, action) => {
+  switch (action.type) {
+    case CHECK_ENROLL_REQUEST:
+      return { loading: true };
+
+    case CHECK_ENROLL_SUCCESS:
+      return { loading: false, enroll: action.payload };
+
+    case CHECK_ENROLL_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+}
+
+
+export const courseEnrollReducers = (state = {}, action) => {
+  switch (action.type) {
+    case COURSE_ENROLL_REQUEST:
+      return { loading: true };
+
+    case COURSE_ENROLL_SUCCESS:
+      return { loading: false, success: true };
+
+    case COURSE_ENROLL_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+}

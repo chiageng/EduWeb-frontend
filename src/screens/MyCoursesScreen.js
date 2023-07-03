@@ -29,7 +29,7 @@ function MyCoursesScreen() {
     if (!courses) {
       dispatch(viewCourses());
     }
-  }, coursesView)
+  }, [user, courses])
 
   const breadcrumb = (
     <Breadcrumbs

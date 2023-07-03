@@ -1,12 +1,28 @@
-import React from "react";
-import { courses } from "../Courses";
+import React, { useEffect } from "react";
+// import { courses } from "../Courses";
 import { Grid, Box, Typography, Container } from "@mui/material";
 import { neural500, neural900 } from "../design/color";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CoursePrice from "../components/CoursePrice";
+import { useDispatch, useSelector } from "react-redux";
+import { viewPriceCourses } from "../actions/courseActions";
 
 function CoursesScreen() {
+  const dispatch = useDispatch()
+
+  const coursesPriceView = useSelector(state => state.coursesPriceView);
+
+  const { courses, loading, error } = coursesPriceView;
+
+  useEffect(() => {
+    if (!courses) {
+      dispatch(viewPriceCourses());
+    } else {
+    }
+  }, [courses])
+
+
   const breadcrumb = (
     <Breadcrumbs
       separator={<NavigateNextIcon fontSize="small" />}
@@ -46,7 +62,7 @@ function CoursesScreen() {
             All Courses
           </Typography>
           <Grid container spacing={3}>
-            {courses.map((course) => (
+            {courses && courses.map((course) => (
               <Grid item xs={12} md={4} key={course._id}>
                 <CoursePrice course={course}></CoursePrice>
               </Grid>

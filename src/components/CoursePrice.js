@@ -19,17 +19,23 @@ import {
 } from "../design/color";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import { fontType } from "../design/font";
+import { useNavigate } from "react-router-dom";
 
 function CoursePrice({ course }) {
   const colors = [purplishBlue, hotPink, skyBlue];
   const useColor = colors[course._id % 3];
+  const navigate = useNavigate()
+
+  const buttonHandler = () => {
+    navigate(`/courses/${course.slug}`)
+  }
 
 
   return (
     <Card sx={{ maxWidth: 400 }}>
       <CardMedia
         sx={{ height: 200 }}
-        image={course.image}
+        image={course.image ? course.image.Location : ""}
         title={course.title}
       />
       <CardContent>
@@ -155,6 +161,7 @@ function CoursePrice({ course }) {
               fontWeight: 600,
               fontFamily: "Poppins",
             }}
+            onClick={buttonHandler}
           >
             View Course
           </Button>

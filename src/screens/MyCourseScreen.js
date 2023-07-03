@@ -13,8 +13,7 @@ import axios from "axios";
 
 function MyCourseScreen() {
   const params = useParams();
-  // const course = courses.find((course) => course._id === params.id);
-  // const topics = course.topics;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(false)
