@@ -47,7 +47,7 @@ function CoursePrice({ course }) {
             sx={{ color: useColor }}
           />
         </Grid>
-        <Grid item xs={7} sm={5}>
+        <Grid item xs={6} sm={5}>
           <Typography
             pl={1}
             size="small"
@@ -56,7 +56,6 @@ function CoursePrice({ course }) {
               fontFamily: fontType,
               color: neural900,
               fontSize: "14px",
-              float: "left",
             }}
           >
             13 lessons

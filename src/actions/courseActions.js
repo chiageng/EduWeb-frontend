@@ -102,7 +102,7 @@ export const userViewCourses = () => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get("/api/course", config);
+    const { data } = await axios.get("/api/user/courses", config);
 
     dispatch({
       type: COURSES_VIEW_SUCCESS,
@@ -153,6 +153,31 @@ export const viewCourse = (slug) => async (dispatch) => {
       },
     };
     const { data } = await axios.get(`/api/course/${slug}`, config);
+
+    dispatch({
+      type: COURSE_VIEW_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: COURSE_VIEW_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+export const userViewCourse = (slug) => async (dispatch) => {
+  try {
+    dispatch({
+      type: COURSE_VIEW_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.get(`/api/user/course/${slug}`, config);
 
     dispatch({
       type: COURSE_VIEW_SUCCESS,

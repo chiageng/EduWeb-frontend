@@ -41,6 +41,10 @@ export default function Topic({ topic, user }) {
     dispatch(deleteTopic({ slug: params.slug, lesson_id: topic._id }));
   };
 
+  const handleWatch = () => {
+    navigate(`/mycourses/${params.slug}/${topic.slug}`)
+  }
+
   const old = (
     <Box
       sx={{
@@ -113,7 +117,7 @@ export default function Topic({ topic, user }) {
       )}
       <Button
         key="/courses"
-        href={`${currentUrl}/videos`}
+        onClick={handleWatch}
         sx={{
           my: "24px",
           display: "block",
@@ -241,7 +245,7 @@ export default function Topic({ topic, user }) {
                 <Grid item>
                   <Button
                     key="/courses"
-                    href={`${currentUrl}/videos`}
+                    onClick={handleWatch}
                     sx={{
                       my: "24px",
                       display: "block",

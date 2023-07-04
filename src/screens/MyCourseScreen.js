@@ -6,7 +6,7 @@ import { Box, Typography, Container, Grid, Button } from "@mui/material";
 import { neural500, neural900, purplishBlue, white, purplishBlueDark, orangeLight, orangePale } from "../design/color";
 import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { viewCourse } from "../actions/courseActions";
+import { userViewCourse, viewCourse } from "../actions/courseActions";
 import Topic from '../components/Topic'
 import Loader from "../components/Loader";
 import axios from "axios";
@@ -63,7 +63,12 @@ function MyCourseScreen() {
     if (!user) {
       navigate('./login');
     }
-    dispatch(viewCourse(params.slug));
+    if (user && user.user.is_staff) {
+      dispatch(viewCourse(params.slug));
+    }
+    if (user && !user.user.is_staff) {
+      dispatch(userViewCourse(params.slug));
+    }
   }, [params, userLogin, user, topicDelete, toggle])
 
   const breadcrumb = (
@@ -82,7 +87,7 @@ function MyCourseScreen() {
         key="1"
         color={neural500}
       >
-        My Course
+        My Course 
       </Typography>
       <Typography
         style={{ textDecoration: "none" }}
@@ -90,7 +95,7 @@ function MyCourseScreen() {
         key="1"
         color={neural500}
       >
-        {course ? course.title : "Video Topic"}
+        {course ? course.title : "Video Topic"} {user && user.user.is_staff && "(Instructor Page)"}
       </Typography>
     </Breadcrumbs>
   );
@@ -115,7 +120,7 @@ function MyCourseScreen() {
                 mb: "18px",
               }}
             >
-              {course ? course.title : "Video Topic"}
+              {course ? course.title : "Video Topic"} {user && user.user.is_staff && "(Instructor Page)"}
             </Typography>
             <Grid container display="flex">
               <Grid item mr={2}>
