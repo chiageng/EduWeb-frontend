@@ -50,6 +50,10 @@ import {
   COURSE_ENROLL_FAIL,
   COURSE_ENROLL_REQUEST,
   COURSE_ENROLL_SUCCESS,
+
+  WATCH_VIDEO_FAIL,
+  WATCH_VIDEO_REQUEST,
+  WATCH_VIDEO_SUCCESS,
 } from "../constants/course";
 
 export const courseCreateReducers = (state = {}, action) => {
@@ -243,6 +247,22 @@ export const courseEnrollReducers = (state = {}, action) => {
       return { loading: false, success: true };
 
     case COURSE_ENROLL_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+}
+
+export const videoWatchReducers = (state = {}, action) => {
+  switch (action.type) {
+    case WATCH_VIDEO_REQUEST:
+      return { loading: true };
+
+    case WATCH_VIDEO_SUCCESS:
+      return { loading: false, course: action.payload.course, lessons: action.payload.lessons, lesson: action.payload.lesson };
+
+    case WATCH_VIDEO_FAIL:
       return { loading: false, error: action.payload };
 
     default:

@@ -66,7 +66,7 @@ function App() {
               element={<MyProfileScreen></MyProfileScreen>}
             ></Route>
             <Route
-              path="/mycourses/:videoslug/:topicslug"
+              path="/mycourses/:slug/:topicSlug"
               element={<VideoScreen />}
             ></Route>
             <Route path="/shoppingcart" element={<ShoppingCartScreen />}></Route>

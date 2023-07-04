@@ -19,18 +19,22 @@ import {
   purplishBluePale,
 } from "../design/color";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function PhonePlayList() {
+export default function PhonePlayList({lessons, title}) {
   const [state, setState] = useState(false);
 
   const toggleDrawer = (open) => () => {
     setState(open);
   };
 
-  const item = (
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const output= lessons && lessons.map(lesson => (
     <ListItem sx={{ py: "8px" }}>
       <Button
-        onClick={() => (window.location.href = `./mycourses`)}
+        onClick={() => navigate(`/mycourses/${params.slug}/${lesson.slug}`)}
         style={{ textAlign: "left" }}
         sx={{
           p: 0,
@@ -56,7 +60,7 @@ export default function PhonePlayList() {
                 color: neural700,
               }}
             >
-              Topic 1 State of matter
+              {lesson.title}
             </Typography>
             <Typography
               sx={{
@@ -72,7 +76,7 @@ export default function PhonePlayList() {
         </Grid>
       </Button>
     </ListItem>
-  );
+  ));
 
   const list = (
     <Box
@@ -81,13 +85,7 @@ export default function PhonePlayList() {
       onClick={toggleDrawer(false)}
     >
       <List>
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
+        {output}
       </List>
     </Box>
   );
@@ -111,7 +109,7 @@ export default function PhonePlayList() {
               color={neural900}
               fontSize="20px"
             >
-              Topic title
+              {title && title}
             </Typography>
           </CardContent>
           <Box

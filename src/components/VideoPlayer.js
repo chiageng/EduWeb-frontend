@@ -12,10 +12,10 @@ import {
   LoadingSpinner,
 } from "video-react";
 
-function VideoPlayer() {
+function VideoPlayer({video}) {
   return (
     <>
-      <Player src="/videos/video1.mp4">
+      <Player src={video}>
         <LoadingSpinner />
         <BigPlayButton position="center" />
         <ControlBar>

@@ -11,12 +11,15 @@ import {
   purplishBluePale,
 } from "../design/color";
 import { fontType } from "../design/font";
+import { useNavigate, useParams } from "react-router-dom";
 
-function PlayList() {
-  const item = (
+function PlayList({ lessons, title }) {
+  const navigate = useNavigate();
+  const params = useParams();
+  const output = lessons && lessons.map((lesson) => (
     <CardContent sx={{ py: "8px" }}>
       <Button
-        onClick={() => (window.location.href = `./mycourses`)}
+        onClick={() => navigate(`/mycourses/${params.slug}/${lesson.slug}`)}
         style={{ textAlign: "left" }}
         sx={{
           p: 0,
@@ -42,7 +45,7 @@ function PlayList() {
                 color: neural700,
               }}
             >
-              Topic 1 State of matter
+              {lesson.title}
             </Typography>
             <Typography
               sx={{
@@ -58,7 +61,7 @@ function PlayList() {
         </Grid>
       </Button>
     </CardContent>
-  );
+  ));
 
   return (
     <Card
@@ -79,41 +82,33 @@ function PlayList() {
           color={neural900}
           fontSize="18px"
         >
-          Primary Science Course Chapter 1 to 15
+          {title}
         </Typography>
       </CardContent>
       <Box
         sx={{
           overflowY: "scroll",
           height: "350px",
-          '&:hover::-webkit-scrollbar': {
-            display: 'block',
-            },
-            '&::-webkit-scrollbar': {
-            display: 'block',
-            width: '0.512rem',
-            },
-            '&::-webkit-scrollbar-track': {
+          "&:hover::-webkit-scrollbar": {
+            display: "block",
+          },
+          "&::-webkit-scrollbar": {
+            display: "block",
+            width: "0.512rem",
+          },
+          "&::-webkit-scrollbar-track": {
             boxShadow: `inset 0 0 6px ${purplishBluePale}`,
             webkitBoxShadow: `inset 0 0 6px ${purplishBluePale}`,
             backgroundColor: purplishBluePale,
             borderRadius: "8px",
-            },
-            '&::-webkit-scrollbar-thumb': {
-            backgroundColor:  purplishBlue,
-            borderRadius: '8px',
-            },
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: purplishBlue,
+            borderRadius: "8px",
+          },
         }}
-        
       >
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
+        {output}
       </Box>
     </Card>
   );

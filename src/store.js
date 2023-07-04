@@ -18,6 +18,7 @@ import {
   topicDeleteReducers,
   topicEditReducers,
   topicViewReducers,
+  videoWatchReducers,
 } from "./reducers/courseReducer";
 
 const userInfoFromStorage = localStorage.getItem("user")
@@ -48,6 +49,7 @@ const store = configureStore({
     topicView: topicViewReducers,
     enrollCheck: checkEnrolledReducers,
     courseEnroll: courseEnrollReducers,
+    videoWatch: videoWatchReducers,
   },
   preloadedState: initialState,
   middleware: middleware,

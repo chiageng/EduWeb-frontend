@@ -337,6 +337,7 @@ export default function Topic({ topic, user }) {
             )}
             <Button
               key="/courses"
+              onClick={handleWatch}
               sx={{
                 my: 2,
                 display: "block",

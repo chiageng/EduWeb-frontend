@@ -1,6 +1,6 @@
-import React, {  } from "react";
+import React, { useEffect } from "react";
 import VideoPlayer from "../components/VideoPlayer";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import {
@@ -25,10 +25,18 @@ import { fontType } from "../design/font";
 import { orangeLight } from "../design/color";
 import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
 import PhonePlayList from "../components/PhonePlayList";
-
+import { useDispatch, useSelector } from "react-redux";
+import { watchVideo } from "../actions/courseActions";
+import Loader from "../components/Loader";
 
 function VideoScreen() {
   const params = useParams();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const videoWatch = useSelector((state) => state.videoWatch);
+  const { loading, lesson, lessons, error, course } = videoWatch;
 
   const breadcrumb = (
     <Breadcrumbs
@@ -50,7 +58,7 @@ function VideoScreen() {
       </Typography>
       <Typography
         as={Link}
-        to={`/mycourses/${params.id}`}
+        to={`/mycourses/${params.slug}`}
         sx={{
           textDecoration: "none",
           ":hover": { textDecoration: "underline" },
@@ -59,7 +67,7 @@ function VideoScreen() {
         key="1"
         color={neural500}
       >
-        Video Topics
+        {course && course.title}
       </Typography>
       <Typography
         style={{ textDecoration: "none" }}
@@ -67,118 +75,126 @@ function VideoScreen() {
         key="1"
         color={neural500}
       >
-        Video Lessons
+        {lesson && lesson.title}
       </Typography>
     </Breadcrumbs>
   );
 
+  useEffect(() => {
+    if (!lesson || lesson.slug != params.topicSlug) {
+      dispatch(watchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
+    }
+  }, [params]);
+
   return (
     <Container>
-    <Box pt={5} pb={10}>
-      <Typography
-        variant="h3"
-        fontFamily="Poppins"
-        sx={{
-          fontSize: "32px",
-          fontWeight: 600,
-          fontStyle: "normal",
-          color: neural900,
-          mb: "32px",
-        }}
-      >
-        Video Lessons
-      </Typography>
-      {breadcrumb}
-      <Grid container spacing={5}>
-        <Grid item xs={12} md={8}>
-          <VideoPlayer />
-          <Card
+      {loading && <Loader />}
+      {!loading && (
+        <Box pt={5} pb={10}>
+          <Typography
+            variant="h3"
+            fontFamily="Poppins"
             sx={{
-              display: "flex",
-              borderRadius: "5px",
-              mb: "16px",
-              width: "100%",
+              fontSize: "32px",
+              fontWeight: 600,
+              fontStyle: "normal",
+              color: neural900,
+              mb: "32px",
             }}
           >
-            <Box sx={{ display: "flex", flexGrow: 1 }}>
-              <CardContent>
-                <Typography
-                  component="div"
-                  variant="h5"
-                  fontFamily={fontType}
-                  fontWeight={900}
-                  color={neural900}
-                  fontSize="32px"
-                >
-                  Topic title
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  color={neural700}
-                  fontSize="14px"
-                  fontFamily={fontType}
-                  component="div"
-                >
-                  Topic description
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  color={neural300}
-                  fontSize="14px"
-                  fontFamily={fontType}
-                  component="div"
-                >
-                  Published on 1 January 2023
-                </Typography>
-              </CardContent>
-              <Box
+            {lesson && lesson.title}
+          </Typography>
+          {breadcrumb}
+          <Grid container spacing={5}>
+            <Grid item xs={12} md={8}>
+              <VideoPlayer video={lesson && lesson.video.Location} />
+              <Card
                 sx={{
                   display: "flex",
-                  flexGrow: 1,
-                  justifyContent: "right",
-                  pl: 1,
-                  pb: 1,
+                  borderRadius: "5px",
+                  mb: "16px",
+                  width: "100%",
                 }}
               >
-                <Button
-                  key="/courses"
-                  href={`/videos`}
-                  style={{ textAlign: "center" }}
-                  sx={{
-                    my: "24px",
-                    display: "block",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    lineHeight: "140%",
-                    borderRadius: 10,
-                    mr: 3,
-                    fontFamily: fontType,
-                    backgroundColor: white,
-                    color: neural900,
-                    height: "40px",
-                    ":hover": { backgroundColor: orangeLight },
-                  }}
-                >
-                  <OutlinedFlagSharpIcon ml={2} />
-                </Button>
-              </Box>
-            </Box>
-          </Card>
+                <Box sx={{ display: "flex", flexGrow: 1 }}>
+                  <CardContent>
+                    <Typography
+                      component="div"
+                      variant="h5"
+                      fontFamily={fontType}
+                      fontWeight={900}
+                      color={neural900}
+                      fontSize="32px"
+                    >
+                      {lesson && lesson.title}
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      color={neural700}
+                      fontSize="14px"
+                      fontFamily={fontType}
+                      component="div"
+                    >
+                      Topic description
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      color={neural300}
+                      fontSize="14px"
+                      fontFamily={fontType}
+                      component="div"
+                    >
+                      Published on {lesson && lesson.createdAt.substring(0, 10)}
+                    </Typography>
+                  </CardContent>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexGrow: 1,
+                      justifyContent: "right",
+                      pl: 1,
+                      pb: 1,
+                    }}
+                  >
+                    <Button
+                      key="/courses"
+                      href={`/videos`}
+                      style={{ textAlign: "center" }}
+                      sx={{
+                        my: "24px",
+                        display: "block",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        lineHeight: "140%",
+                        borderRadius: 10,
+                        mr: 3,
+                        fontFamily: fontType,
+                        backgroundColor: white,
+                        color: neural900,
+                        height: "40px",
+                        ":hover": { backgroundColor: orangeLight },
+                      }}
+                    >
+                      <OutlinedFlagSharpIcon ml={2} />
+                    </Button>
+                  </Box>
+                </Box>
+              </Card>
 
-          {/* Phone Playlist */}
-          <PhonePlayList/>
-          
+              {/* Phone Playlist */}
+              <PhonePlayList lessons={lessons} title={course && course.title} />
 
-          {/* Forum for both phone and webpage */}
-          <Forum />
-        </Grid>
+              {/* Forum for both phone and webpage */}
+              <Forum />
+            </Grid>
 
-        {/* Webpage playlist */}
-        <Grid item md={4} display={{ xs: "none", md: "flex" }}>
-          <PlayList />
-        </Grid>
-      </Grid>
-    </Box>
+            {/* Webpage playlist */}
+            <Grid item md={4} display={{ xs: "none", md: "flex" }}>
+              <PlayList lessons={lessons} title={course && course.title} />
+            </Grid>
+          </Grid>
+        </Box>
+      )}
     </Container>
   );
 }
