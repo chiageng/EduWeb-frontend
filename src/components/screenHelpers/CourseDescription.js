@@ -9,11 +9,11 @@ import {
   CardMedia,
   Divider,
 } from "@mui/material";
-import { neural300, neural500, neural700, neural900, white } from "../design/color";
-import { fontType } from "../design/font";
-import BasicRating from "./BasicRating";
+import { neural300, neural500, neural700, neural900, white } from "../../design/color";
+import { fontType } from "../../design/font";
+import BasicRating from "../universal/BasicRating";
 
-function CourseDescription({title, descriptions, lessons}) {
+function CourseDescription({title, descriptions, lessons, instructor}) {
   return (
     <Card
       sx={{
@@ -60,7 +60,7 @@ function CourseDescription({title, descriptions, lessons}) {
                   pt: 1,
                 }}
               >
-                instructor
+                {instructor}
               </Typography>
               <Typography
                 sx={{
@@ -109,10 +109,9 @@ function CourseDescription({title, descriptions, lessons}) {
             mt={1}
           >
             <ul>
-              <li>Topic 1</li>
-              <li>Topic 2</li>
-              <li>Topic 3</li>
-              <li>Topic 4</li>
+              {lessons.map(lesson => (
+                <li>{lesson.title}</li>
+              )).slice(0, 6)}
             </ul>
           </Typography>
         </CardContent>

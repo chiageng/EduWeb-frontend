@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import ResponsiveAppBar from './ResponsiveAppBar'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
+import Message from '../components/universal/Message';
 import axios from 'axios';
 import { forceLogout, logout } from '../actions/userActions';
 

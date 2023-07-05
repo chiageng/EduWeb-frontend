@@ -9,7 +9,7 @@ import {
   hotPinkPale,
   skyBlue,
   skyBlueLight,
-} from "../design/color";
+} from "../../design/color";
 
 function Progress({ progress, color }) {
   const colors = [purplishBlue, hotPink, skyBlue];

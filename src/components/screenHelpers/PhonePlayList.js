@@ -11,17 +11,17 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
-import { fontType } from "../design/font";
+import { fontType } from "../../design/font";
 import {
   neural500,
   neural700,
   neural900,
   purplishBluePale,
-} from "../design/color";
+} from "../../design/color";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function PhonePlayList({lessons, title}) {
+export default function PhonePlayList({lessons, title, instructor}) {
   const [state, setState] = useState(false);
 
   const toggleDrawer = (open) => () => {
@@ -48,7 +48,7 @@ export default function PhonePlayList({lessons, title}) {
           <Grid item xs={2} sm={2}>
             <CardMedia
               sx={{ height: 36, width: 36 }}
-              image="/images/chem-logo.jpg"
+              image={lesson.image.Location}
             />
           </Grid>
           <Grid item xs={8} sm={8}>
@@ -70,7 +70,7 @@ export default function PhonePlayList({lessons, title}) {
                 color: neural500,
               }}
             >
-              CS Wong
+              {instructor && instructor}
             </Typography>
           </Grid>
         </Grid>

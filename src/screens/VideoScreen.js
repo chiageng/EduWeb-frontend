@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import VideoPlayer from "../components/VideoPlayer";
+import VideoPlayer from "../components/screenHelpers/VideoPlayer";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -19,15 +19,15 @@ import {
   neural900,
   white,
 } from "../design/color";
-import PlayList from "../components/PlayList";
-import Forum from "../components/Forum";
+import PlayList from "../components/screenHelpers/PlayList";
+import Forum from "../components/screenHelpers/Forum";
 import { fontType } from "../design/font";
 import { orangeLight } from "../design/color";
 import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
-import PhonePlayList from "../components/PhonePlayList";
+import PhonePlayList from "../components/screenHelpers/PhonePlayList";
 import { useDispatch, useSelector } from "react-redux";
-import { watchVideo } from "../actions/courseActions";
-import Loader from "../components/Loader";
+import { userWatchVideo, watchVideo } from "../actions/courseActions";
+import Loader from "../components/universal/Loader";
 
 function VideoScreen() {
   const params = useParams();
@@ -37,6 +37,9 @@ function VideoScreen() {
 
   const videoWatch = useSelector((state) => state.videoWatch);
   const { loading, lesson, lessons, error, course } = videoWatch;
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { user } = userLogin;
 
   const breadcrumb = (
     <Breadcrumbs
@@ -81,8 +84,11 @@ function VideoScreen() {
   );
 
   useEffect(() => {
-    if (!lesson || lesson.slug != params.topicSlug) {
+    if (!lesson || lesson.slug != params.topicSlug && user.user.is_staff ) {
       dispatch(watchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
+    }
+    if (!lesson || lesson.slug != params.topicSlug && !user.user.is_staff ) {
+      dispatch(userWatchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
     }
   }, [params]);
 
@@ -107,7 +113,7 @@ function VideoScreen() {
           {breadcrumb}
           <Grid container spacing={5}>
             <Grid item xs={12} md={8}>
-              <VideoPlayer video={lesson && lesson.video.Location} />
+              <VideoPlayer video={lesson && lesson.video.Location} image={lesson && lesson.image.Location} />
               <Card
                 sx={{
                   display: "flex",
@@ -182,7 +188,7 @@ function VideoScreen() {
               </Card>
 
               {/* Phone Playlist */}
-              <PhonePlayList lessons={lessons} title={course && course.title} />
+              <PhonePlayList lessons={lessons} title={course && course.title} instructor={course && course.instructor_name}/>
 
               {/* Forum for both phone and webpage */}
               <Forum />
@@ -190,7 +196,7 @@ function VideoScreen() {
 
             {/* Webpage playlist */}
             <Grid item md={4} display={{ xs: "none", md: "flex" }}>
-              <PlayList lessons={lessons} title={course && course.title} />
+              <PlayList lessons={lessons} title={course && course.title} instructor={course && course.instructor_name}/>
             </Grid>
           </Grid>
         </Box>

@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
-import { fontType } from "../design/font";
+import { fontType } from "../../design/font";
 import {
   neural500,
   neural900,
@@ -16,10 +16,10 @@ import {
   purplishBlueLight,
   purplishBluePale,
   red,
-} from "../design/color";
+} from "../../design/color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { deleteTopic } from "../actions/courseActions";
+import { deleteTopic } from "../../actions/courseActions";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -159,7 +159,7 @@ export default function Topic({ topic, user }) {
         <CardMedia
           component="img"
           sx={{ width: 64, mx: 2, height: 64, mt: 2 }}
-          image="/images/chem-logo.jpg"
+          image={topic && topic.image.Location}
         />
         <Box sx={{ display: "flex", flexGrow: 1 }}>
           <Grid container spacing={0} justifyContent="space-between">
@@ -288,8 +288,7 @@ export default function Topic({ topic, user }) {
         <CardMedia
           component="img"
           sx={{ width: 40, mx: 1, height: 40, mt: 2 }}
-          image="/images/chem-logo.jpg"
-          alt="Live from space album cover"
+          image={topic.image.Location}
         />
         <Box sx={{ display: "flex", flexGrow: 1 }}>
           <CardContent>

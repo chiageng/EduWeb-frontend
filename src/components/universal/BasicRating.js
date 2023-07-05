@@ -2,8 +2,8 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
-import { fontType } from '../design/font';
-import { neural900 } from '../design/color';
+import { fontType } from '../../design/font';
+import { neural900 } from '../../design/color';
 
 export default function BasicRating({value}) {
   return (

@@ -1,17 +1,41 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Box, Typography, Container, Grid, Button } from "@mui/material";
-import { neural500, neural900, purplishBlue, purplishBlueDark, white } from "../design/color";
+import {
+  neural500,
+  neural900,
+  purplishBlue,
+  purplishBlueDark,
+  white,
+  orangeLight,
+} from "../design/color";
 import { courses } from "../Courses";
-import QuizCard from "../components/QuizCard";
+import QuizCard from "../components/screenHelpers/QuizCard";
 import { fontType } from "../design/font";
+import { useSelector } from "react-redux";
 
 function MyQuizzesScreen() {
   const params = useParams();
-  const course = courses.find((course) => course._id === params.id);
-  const topics = course.topics;
+  const course = courses[0];
+  const quizzes = course.quiz;
+  const navigate = useNavigate();
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { user } = userLogin;
+
+  const handleCreate = () => {
+
+  }
+
+  const handlePublished = () => {
+
+  }
+
+  const handleEdit = () => {
+
+  }
 
   const breadcrumb = (
     <Breadcrumbs
@@ -44,45 +68,128 @@ function MyQuizzesScreen() {
   return (
     <Container>
       <Box pt={5} pb={10}>
-      <Grid container display="flex" justifyContent="space-between">
-          <Grid item>
-            <Typography
-              variant="h3"
-              fontFamily="Poppins"
-              sx={{
-                fontSize: 32,
-                fontWeight: 600,
-                fontStyle: "normal",
-                color: neural900,
-                mb: "32px",
-              }}
-            >
-              My Quizzes
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Button
-              sx={{
-                backgroundColor: purplishBlue,
-                fontFamily: fontType,
-                color: white,
-                fontSize: 14,
-                width: "100%",
-                borderRadius: 3,
-                ":hover": { backgroundColor: purplishBlueDark },
-                textDecoration: 'none'
-              }}
-              // href={`/mycourses/${params.id}`}
-              as={Link}
-              to={`/mycourses/${params.id}`}
-            >
-              View Lessons
-            </Button>
-          </Grid>
-        </Grid>
         {breadcrumb}
-        <Grid container spacing={2}>
-          {topics.map((topic) => (
+        <Typography
+          variant="h3"
+          fontFamily="Poppins"
+          sx={{
+            fontSize: 32,
+            fontWeight: 600,
+            fontStyle: "normal",
+            color: neural900,
+            mb: "16px",
+          }}
+        >
+          My Quizzes {user.user.is_staff && "(Instructor View)"}
+        </Typography>
+
+        {/* Button if is instructor */}
+        {user && user.user.is_staff && (
+          <Grid container display="flex">
+            <Grid item mr={2}>
+              <Button
+                sx={{
+                  backgroundColor: orangeLight,
+                  fontFamily: fontType,
+                  color: neural900,
+                  fontSize: 14,
+                  mb: 2,
+                  mr: 2,
+                  fontWeight: 600,
+                  width: "100%",
+                  borderRadius: 3,
+                  textDecoration: "none",
+                  ":hover": { backgroundColor: orangeLight },
+                }}
+                onClick={handleCreate}
+              >
+                Create Quiz
+              </Button>
+            </Grid>
+            <Grid item mr={2}>
+              <Button
+                sx={{
+                  backgroundColor: orangeLight,
+                  fontFamily: fontType,
+                  color: neural900,
+                  fontSize: 14,
+                  mb: 2,
+                  fontWeight: 600,
+                  width: "100%",
+                  borderRadius: 3,
+                  textDecoration: "none",
+                  ":hover": { backgroundColor: orangeLight },
+                }}
+                onClick={handleEdit}
+              >
+                Edit Course
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                sx={{
+                  backgroundColor: orangeLight,
+                  fontFamily: fontType,
+                  color: neural900,
+                  fontSize: 14,
+                  mr: 2,
+                  fontWeight: 600,
+                  width: "100%",
+                  borderRadius: 3,
+                  textDecoration: "none",
+                  ":hover": { backgroundColor: orangeLight },
+                }}
+                onClick={handlePublished}
+              >
+                {course && course.published ? "Unpublished" : "Published"}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                sx={{
+                  backgroundColor: purplishBlue,
+                  fontFamily: fontType,
+                  color: white,
+                  fontSize: 14,
+                  width: "100%",
+                  borderRadius: 3,
+                  textDecoration: "none",
+                  px: 2,
+                  py: 1,
+                  ml: 2,
+                  ":hover": { backgroundColor: purplishBlueDark },
+                }}
+                // href={`/mycourses/${params.id}/myquiz`}
+                as={Link}
+                to={`/mycourses/${params.slug}`}
+              >
+                View Lessons
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+
+        {!user.user.is_staff && (<Button
+          sx={{
+            backgroundColor: purplishBlue,
+            fontFamily: fontType,
+            color: white,
+            fontSize: 14,
+            width: "100%",
+            borderRadius: 3,
+            ":hover": { backgroundColor: purplishBlueDark },
+            textDecoration: "none",
+            px: 2,
+            py: 1,
+          }}
+          as={Link}
+          to={`/mycourses/${params.slug}`}
+        >
+          View Lessons
+        </Button>)}
+
+        <Grid container spacing={2} mt={1}>
+          {quizzes.map((topic) => (
             <Grid key={topic._id} item xs={12} md={4}>
               <QuizCard key={topic._id} topic={topic} />
             </Grid>

@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
-import { fontType } from "../design/font";
+import { fontType } from "../../design/font";
 import {
   green,
   neural500,
@@ -12,7 +12,7 @@ import {
   orangeLight,
   purplishBlueLight,
   white,
-} from "../design/color";
+} from "../../design/color";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";

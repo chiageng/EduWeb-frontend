@@ -444,3 +444,29 @@ export const watchVideo = ({slug, topicSlug}) => async (dispatch) => {
     });
   }
 };
+
+
+export const userWatchVideo = ({slug, topicSlug}) => async (dispatch) => {
+  try {
+    dispatch({
+      type: WATCH_VIDEO_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.get(`/api/user/course/${slug}/${topicSlug}`, config);
+
+    dispatch({
+      type: WATCH_VIDEO_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: WATCH_VIDEO_FAIL,
+      payload: error.response.data,
+    });
+  }
+};

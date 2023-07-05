@@ -18,9 +18,9 @@ import {
 } from "../design/color";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
-import QuizQuestion from "../components/QuizQuestion";
+import QuizQuestion from "../components/screenHelpers/QuizQuestion";
 import { fontType } from "../design/font";
-import SimpleBackdrop from "../components/SimpleBackdrop";
+import SimpleBackdrop from "../components/universal/SimpleBackdrop";
 
 export const MyQuizScreen = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);

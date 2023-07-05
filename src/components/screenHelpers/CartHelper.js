@@ -5,12 +5,12 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
-import { fontType } from "../design/font";
+import { fontType } from "../../design/font";
 import {
   neural900,
   white,
   neural500,
-} from "../design/color";
+} from "../../design/color";
 import CartListHelper from "./CartListHelper";
 
 function CartHelper() {

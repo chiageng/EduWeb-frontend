@@ -12,7 +12,7 @@ import {
 
   red,
   white,
-} from "../design/color";
+} from "../../design/color";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from '@mui/icons-material/Cancel';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';

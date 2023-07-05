@@ -15,10 +15,10 @@ import {
   ListItemText,
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { fontType } from "../design/font";
-import { neural700, purplishBlue } from "../design/color";
+import { fontType } from "../../design/font";
+import { neural700, purplishBlue } from "../../design/color";
 
-export default function AddToCart({price, onClick, enroll}) {
+export default function AddToCart({price, onClick, enroll, image}) {
   return (
     <Card
       sx={{
@@ -27,7 +27,7 @@ export default function AddToCart({price, onClick, enroll}) {
         width: "100%",
       }}
     >
-      <CardMedia sx={{ height: 200 }} image="/images/chem-logo.jpg" />
+      <CardMedia sx={{ height: 200 }} image={image} />
       <CardContent>
         <Typography
           color={neural700}

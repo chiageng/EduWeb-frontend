@@ -3,7 +3,7 @@ import { Grid, Box, Typography, Container } from "@mui/material";
 import { neural500, neural900 } from "../design/color";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import CoursePrice from "../components/CoursePrice";
+import CoursePrice from "../components/screenHelpers/CoursePrice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkEnroll,
@@ -12,11 +12,11 @@ import {
   viewPriceCourse,
   viewPriceCourses,
 } from "../actions/courseActions";
-import CourseDescription from "../components/CourseDescription";
-import AddToCart from "../components/AddToCart";
-import Review from "../components/Review";
+import CourseDescription from "../components/screenHelpers/CourseDescription";
+import AddToCart from "../components/screenHelpers/AddToCart";
+import Review from "../components/universal/Review";
 import { useNavigate, useParams } from "react-router-dom";
-import Loader from "../components/Loader";
+import Loader from "../components/universal/Loader";
 
 function CourseScreen() {
   const params = useParams();
@@ -42,7 +42,7 @@ function CourseScreen() {
     if (!enroll) {
       dispatch(enrollCourse(params.slug));
     } else {
-      navigate(`/user/mycourse/${params.slug}`);
+      navigate(`/mycourses/${params.slug}`);
     }
   };
 
@@ -59,6 +59,7 @@ function CourseScreen() {
                   title={course.title}
                   description={course.description}
                   lessons={lessons}
+                  instructor={course.instructor_name}
                 />
               )}
               <Review />
@@ -69,6 +70,7 @@ function CourseScreen() {
                   price={course.price}
                   onClick={handleAddToCart}
                   enroll={enroll}
+                  image={course.image.Location}
                 />
               )}
             </Grid>
@@ -80,6 +82,7 @@ function CourseScreen() {
                   title={course.title}
                   description={course.description}
                   lessons={lessons}
+                  instructor={course.instructor_name}
                 />
               )}
               {course && (
@@ -87,6 +90,8 @@ function CourseScreen() {
                   price={course.price}
                   onClick={handleAddToCart}
                   enroll={enroll}
+                  image={course.image.Location}
+          
                 />
               )}
               <Review />

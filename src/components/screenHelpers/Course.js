@@ -1,5 +1,5 @@
 import React from "react";
-import Rating from "./BasicRating";
+import Rating from "../universal/BasicRating";
 import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -7,7 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Progress from "./Progress";
+import Progress from "../universal/Progress";
 import Box from "@mui/material/Box";
 import {
   neural900,
@@ -16,10 +16,11 @@ import {
   skyBlue,
   neural700,
   orangeLight,
-} from "../design/color";
+  neural500,
+} from "../../design/color";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 
-function Course({ course }) {
+function Course({ course, staff, progress }) {
   const colors = [purplishBlue, hotPink, skyBlue];
   const useColor = colors[course._id % 3];
 
@@ -27,7 +28,7 @@ function Course({ course }) {
     <Card sx={{ maxWidth: 400 }}>
       <CardMedia
         sx={{ height: 200 }}
-        image={course.image ? course.image.Location : '/images/Maths.jpg'}
+        image={course.image ? course.image.Location : "/images/Maths.jpg"}
         title={course.title}
       />
       <CardContent>
@@ -48,7 +49,27 @@ function Course({ course }) {
         <Typography variant="body2" color="text.secondary">
           {course.category}
         </Typography>
-        <Progress progress={course.progress} color={course._id % 3}></Progress>
+        {!staff && (
+          <Progress
+            progress={progress}
+            color={course._id % 3}
+          ></Progress>
+        )}
+        {staff && (
+          <Typography
+            gutterBottom
+            fontFamily="Poppins"
+            sx={{
+              fontSize: 12,
+              fontWeight: 400,
+              fontStyle: "normal",
+              color: neural500,
+            }}
+            component="div"
+          >
+            (Instructor view)
+          </Typography>
+        )}
       </CardContent>
       <CardActions>
         <Box sx={{ display: "flex", flexGrow: 1, justifyContent: "left" }}>
@@ -77,7 +98,16 @@ function Course({ course }) {
             borderRadius: "8px",
           }}
         >
-          <Button size="small" href={`/mycourses/${course._id}/myquiz`}sx={{ color: neural900, fontSize: 12, fontWeight: 600, fontFamily: "Poppins" }}>
+          <Button
+            size="small"
+            href={`/mycourses/${course._id}/myquiz`}
+            sx={{
+              color: neural900,
+              fontSize: 12,
+              fontWeight: 600,
+              fontFamily: "Poppins",
+            }}
+          >
             View Quiz
           </Button>
         </Box>

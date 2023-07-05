@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCourse, editCourse } from "../actions/courseActions";
 import { useNavigate, useParams } from "react-router-dom";
 import { viewCourse } from "../actions/courseActions";
-import { CourseForm } from "../components/CourseForm";
+import { CourseForm } from "../components/forms/CourseForm";
 import { COURSE_EDIT_RESET } from "../constants/course";
 
 function EditCourseScreen() {

@@ -4,7 +4,7 @@ import { Grid, Box, Typography, Container } from "@mui/material";
 import { neural500, neural900 } from "../design/color";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import CoursePrice from "../components/CoursePrice";
+import CoursePrice from "../components/screenHelpers/CoursePrice";
 import { useDispatch, useSelector } from "react-redux";
 import { viewPriceCourses } from "../actions/courseActions";
 

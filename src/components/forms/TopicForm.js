@@ -8,9 +8,9 @@ import {
   purplishBluePale,
   purplishBlue,
   red,
-} from "../design/color";
-import { fontType } from "../design/font";
-import Progress from "../components/Progress";
+} from "../../design/color";
+import { fontType } from "../../design/font";
+import Progress from "../universal/Progress";
 function TopicForm({
   setTitle,
   title,
@@ -23,8 +23,11 @@ function TopicForm({
   progress,
   videoFile,
   handleVideoRemove,
-  handleSubmit
+  handleSubmit,
+  video,
+  image,
 }) {
+  const pending = !video || !image;
   return (
     <Grid container>
       <Grid item xs={0} sm={3}></Grid>
@@ -161,8 +164,14 @@ function TopicForm({
                   ":hover": {
                     backgroundColor: purplishBlueDark,
                   },
+                  ":disabled": {
+                    backgroundColor: neural500,
+                    color: white,
+                  }
+                  
                 }}
                 onClick={handleSubmit}
+                disabled={pending}
               >
                 Save
               </Button>

@@ -2,7 +2,7 @@ import React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Button from "@mui/material/Button";
 import { Card, CardContent, Typography, Box, Grid } from "@mui/material";
-import { fontType } from "../design/font";
+import { fontType } from "../../design/font";
 import {
   neural700,
   neural900,
@@ -10,7 +10,7 @@ import {
   purplishBlueDark,
   purplishBlue,
   white,
-} from "../design/color";
+} from "../../design/color";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useParams } from "react-router-dom";
 

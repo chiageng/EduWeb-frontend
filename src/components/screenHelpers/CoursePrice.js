@@ -1,5 +1,5 @@
 import React from "react";
-import Rating from "./BasicRating";
+import Rating from "../universal/BasicRating";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -16,9 +16,9 @@ import {
   neural700,
   orangeLight,
   neural500,
-} from "../design/color";
+} from "../../design/color";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
-import { fontType } from "../design/font";
+import { fontType } from "../../design/font";
 import { useNavigate } from "react-router-dom";
 
 function CoursePrice({ course }) {
@@ -58,7 +58,7 @@ function CoursePrice({ course }) {
               fontSize: "14px",
             }}
           >
-            13 lessons
+            {course && course.lessons.length} lessons
           </Typography>
         </Grid>
         <Grid item xs={1} sm={3}>
@@ -100,8 +100,8 @@ function CoursePrice({ course }) {
           </Grid>
           <Grid
             item
-            xs={6}
-            sm={6}
+            xs={7}
+            sm={7}
             alignItems="left
           "
           >
@@ -114,7 +114,7 @@ function CoursePrice({ course }) {
                 pt: 1,
               }}
             >
-              {course.instructor}
+              {course.instructor_name}
             </Typography>
             <Typography
               sx={{
@@ -130,8 +130,8 @@ function CoursePrice({ course }) {
 
           <Grid
             item
-            xs={4}
-            sm={4}
+            xs={3}
+            sm={3}
             display="block"
             mt={3}
             sx={{ fontSize: "12px", fontFamily: fontType, color: neural500 }}

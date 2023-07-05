@@ -18,7 +18,7 @@ import MyProfileScreen from "./screens/MyProfileScreen";
 import CreateCourseScreen from "./screens/CreateCourseScreen";
 import CreateTopicScreen from "./screens/CreateTopicScreen";
 import EditCourseScreen from "./screens/EditCourseScreen";
-import Loader from "./components/Loader";
+import CreateQuizScreen from "./screens/CreateQuizScreen";
 import EditTopicScreen from "./screens/EditTopicScreen";
 import CourseScreen from "./screens/CourseScreen";
 
@@ -54,11 +54,15 @@ function App() {
               element={<EditTopicScreen/>}
             ></Route>
             <Route
-              path="/mycourses/:id/myquiz"
+              path="/mycourses/:slug/myquiz"
               element={<MyQuizzesScreen></MyQuizzesScreen>}
             ></Route>
             <Route
-              path="/mycourses/:id/myquiz/:quizid"
+              path="/mycourses/:slug/myquiz/create"
+              element={<CreateQuizScreen></CreateQuizScreen>}
+            ></Route>
+            <Route
+              path="/mycourses/:slug/myquiz/:quizid"
               element={<MyQuizScreen></MyQuizScreen>}
             ></Route>
              <Route

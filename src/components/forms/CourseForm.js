@@ -16,8 +16,8 @@ import {
   purplishBluePale,
   purplishBlue,
   red,
-} from "../design/color";
-import { fontType } from "../design/font";
+} from "../../design/color";
+import { fontType } from "../../design/font";
 
 export const CourseForm = ({title, setTitle, price, setPrice, preview, handleImage, handleImageRemove, handleSubmit, loading}) => {
   return (

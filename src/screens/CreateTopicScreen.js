@@ -14,8 +14,8 @@ import {
 } from "../design/color";
 import { createTopic } from "../actions/courseActions";
 import { TOPIC_CREATE_RESET } from "../constants/course";
-import Loader from "../components/Loader";
-import TopicForm from "../components/TopicForm";
+import Loader from "../components/universal/Loader";
+import TopicForm from "../components/forms/TopicForm";
 
 function CreateTopicScreen() {
   const [title, setTitle] = useState("");
@@ -51,7 +51,6 @@ function CreateTopicScreen() {
       setImage();
       setPreview("");
     } catch (error) {
-      console.log("Error when delete image");
     }
   };
 
@@ -97,7 +96,6 @@ function CreateTopicScreen() {
       setVideoFile(file.name);
       setUploading(false);
     } catch (err) {
-      console.log(err);
       setUploading(false);
     }
   };
@@ -106,7 +104,6 @@ function CreateTopicScreen() {
     try {
       e.preventDefault();
       setUploading(true);
-      console.log(video);
       const { data } = await axios.post("/api/course/remove-video", { video });
 
       setVideo();
@@ -160,6 +157,8 @@ function CreateTopicScreen() {
             videoFile={videoFile}
             handleVideoRemove={handleVideoRemove}
             handleSubmit={handleSubmit}
+            video={video}
+            image={image}
           />
         </Box>
       )}

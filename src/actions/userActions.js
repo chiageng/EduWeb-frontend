@@ -24,7 +24,7 @@ import axios from "axios";
 import { COURSES_VIEW_RESET } from "../constants/course";
 
 export const registerUser =
-  ({ email, password }) =>
+  ({ email, password, name }) =>
   async (dispatch) => {
     try {
       dispatch({ type: USER_REGISTER_REQUEST });
@@ -32,6 +32,7 @@ export const registerUser =
       const { data } = await axios.post("/api/register", {
         email,
         password,
+        name,
       });
 
       dispatch({

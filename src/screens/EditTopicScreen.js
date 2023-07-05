@@ -14,8 +14,8 @@ import {
 } from "../design/color";
 import { createTopic, editTopic, viewTopic } from "../actions/courseActions";
 import { TOPIC_CREATE_RESET, TOPIC_EDIT_RESET } from "../constants/course";
-import Loader from "../components/Loader";
-import TopicForm from "../components/TopicForm";
+import Loader from "../components/universal/Loader";
+import TopicForm from "../components/forms/TopicForm";
 
 function EditTopicScreen() {
   const [title, setTitle] = useState("");

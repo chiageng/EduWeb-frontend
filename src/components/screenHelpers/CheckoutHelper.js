@@ -6,14 +6,14 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import { fontType } from "../design/font";
+import { fontType } from "../../design/font";
 import {
   neural900,
   white,
   neural500,
   purplishBlue,
   purplishBlueDark,
-} from "../design/color";
+} from "../../design/color";
 
 function CheckoutHelper() {
   return (

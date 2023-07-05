@@ -3,8 +3,8 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { Card } from "@mui/material";
-import { neural500, purplishBlueDark, purplishBluePale } from "../design/color";
-import { fontType } from "../design/font";
+import { neural500, purplishBlueDark, purplishBluePale } from "../../design/color";
+import { fontType } from "../../design/font";
 
 export default function Form() {
   return (

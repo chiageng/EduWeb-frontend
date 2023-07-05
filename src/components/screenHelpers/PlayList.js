@@ -9,11 +9,11 @@ import {
   neural900,
   purplishBlue,
   purplishBluePale,
-} from "../design/color";
-import { fontType } from "../design/font";
+} from "../../design/color";
+import { fontType } from "../../design/font";
 import { useNavigate, useParams } from "react-router-dom";
 
-function PlayList({ lessons, title }) {
+function PlayList({ lessons, title, instructor }) {
   const navigate = useNavigate();
   const params = useParams();
   const output = lessons && lessons.map((lesson) => (
@@ -33,7 +33,7 @@ function PlayList({ lessons, title }) {
           <Grid item xs={12} sm={2}>
             <CardMedia
               sx={{ height: 36, width: 36 }}
-              image="/images/chem-logo.jpg"
+              image={lesson.image.Location}
             />
           </Grid>
           <Grid item xs={12} sm={8}>
@@ -55,7 +55,7 @@ function PlayList({ lessons, title }) {
                 color: neural500,
               }}
             >
-              CS Wong
+              {instructor && instructor}
             </Typography>
           </Grid>
         </Grid>

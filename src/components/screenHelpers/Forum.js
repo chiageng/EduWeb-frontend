@@ -1,17 +1,23 @@
 import React from "react";
-import { CardActions, Grid, Button, CardContent, CardMedia, Card, Box, Typography } from "@mui/material";
-import { fontType } from "../design/font";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { Grid } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import { fontType } from "../../design/font";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import {
   neural300,
   neural900,
   purplishBluePale,
   purplishBlue,
   neural700,
-  orangeLight,
-} from "../design/color";
-import BasicRating from "./BasicRating";
+  purplishBlueDark,
+} from "../../design/color";
 
-export default function Review() {
+export default function Forum() {
   const item = (
     <CardContent sx={{ py: "8px" }}>
       <Grid container spacing={2}>
@@ -45,7 +51,6 @@ export default function Review() {
           >
             2h ago
           </Typography>
-          <BasicRating value={5} />
           <Typography
             sx={{
               fontSize: "14px",
@@ -56,6 +61,14 @@ export default function Review() {
             }}
           >
             Here is a test comment
+          </Typography>
+          <Typography mt={1}>
+            <ThumbUpOffAltIcon
+              onClick={() => console.log("Like")}
+              sx={{
+                ":hover": { cursor: "pointer" },
+              }}
+            />
           </Typography>
         </Grid>
       </Grid>
@@ -69,27 +82,51 @@ export default function Review() {
         borderRadius: "10px",
         mb: "16px",
         width: "100%",
-
+        height: "430px",
       }}
     >
-      <CardContent>
-        <Typography
-          sx={{
-            fontSize: "22px",
-            fontFamily: fontType,
-            fontWeight: 700,
-            color: neural700,
-            pt: 0.5,
-            pl: 0.5,
-          }}
-        >
-          Reviews
-        </Typography>
+      {/* Comment session */}
+      <CardContent sx={{ py: "8px" }}>
+        <Grid container spacing={2}>
+          <Grid item xs={4} sm={1.8} display="block" mt={1}>
+            <CardMedia
+              sx={{ height: 32, width: 32, float: "left" }}
+              image="/images/avatar.jpg"
+            />
+            <Typography
+              sx={{
+                fontSize: "16px",
+                fontFamily: fontType,
+                fontWeight: 600,
+                color: neural700,
+                float: "right",
+                pt: 0.5,
+              }}
+            >
+              Jo Jo
+            </Typography>
+          </Grid>
+
+          <Grid item xs={8} sm={10} display="block" mt={1}>
+            <TextField
+              inputProps={{
+                style: {
+                  fontSize: 14,
+                  backgroundColor: purplishBluePale,
+                  color: purplishBlueDark
+                },
+              }}
+              size="small"
+              fullWidth
+              label="Write a comment"
+            />
+          </Grid>
+        </Grid>
       </CardContent>
       <Box
         sx={{
           overflowY: "scroll",
-          height: "380px",
+          height: "350px",
           "&:hover::-webkit-scrollbar": {
             display: "block",
           },
@@ -119,29 +156,6 @@ export default function Review() {
         {item}
         {item}
       </Box>
-
-      <CardActions>
-        <Button
-          sx={{
-            my: "24px",
-            display: "block",
-            fontSize: 14,
-            fontWeight: 600,
-            lineHeight: "140%",
-            borderRadius: 2,
-            ml: 2,
-            fontFamily: fontType,
-            backgroundColor: orangeLight,
-            color: neural900,
-            px: 4,
-            py: 1.5,
-            fontWeight: 700,
-            ":hover": { backgroundColor: orangeLight },
-          }}
-        >
-          Write Review
-        </Button>
-      </CardActions>
     </Card>
   );
 }

@@ -5,12 +5,12 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { fontType } from "../design/font";
+import { fontType } from "../../design/font";
 import {
   neural900,
   white,
   neural500,
-} from "../design/color";
+} from "../../design/color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Image } from "@mui/icons-material";
 
