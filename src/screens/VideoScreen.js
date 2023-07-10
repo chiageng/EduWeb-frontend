@@ -84,13 +84,13 @@ function VideoScreen() {
   );
 
   useEffect(() => {
-    if (!lesson || lesson.slug != params.topicSlug && user.user.is_staff ) {
+    if ((!lesson || lesson.slug != params.topicSlug) && user.user.is_staff ) {
       dispatch(watchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
     }
-    if (!lesson || lesson.slug != params.topicSlug && !user.user.is_staff ) {
+    if ((!lesson || lesson.slug != params.topicSlug) && !user.user.is_staff ) {
       dispatch(userWatchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
     }
-  }, [params]);
+  }, [params, user]);
 
   return (
     <Container>

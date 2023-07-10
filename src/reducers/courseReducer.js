@@ -55,10 +55,6 @@ import {
   WATCH_VIDEO_REQUEST,
   WATCH_VIDEO_SUCCESS,
 
-  QUIZ_CREATE_FAIL,
-  QUIZ_CREATE_REQUEST,
-  QUIZ_CREATE_SUCCESS,
-  QUIZ_CREATE_RESET,
 } from "../constants/course";
 
 export const courseCreateReducers = (state = {}, action) => {
@@ -274,22 +270,3 @@ export const videoWatchReducers = (state = {}, action) => {
       return state;
   }
 }
-
-export const quizCreateReducers = (state = {}, action) => {
-  switch (action.type) {
-    case QUIZ_CREATE_REQUEST:
-      return { loading: true };
-
-    case QUIZ_CREATE_SUCCESS:
-      return { loading: false, success: true };
-
-    case QUIZ_CREATE_FAIL:
-      return { loading: false, error: action.payload };
-    
-    case QUIZ_CREATE_RESET:
-      return { };
-
-    default:
-      return state;
-  }
-};

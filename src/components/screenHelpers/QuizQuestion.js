@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -38,15 +38,15 @@ export default function QuizQuestion({
               width: "90%",
             }}
           >
-            {selections.map((selection) => (
-              <Grid key={selection} item mb={2}>
+            {selections && selections.map((selection) => (
+              <Grid key={selection._id} item mb={2}>
                 <Card
                   sx={{
                     display: "flex",
                     backgroundColor:
-                      correctAnswer === selection
+                      correctAnswer === selection.value
                         ? green
-                        : chosenAnswer === selection &&
+                        : chosenAnswer === selection.value &&
                           chosenAnswer !== correctAnswer
                         ? red
                         : white,
@@ -54,27 +54,35 @@ export default function QuizQuestion({
                   }}
                 >
                   <CardContent>
-                    <FormControlLabel
+                    <Grid container display="flex" direction="column">
+                      <Grid item>
+                      <FormControlLabel
                       value="disabled"
-                      label={selection}
+                      label={selection.text}
                       disabled
                       control={
                         <Radio
                           sx={{
                             color:
-                              correctAnswer === selection ? white : neural900,
+                              correctAnswer === selection.value ? white : neural900,
                             "&.Mui-checked": {
                               color:
-                                correctAnswer === selection ? white : neural900,
+                                correctAnswer === selection.value ? white : neural900,
                             },
                           }}
-                          icon={correctAnswer === selection 
+                          icon={correctAnswer === selection.value 
                             ? <CheckCircleIcon style={{ color:white }}/>
-                            : chosenAnswer === selection && chosenAnswer !== correctAnswer ? <CancelIcon style={{ color:white }}/>
+                            : chosenAnswer === selection.value && chosenAnswer !== correctAnswer ? <CancelIcon style={{ color:white }}/>
                             : <RadioButtonUncheckedIcon/>}
                         />
                       }
                     ></FormControlLabel>
+                      </Grid>
+                      <Grid item ml={5}>
+                        {selection.image && <img src={selection.image.Location}></img>}
+                      </Grid>
+                    </Grid>
+                    
                   </CardContent>
                 </Card>
               </Grid>
@@ -97,34 +105,34 @@ export default function QuizQuestion({
               width: "90%",
             }}
           >
-            {selections.map((selection) => (
-              <Grid key={selection} item mb={2}>
+            {selections && selections.map((selection) => (
+              <Grid key={selection._id} item mb={2}>
                 <Card
                   sx={{
                     display: "flex",
                     backgroundColor:
-                      correctAnswer === selection
+                      correctAnswer === selection.value
                         ? green
-                        : chosenAnswer === selection &&
+                        : chosenAnswer === selection.value &&
                           chosenAnswer !== correctAnswer
                         ? red
                         : white,
-                    color: correctAnswer === selection ? white : neural900,
+                    color: correctAnswer === selection.value ? white : neural900,
                   }}
                 >
                   <CardContent>
                     <FormControlLabel
-                      value={selection}
-                      label={selection}
+                      value={selection.value}
+                      label={selection.text}
                       onClick={onClick}
                       control={
                         <Radio
                           sx={{
                             color:
-                              correctAnswer === selection ? white : neural900,
+                              correctAnswer === selection.value ? white : neural900,
                             "&.Mui-checked": {
                               color:
-                                correctAnswer === selection ? white : neural900,
+                                correctAnswer === selection.value ? white : neural900,
                             },
                             
                           }}

@@ -12,10 +12,11 @@ import {
   white,
 } from "../../design/color";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function SimpleBackdrop({ end, onClick, result, totalQuestions }) {
+export default function SimpleBackdrop({ end, onClick, result, totalQuestions, buttonHandler }) {
   const params = useParams();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -77,7 +78,7 @@ export default function SimpleBackdrop({ end, onClick, result, totalQuestions })
                     borderRadius: 3,
                     ":hover": { backgroundColor: purplishBlueDark },
                   }}
-                  href={`/mycourses/${params.id}/myquiz`}
+                  onClick={buttonHandler}
                 >
                   Quiz Page
                 </Button>
@@ -140,7 +141,7 @@ export default function SimpleBackdrop({ end, onClick, result, totalQuestions })
                     borderRadius: 3,
                     ":hover": { backgroundColor: purplishBlueDark },
                   }}
-                  href={`/mycourses/${params.id}/myquiz`}
+                  onClick={buttonHandler}
                 >
                   Quiz Page
                 </Button>

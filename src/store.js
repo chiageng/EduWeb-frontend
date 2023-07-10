@@ -20,6 +20,7 @@ import {
   topicViewReducers,
   videoWatchReducers,
 } from "./reducers/courseReducer";
+import { quizCreateReducers, quizQuestionCreateReducers, quizQuestionDeleteReducers, quizQuestionEditReducers, quizQuestionViewReducers, quizSaveReducers, quizViewReducers, quizzesViewReducers } from "./reducers/quizReducer";
 
 const userInfoFromStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user")) !== null
@@ -50,6 +51,14 @@ const store = configureStore({
     enrollCheck: checkEnrolledReducers,
     courseEnroll: courseEnrollReducers,
     videoWatch: videoWatchReducers,
+    quizCreate: quizCreateReducers,
+    quizzesView: quizzesViewReducers,
+    quizView: quizViewReducers,
+    quizQuestionCreate: quizQuestionCreateReducers,
+    quizQuestionView: quizQuestionViewReducers,
+    quizQuestionEdit: quizQuestionEditReducers,
+    quizQuestionDelete: quizQuestionDeleteReducers,
+    quizSave: quizSaveReducers,
   },
   preloadedState: initialState,
   middleware: middleware,

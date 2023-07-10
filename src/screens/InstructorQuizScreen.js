@@ -15,23 +15,23 @@ import { courses } from "../Courses";
 import QuizCard from "../components/screenHelpers/QuizCard";
 import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { viewQuizzes, viewUserQuizzes } from "../actions/quizAction";
+import { viewQuiz, viewQuizzes } from "../actions/quizAction";
+import QuizQuestionCard from "../components/screenHelpers/QuizQuestionCard";
 
-function MyQuizzesScreen() {
+function InstructorQuizzesScreen() {
   const params = useParams();
-  // const course = courses[0];
-  // const quizzes = course.quiz;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const userLogin = useSelector(state => state.userLogin);
   const { user } = userLogin;
 
-  const quizzesView = useSelector(state => state.quizzesView)
-  const { loading, quizzes, course, error } = quizzesView;
+  const quizView = useSelector(state => state.quizView)
+  const { loading, quiz, course, error, questions } = quizView;
 
-  const handleCreate = () => {
-    navigate(`/mycourses/${params.slug}/myquiz/create`);
+  const handleAddQuestion = () => {
+    navigate(`/mycourses/${params.slug}/myquiz/${params.quizSlug}/instructor/create`);
   }
 
   const handlePublished = () => {
@@ -43,13 +43,10 @@ function MyQuizzesScreen() {
   }
 
   useEffect(() => {
-    if (!quizzes && user.user.is_staff) {
-      dispatch(viewQuizzes(params.slug))
+    if (!quiz || params.quizSlug !== quiz.slug) {
+      dispatch(viewQuiz(params.slug, params.quizSlug))
     }
-    if (!quizzes && !user.user.is_staff) {
-      dispatch(viewUserQuizzes(params.slug))
-    }
-  }, [course, quizzes])
+  }, [course, quiz, params])
 
   const breadcrumb = (
     <Breadcrumbs
@@ -74,8 +71,18 @@ function MyQuizzesScreen() {
         underline="none"
         key="1"
         color={neural500}
+        as={Link}
+        to={`/mycourses/${params.slug}/myquiz`}
       >
         My Quizzes
+      </Typography>
+      <Typography
+        style={{ textDecoration: "none" }}
+        underline="none"
+        key="1"
+        color={neural500}
+      >
+        {quiz && quiz.title}
       </Typography>
     </Breadcrumbs>
   );
@@ -94,7 +101,7 @@ function MyQuizzesScreen() {
             mb: "16px",
           }}
         >
-          My Quizzes {user.user.is_staff && "(Instructor View)"}
+          {course && course.title} - {quiz && quiz.title} {user.user.is_staff && "(Instructor View)"}
         </Typography>
 
         {/* Button if is instructor */}
@@ -115,9 +122,9 @@ function MyQuizzesScreen() {
                   textDecoration: "none",
                   ":hover": { backgroundColor: orangeLight },
                 }}
-                onClick={handleCreate}
+                onClick={handleAddQuestion}
               >
-                Create Quiz
+                Add Question
               </Button>
             </Grid>
             <Grid item mr={2}>
@@ -183,7 +190,6 @@ function MyQuizzesScreen() {
           </Grid>
         )}
 
-        {/* Buttons if not instructor */}
         {!user.user.is_staff && (<Button
           sx={{
             backgroundColor: purplishBlue,
@@ -203,26 +209,16 @@ function MyQuizzesScreen() {
           View Lessons
         </Button>)}
 
-        {/* QuizCard if is instructor */}
-        {user.user.is_staff && <Grid container spacing={2} mt={1}>
-          {quizzes && quizzes.map((quiz) => (
-            <Grid key={quiz._id} item xs={12} md={4}>
-              <QuizCard key={quiz._id} quiz={quiz} is_staff={user.user.is_staff} />
+        <Grid container spacing={2} mt={1}>
+          {questions && questions.map(item => (
+            <Grid key={item.question._id} item xs={12} md={4}>
+              <QuizQuestionCard question={item.question}/>
             </Grid>
           ))}
-        </Grid>}
-
-        {/* QuizCard if is not instructor */}
-        {!user.user.is_staff && <Grid container spacing={2} mt={1}>
-          {quizzes && quizzes.map((quiz) => (
-            <Grid key={quiz.quiz._id} item xs={12} md={4}>
-              <QuizCard key={quiz._id} quiz={quiz.quiz} is_staff={user.user.is_staff} score={quiz.score} done={quiz.done}/>
-            </Grid>
-          ))}
-        </Grid>}
+        </Grid>
       </Box>
     </Container>
   );
 }
 
-export default MyQuizzesScreen;
+export default InstructorQuizzesScreen;
