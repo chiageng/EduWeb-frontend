@@ -11,6 +11,7 @@ import {
 } from "../../design/color";
 import { fontType } from "../../design/font";
 import Progress from "../universal/Progress";
+import Loader from "../universal/Loader";
 function TopicForm({
   setTitle,
   title,
@@ -26,8 +27,13 @@ function TopicForm({
   handleSubmit,
   video,
   image,
+  imageLoading, 
+  imageDeleteLoading,
+  videoLoading, 
+  videoDeleteLoading,
 }) {
   const pending = !video || !image;
+
   return (
     <Grid container>
       <Grid item xs={0} sm={3}></Grid>
@@ -78,8 +84,8 @@ function TopicForm({
                   hidden
                   onChange={handleImage}
                 />
-                <Button variant="contained" component="span">
-                  {loading ? "Uploading..." : "Upload Image"}
+                <Button variant="contained" component="span" disabled={imageLoading || imageDeleteLoading}>
+                  {imageLoading ? "Uploading..." : imageDeleteLoading ? "Deleting..." : "Upload Image"}
                 </Button>
                 {preview && (
                   <Button
@@ -95,6 +101,7 @@ function TopicForm({
                       },
                     }}
                     onClick={handleImageRemove}
+                    disabled={imageLoading || imageDeleteLoading}
                   >
                     Remove Image
                   </Button>
@@ -112,8 +119,8 @@ function TopicForm({
                   onChange={handleVideo}
                   disabled={uploading}
                 />
-                <Button variant="contained" component="span">
-                  {uploading ? "Uploading" : "Upload Video"}
+                <Button variant="contained" component="span" disabled={videoLoading || videoDeleteLoading}>
+                  {videoLoading ? "Uploading" : videoDeleteLoading ? "Deleting" : "Upload Video"}
                 </Button>
                 {videoFile && (
                   <Button
@@ -129,6 +136,7 @@ function TopicForm({
                       },
                     }}
                     onClick={handleVideoRemove}
+                    disabled={videoLoading || videoDeleteLoading}
                   >
                     Remove Video
                   </Button>

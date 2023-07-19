@@ -5,6 +5,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Collapse from "@mui/material/Collapse";
 import { Box, IconButton, Container } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Snackbar from '@mui/material/Snackbar';
 
 function Message({ type, children }) {
   const [open, setOpen] = useState(true);
@@ -32,17 +33,16 @@ function Message({ type, children }) {
   }
 
   return (
-    <Container>
-
-    <Box sx={{ width: "90%", mt: 1, position: 'absolute'}}>
+    <>
+      <Snackbar open={open} autoHideDuration={6000} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
       <Collapse in={open}>
         <Alert severity={type} action={action} sx={{ mb: 2 }}>
           <AlertTitle>{output}</AlertTitle>
           {children} — <strong>check it out!</strong>
         </Alert>
       </Collapse>
-    </Box>
-    </Container>
+      </Snackbar>
+    </>
   );
 }
 

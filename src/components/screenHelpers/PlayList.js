@@ -17,14 +17,14 @@ function PlayList({ lessons, title, instructor }) {
   const navigate = useNavigate();
   const params = useParams();
   const output = lessons && lessons.map((lesson) => (
-    <CardContent sx={{ py: "8px" }}>
+    <CardContent sx={{ py: "8px" }} key={lesson._id}>
       <Button
         onClick={() => navigate(`/mycourses/${params.slug}/${lesson.slug}`)}
         style={{ textAlign: "left" }}
         sx={{
           p: 0,
           width: "95%",
-          height: "80px",
+          minHeight: "80px",
           ":hover": { backgroundColor: purplishBluePale },
         }}
       >

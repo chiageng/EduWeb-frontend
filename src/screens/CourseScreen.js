@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Box, Typography, Container } from "@mui/material";
-import { neural500, neural900 } from "../design/color";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import CoursePrice from "../components/screenHelpers/CoursePrice";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkEnroll,
   enrollCourse,
-  viewCourse,
   viewPriceCourse,
-  viewPriceCourses,
 } from "../actions/courseActions";
 import CourseDescription from "../components/screenHelpers/CourseDescription";
 import AddToCart from "../components/screenHelpers/AddToCart";
@@ -56,6 +51,7 @@ function CourseScreen() {
             <Grid item display={{ xs: "none", md: "block" }} md={8.5}>
               {course && (
                 <CourseDescription
+                key={course._title}
                   title={course.title}
                   description={course.description}
                   lessons={lessons}
@@ -67,6 +63,7 @@ function CourseScreen() {
             <Grid item display={{ xs: "none", md: "block" }} md={3.5}>
               {course && (
                 <AddToCart
+                  key={course._id}
                   price={course.price}
                   onClick={handleAddToCart}
                   enroll={enroll}
@@ -79,6 +76,7 @@ function CourseScreen() {
             <Grid item display={{ xs: "block", md: "none" }} xs={12}>
               {course && (
                 <CourseDescription
+                  key={course._title}
                   title={course.title}
                   description={course.description}
                   lessons={lessons}
@@ -87,6 +85,7 @@ function CourseScreen() {
               )}
               {course && (
                 <AddToCart
+                  key={course._id}
                   price={course.price}
                   onClick={handleAddToCart}
                   enroll={enroll}

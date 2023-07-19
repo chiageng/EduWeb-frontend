@@ -2,6 +2,11 @@ import {
   QUIZ_CREATE_FAIL,
   QUIZ_CREATE_REQUEST,
   QUIZ_CREATE_SUCCESS,
+
+  QUIZ_EDIT_FAIL,
+  QUIZ_EDIT_REQUEST,
+  QUIZ_EDIT_SUCCESS,
+
   QUIZZES_VIEW_FAIL,
   QUIZZES_VIEW_REQUEST,
   QUIZZES_VIEW_SUCCESS,
@@ -51,6 +56,35 @@ export const createQuiz = (slug, title) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: QUIZ_CREATE_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+export const editQuiz = (slug, quizSlug, title) => async (dispatch) => {
+  try {
+    dispatch({
+      type: QUIZ_EDIT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.put(
+      `/api/course/${slug}/quiz/${quizSlug}/edit`,
+      { title },
+      config
+    );
+
+    dispatch({
+      type: QUIZ_EDIT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: QUIZ_EDIT_FAIL,
       payload: error.response.data,
     });
   }

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import { courses } from "../Courses";
 import { Grid, Box, Typography, Container } from "@mui/material";
 import { neural500, neural900 } from "../design/color";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -7,6 +6,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CoursePrice from "../components/screenHelpers/CoursePrice";
 import { useDispatch, useSelector } from "react-redux";
 import { viewPriceCourses } from "../actions/courseActions";
+import CourseFilter from "../components/screenHelpers/CourseFilter";
 
 function CoursesScreen() {
   const dispatch = useDispatch()
@@ -45,7 +45,7 @@ function CoursesScreen() {
     <Box pt={5} pb={10}>
       <Grid container spacing={3}>
         <Grid item display={{ xs: "none", md: "block" }} md={3}>
-          Testing category
+          <CourseFilter/>
         </Grid>
         <Grid item xs={12} md={9}>
           <Typography

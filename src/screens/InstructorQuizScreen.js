@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -11,14 +11,16 @@ import {
   white,
   orangeLight,
 } from "../design/color";
-import { courses } from "../Courses";
-import QuizCard from "../components/screenHelpers/QuizCard";
 import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { viewQuiz, viewQuizzes } from "../actions/quizAction";
+import { viewQuiz } from "../actions/quizAction";
 import QuizQuestionCard from "../components/screenHelpers/QuizQuestionCard";
+import axios from "axios";
+import Loader from "../components/universal/Loader";
 
 function InstructorQuizzesScreen() {
+  const [toggle, setToggle] = useState(false);
+
   const params = useParams();
 
   const navigate = useNavigate();
@@ -34,12 +36,33 @@ function InstructorQuizzesScreen() {
     navigate(`/mycourses/${params.slug}/myquiz/${params.quizSlug}/instructor/create`);
   }
 
-  const handlePublished = () => {
+  const handlePublished = async () => {
+    if (quiz && quiz.published == false) {
+      // want to publish
+      let answer = window.confirm(
+        "Once you publish, it will be available for students"
+      );
+      if (answer) {
+        const { data } = await axios.put(`/api/course/${params.slug}/quiz/${params.quizSlug}/publish`);
+        setToggle((prev) => !prev);
+      }
+    }
 
-  }
+    if (quiz && quiz.published) {
+      let answer = window.confirm(
+        "Once you unpublish, it will be not available for students"
+      );
+      if (answer) {
+        const { data } = await axios.put(
+          `/api/course/${params.slug}/quiz/${params.quizSlug}/unpublish`
+        );
+        setToggle((prev) => !prev);
+      }
+    }
+  };
 
   const handleEdit = () => {
-
+    navigate(`/mycourses/${params.slug}/myquiz/${params.quizSlug}/edit`)
   }
 
   useEffect(() => {
@@ -47,6 +70,10 @@ function InstructorQuizzesScreen() {
       dispatch(viewQuiz(params.slug, params.quizSlug))
     }
   }, [course, quiz, params])
+
+  useEffect(() => {
+    dispatch(viewQuiz(params.slug, params.quizSlug))
+  }, [toggle])
 
   const breadcrumb = (
     <Breadcrumbs
@@ -88,7 +115,8 @@ function InstructorQuizzesScreen() {
   );
   return (
     <Container>
-      <Box pt={5} pb={10}>
+      {loading && <Loader/>}
+      {!loading && <Box pt={5} pb={10}>
         {breadcrumb}
         <Typography
           variant="h3"
@@ -116,6 +144,8 @@ function InstructorQuizzesScreen() {
                   fontSize: 14,
                   mb: 2,
                   mr: 2,
+                  px: 2,
+                  py: 1,
                   fontWeight: 600,
                   width: "100%",
                   borderRadius: 3,
@@ -135,6 +165,8 @@ function InstructorQuizzesScreen() {
                   color: neural900,
                   fontSize: 14,
                   mb: 2,
+                  px: 2,
+                  py: 1,
                   fontWeight: 600,
                   width: "100%",
                   borderRadius: 3,
@@ -143,7 +175,7 @@ function InstructorQuizzesScreen() {
                 }}
                 onClick={handleEdit}
               >
-                Edit Course
+                Edit Quiz
               </Button>
             </Grid>
             <Grid item>
@@ -154,6 +186,8 @@ function InstructorQuizzesScreen() {
                   color: neural900,
                   fontSize: 14,
                   mr: 2,
+                  px: 2,
+                  py: 1,
                   fontWeight: 600,
                   width: "100%",
                   borderRadius: 3,
@@ -162,7 +196,7 @@ function InstructorQuizzesScreen() {
                 }}
                 onClick={handlePublished}
               >
-                {course && course.published ? "Unpublished" : "Published"}
+                {quiz && quiz.published ? "Unpublished" : "Published"}
               </Button>
             </Grid>
             <Grid item>
@@ -180,11 +214,9 @@ function InstructorQuizzesScreen() {
                   ml: 2,
                   ":hover": { backgroundColor: purplishBlueDark },
                 }}
-                // href={`/mycourses/${params.id}/myquiz`}
-                as={Link}
-                to={`/mycourses/${params.slug}`}
+                onClick={() => navigate(`/mycourses/${params.slug}/myquiz`)}
               >
-                View Lessons
+                Go Back
               </Button>
             </Grid>
           </Grid>
@@ -203,8 +235,7 @@ function InstructorQuizzesScreen() {
             px: 2,
             py: 1,
           }}
-          as={Link}
-          to={`/mycourses/${params.slug}`}
+          onClick={() => navigate(`/mycourses/${params.slug}`)}
         >
           View Lessons
         </Button>)}
@@ -216,7 +247,7 @@ function InstructorQuizzesScreen() {
             </Grid>
           ))}
         </Grid>
-      </Box>
+      </Box>}
     </Container>
   );
 }

@@ -6,15 +6,15 @@ import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { Container, Box, Typography, Button,Grid } from "@mui/material";
 import { neural900, red, white, } from "../design/color";
-import { QUIZ_CREATE_RESET } from "../constants/course";
-import QuizForm from "../components/forms/QuizForm";
-import { createQuiz, createQuizQuestion } from "../actions/quizAction";
+import { createQuizQuestion } from "../actions/quizAction";
 import {
   QUIZZES_VIEW_RESET,
   QUIZ_QUESTION_CREATE_RESET,
   QUIZ_VIEW_RESET,
 } from "../constants/quiz";
 import QuizQuestionForm from "../components/forms/QuizQuestionForm";
+import { deleteImage, uploadImage } from "../actions/uploadActions";
+import Loader from "../components/universal/Loader";
 
 function CreateQuizQuestionScreen() {
   const [question, setQuestion] = useState("");
@@ -43,6 +43,12 @@ function CreateQuizQuestionScreen() {
   const quizQuestionCreate = useSelector((state) => state.quizQuestionCreate);
   const { loading, success, error } = quizQuestionCreate;
 
+  const imageUpload = useSelector(state => state.imageUpload);
+  const { loading: imageLoading, image:data, error:imageError} = imageUpload;
+
+  const imageDelete = useSelector(state => state.imageDelete);
+  const {loading: imageDeleteLoading, success:deleteImageSuccess, error: deleteImageError} = imageDelete;
+
   const navigate = useNavigate();
 
   const params = useParams();
@@ -67,160 +73,179 @@ function CreateQuizQuestionScreen() {
     );
   };
 
-  const handleImageRemove = async () => {
-    try {
-      setPending(true);
-      const res = await axios.post("/api/course/remove-image", { image });
-      setImage();
-      setPreview("");
-      setPending(false);
-    } catch (error) {
-      console.log("Error when delete image");
-    }
+  const handleImageRemove = () => {
+    dispatch(deleteImage(image, setPreview, setImage));
   };
 
   const handleImage = (e) => {
     let file = e.target.files[0];
-    setPreview(window.URL.createObjectURL(file));
-
-    // resize image before send to s3
-    Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-      try {
-        setPending(true);
-        let { data } = await axios.post("/api/course/upload-image", {
-          image: uri,
-        });
-
-        // set image in the state
-        setImage(data);
-        setPending(false);
-      } catch (error) {}
-    });
+    // setPreview(window.URL.createObjectURL(file));
+    dispatch(uploadImage(file, setPreview, setImage));
   };
 
-  const handleImage1Remove = async () => {
-    try {
-      setPending(true);
-      const res = await axios.post("/api/course/remove-image", { image: image1 });
-      setImage1();
-      setPreview1("");
-      setPending(false);
-    } catch (error) {
-      console.log("Error when delete image");
-    }
+  const handleImage1Remove = () => {
+    dispatch(deleteImage(image1, setPreview1, setImage1));
   };
 
   const handleImage1 = (e) => {
     let file = e.target.files[0];
-    setPreview1(window.URL.createObjectURL(file));
-
-    // resize image before send to s3
-    Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-      try {
-        setPending(true);
-        let { data } = await axios.post("/api/course/upload-image", {
-          image: uri,
-        });
-
-        // set image in the state
-        setImage1(data);
-        setPending(false);
-      } catch (error) {}
-    });
+    // setPreview(window.URL.createObjectURL(file));
+    dispatch(uploadImage(file, setPreview1, setImage1));
   };
 
-  const handleImage2Remove = async () => {
-    try {
-      setPending(true);
-      const res = await axios.post("/api/course/remove-image", { image: image2 });
-      setImage2();
-      setPreview2("");
-      setPending(false);
-    } catch (error) {
-      console.log("Error when delete image");
-    }
+  const handleImage2Remove = () => {
+    dispatch(deleteImage(image2, setPreview2, setImage2));
   };
 
   const handleImage2 = (e) => {
     let file = e.target.files[0];
-    setPreview2(window.URL.createObjectURL(file));
-
-    // resize image before send to s3
-    Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-      try {
-        setPending(true);
-        let { data } = await axios.post("/api/course/upload-image", {
-          image: uri,
-        });
-
-        // set image in the state
-        setImage2(data);
-        setPending(false);
-      } catch (error) {}
-    });
+    // setPreview(window.URL.createObjectURL(file));
+    dispatch(uploadImage(file, setPreview2, setImage2));
   };
 
-  const handleImage3Remove = async () => {
-    try {
-      setPending(true);
-      const res = await axios.post("/api/course/remove-image", { image: image3 });
-      setImage3();
-      setPreview3("");
-      setPending(false);
-    } catch (error) {
-      console.log("Error when delete image");
-    }
+  const handleImage3Remove = () => {
+    dispatch(deleteImage(image3, setPreview3, setImage3));
   };
 
   const handleImage3 = (e) => {
     let file = e.target.files[0];
-    setPreview3(window.URL.createObjectURL(file));
-
-    // resize image before send to s3
-    Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-      try {
-        setPending(true);
-        let { data } = await axios.post("/api/course/upload-image", {
-          image: uri,
-        });
-
-        // set image in the state
-        setImage3(data);
-        setPending(false);
-      } catch (error) {}
-    });
+    // setPreview(window.URL.createObjectURL(file));
+    dispatch(uploadImage(file, setPreview3, setImage3));
   };
 
-  const handleImage4Remove = async () => {
-    try {
-      setPending(true);
-      const res = await axios.post("/api/course/remove-image", { image: image4 });
-      setImage4();
-      setPreview4("");
-      setPending(false);
-    } catch (error) {
-      console.log("Error when delete image");
-    }
+  const handleImage4Remove = () => {
+    dispatch(deleteImage(image4, setPreview4, setImage4));
   };
 
   const handleImage4 = (e) => {
     let file = e.target.files[0];
-    setPreview4(window.URL.createObjectURL(file));
-
-    // resize image before send to s3
-    Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-      try {
-        setPending(true);
-        let { data } = await axios.post("/api/course/upload-image", {
-          image: uri,
-        });
-
-        // set image in the state
-        setImage4(data);
-        setPending(false);
-      } catch (error) {}
-    });
+    // setPreview(window.URL.createObjectURL(file));
+    dispatch(uploadImage(file, setPreview4, setImage4));
   };
+
+  // const handleImage1Remove = async () => {
+  //   try {
+  //     setPending(true);
+  //     const res = await axios.post("/api/course/remove-image", { image: image1 });
+  //     setImage1();
+  //     setPreview1("");
+  //     setPending(false);
+  //   } catch (error) {
+  //     console.log("Error when delete image");
+  //   }
+  // };
+
+  // const handleImage1 = (e) => {
+  //   let file = e.target.files[0];
+  //   setPreview1(window.URL.createObjectURL(file));
+
+  //   // resize image before send to s3
+  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
+  //     try {
+  //       setPending(true);
+  //       let { data } = await axios.post("/api/course/upload-image", {
+  //         image: uri,
+  //       });
+
+  //       // set image in the state
+  //       setImage1(data);
+  //       setPending(false);
+  //     } catch (error) {}
+  //   });
+  // };
+
+  // const handleImage2Remove = async () => {
+  //   try {
+  //     setPending(true);
+  //     const res = await axios.post("/api/course/remove-image", { image: image2 });
+  //     setImage2();
+  //     setPreview2("");
+  //     setPending(false);
+  //   } catch (error) {
+  //     console.log("Error when delete image");
+  //   }
+  // };
+
+  // const handleImage2 = (e) => {
+  //   let file = e.target.files[0];
+  //   setPreview2(window.URL.createObjectURL(file));
+
+  //   // resize image before send to s3
+  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
+  //     try {
+  //       setPending(true);
+  //       let { data } = await axios.post("/api/course/upload-image", {
+  //         image: uri,
+  //       });
+
+  //       // set image in the state
+  //       setImage2(data);
+  //       setPending(false);
+  //     } catch (error) {}
+  //   });
+  // };
+
+  // const handleImage3Remove = async () => {
+  //   try {
+  //     setPending(true);
+  //     const res = await axios.post("/api/course/remove-image", { image: image3 });
+  //     setImage3();
+  //     setPreview3("");
+  //     setPending(false);
+  //   } catch (error) {
+  //     console.log("Error when delete image");
+  //   }
+  // };
+
+  // const handleImage3 = (e) => {
+  //   let file = e.target.files[0];
+  //   setPreview3(window.URL.createObjectURL(file));
+
+  //   // resize image before send to s3
+  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
+  //     try {
+  //       setPending(true);
+  //       let { data } = await axios.post("/api/course/upload-image", {
+  //         image: uri,
+  //       });
+
+  //       // set image in the state
+  //       setImage3(data);
+  //       setPending(false);
+  //     } catch (error) {}
+  //   });
+  // };
+
+  // const handleImage4Remove = async () => {
+  //   try {
+  //     setPending(true);
+  //     const res = await axios.post("/api/course/remove-image", { image: image4 });
+  //     setImage4();
+  //     setPreview4("");
+  //     setPending(false);
+  //   } catch (error) {
+  //     console.log("Error when delete image");
+  //   }
+  // };
+
+  // const handleImage4 = (e) => {
+  //   let file = e.target.files[0];
+  //   setPreview4(window.URL.createObjectURL(file));
+
+  //   // resize image before send to s3
+  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
+  //     try {
+  //       setPending(true);
+  //       let { data } = await axios.post("/api/course/upload-image", {
+  //         image: uri,
+  //       });
+
+  //       // set image in the state
+  //       setImage4(data);
+  //       setPending(false);
+  //     } catch (error) {}
+  //   });
+  // };
 
   useEffect(() => {
     if (success) {
@@ -234,7 +259,8 @@ function CreateQuizQuestionScreen() {
 
   return (
     <Container>
-      <Box pt={5} pb={10}>
+     {loading && <Loader/>}
+     {!loading && <Box pt={5} pb={10}>
         <Typography
           variant="h3"
           fontFamily="Poppins"
@@ -280,8 +306,10 @@ function CreateQuizQuestionScreen() {
           preview4={preview4}
           preview={preview}
           pending={pending}
+          imageLoading={imageLoading}
+          imageDeleteLoading={imageDeleteLoading}
         />
-      </Box>
+      </Box>}
     </Container>
   );
 }

@@ -28,13 +28,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { viewCourse } from "../actions/courseActions";
 import { CourseForm } from "../components/forms/CourseForm";
 import { COURSE_EDIT_RESET } from "../constants/course";
+import { deleteImage, uploadImage } from "../actions/uploadActions";
 
 function EditCourseScreen() {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState();
   const [price, setPrice] = useState("");
   const [preview, setPreview] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const params = useParams();
@@ -42,19 +42,21 @@ function EditCourseScreen() {
   const courseEdit = useSelector(state => state.courseEdit);
   const { success } = courseEdit;
 
+  const imageUpload = useSelector(state => state.imageUpload);
+  const { loading: imageLoading, image:data, error:imageError} = imageUpload;
+
+  const imageDelete = useSelector(state => state.imageDelete);
+  const {loading: imageDeleteLoading, success:deleteImageSuccess, error: deleteImageError} = imageDelete;
+
   const courseView = useSelector((state) => state.courseView);
-  const {
-    loading: viewLoading,
-    course: courseExist,
-    error: viewError,
-  } = courseView;
+  const { loading, course: courseExist, error: viewError } = courseView;
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (success) {
       dispatch({type: COURSE_EDIT_RESET})
-      navigate(`/mycourses/${params.slug}`);
+      navigate(`/mycourses/`);
     }
     if (!courseExist) {
       dispatch(viewCourse(params.slug));
@@ -67,34 +69,44 @@ function EditCourseScreen() {
     }
   }, [courseEdit, params, courseExist]);
 
-  const handleImageRemove = async () => {
-    try {
-      const res = await axios.post("/api/course/remove-image", { image });
-      setImage();
-      setPreview("");
-    } catch (error) {
-      console.log("Error when delete image");
-    }
-  };
+  // const handleImageRemove = async () => {
+  //   try {
+  //     const res = await axios.post("/api/course/remove-image", { image });
+  //     setImage();
+  //     setPreview("");
+  //   } catch (error) {
+  //     console.log("Error when delete image");
+  //   }
+  // };
+
+  // const handleImage = (e) => {
+  //   setLoading(true);
+  //   let file = e.target.files[0];
+  //   setPreview(window.URL.createObjectURL(file));
+
+  //   // resize image before send to s3
+  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
+  //     try {
+  //       let { data } = await axios.post("/api/course/upload-image", {
+  //         image: uri,
+  //       });
+
+  //       // set image in the state
+  //       setImage(data);
+  //       setLoading(false);
+  //     } catch (error) {}
+  //   });
+  // };
+
+  const handleImageRemove = () => {
+    dispatch(deleteImage(image, setPreview, setImage));
+  }
 
   const handleImage = (e) => {
-    setLoading(true);
     let file = e.target.files[0];
-    setPreview(window.URL.createObjectURL(file));
-
-    // resize image before send to s3
-    Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-      try {
-        let { data } = await axios.post("/api/course/upload-image", {
-          image: uri,
-        });
-
-        // set image in the state
-        setImage(data);
-        setLoading(false);
-      } catch (error) {}
-    });
-  };
+    // setPreview(window.URL.createObjectURL(file));
+    dispatch(uploadImage(file, setPreview, setImage));
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -127,6 +139,8 @@ function EditCourseScreen() {
           handleImageRemove={handleImageRemove}
           handleSubmit={handleSubmit}
           loading={loading}
+          imageLoading={imageLoading}
+          imageDeleteLoading={imageDeleteLoading}
         />
       </Box>
     </Container>

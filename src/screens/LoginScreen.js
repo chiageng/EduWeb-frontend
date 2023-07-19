@@ -21,6 +21,8 @@ import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/universal/Loader";
+import Message from "../components/universal/Message";
 
 function Copyright(props) {
   return (
@@ -64,7 +66,9 @@ export default function LoginScreen() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      {loading && <Loader/>}
+      {!loading && error && <Message type="error">{error}</Message>}
+      {!loading && <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
           item
@@ -228,7 +232,7 @@ export default function LoginScreen() {
             </Box>
           </Box>
         </Grid>
-      </Grid>
+      </Grid>}
     </ThemeProvider>
   );
 }

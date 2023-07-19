@@ -73,7 +73,7 @@ export default function RegisterScreen() {
 
   return (
     <>
-      {error && <Message type="error">{error.message}</Message>}
+      {!loading && error && <Message type="error">{error}</Message>}
       {(loading || loginLoading) && <Loader />}
       {!loading && !loginLoading && (
         <ThemeProvider theme={theme}>
@@ -179,7 +179,7 @@ export default function RegisterScreen() {
                     required
                     fullWidth
                     value={password}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     name="password"
                     label="Password"
                     type="password"

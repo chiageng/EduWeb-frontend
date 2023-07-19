@@ -8,10 +8,15 @@ import {
   
   USER_REGISTER_RESET,
 
-  USER_PROFILE_REQUEST,
-  USER_PROFILE_SUCCESS,
-  USER_PROFILE_FAIL,
-  USER_PROFILE_RESET,
+  EDIT_PROFILE_REQUEST,
+  EDIT_PROFILE_SUCCESS,
+  EDIT_PROFILE_FAIL,
+  EDIT_PROFILE_RESET,
+
+  VIEW_PROFILE_REQUEST,
+  VIEW_PROFILE_SUCCESS,
+  VIEW_PROFILE_FAIL,
+  VIEW_PROFILE_RESET,
 
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_REQUEST,
@@ -78,18 +83,38 @@ export const userRegisterReducers = (state = {}, action) => {
   }
 };
 
-export const userProfileReducer = (state = {}, action) => {
+export const profileEditReducer = (state = {}, action) => {
   switch (action.type) {
-    case USER_PROFILE_REQUEST:
+    case EDIT_PROFILE_REQUEST:
       return { loading: true };
 
-    case USER_PROFILE_SUCCESS:
-      return { loading: false, user: action.payload };
+    case EDIT_PROFILE_SUCCESS:
+      return { loading: false, success: true };
 
-    case USER_PROFILE_FAIL:
+    case EDIT_PROFILE_FAIL:
       return { loading: false, error: action.payload };
 
-    case USER_PROFILE_RESET:
+    case EDIT_PROFILE_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+
+export const profileViewReducer = (state = {}, action) => {
+  switch (action.type) {
+    case VIEW_PROFILE_REQUEST:
+      return { loading: true };
+
+    case VIEW_PROFILE_SUCCESS:
+      return { loading: false, user: action.payload.user };
+
+    case VIEW_PROFILE_FAIL:
+      return { loading: false, error: action.payload };
+
+    case VIEW_PROFILE_RESET:
       return {};
 
     default:

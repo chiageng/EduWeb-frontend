@@ -8,7 +8,6 @@ import {
 import { fontType } from "../../design/font";
 import {
   neural900,
-  white,
   neural500,
 } from "../../design/color";
 import CartListHelper from "./CartListHelper";

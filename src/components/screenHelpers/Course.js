@@ -1,6 +1,5 @@
 import React from "react";
-import Rating from "../universal/BasicRating";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -23,6 +22,7 @@ import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite
 function Course({ course, staff, progress }) {
   const colors = [purplishBlue, hotPink, skyBlue];
   const useColor = colors[course._id % 3];
+  const navigate = useNavigate()
 
   return (
     <Card sx={{ maxWidth: 400 }}>
@@ -76,7 +76,7 @@ function Course({ course, staff, progress }) {
           <PlayCircleFilledWhiteIcon sx={{ color: useColor }} />
           <Button
             size="small"
-            href={`./mycourses/${course.slug}`}
+            onClick={() => navigate(`/mycourses/${course.slug}`)}
             style={{
               textDecoration: "none",
               fontFamily: "Poppins",
@@ -100,7 +100,7 @@ function Course({ course, staff, progress }) {
         >
           <Button
             size="small"
-            href={`/mycourses/${course._id}/myquiz`}
+            onClick={() => navigate(`/mycourses/${course._id}/myquiz`)}
             sx={{
               color: neural900,
               fontSize: 12,

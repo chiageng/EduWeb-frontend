@@ -11,11 +11,11 @@ import {
   white,
   orangeLight,
 } from "../design/color";
-import { courses } from "../Courses";
 import QuizCard from "../components/screenHelpers/QuizCard";
 import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
 import { viewQuizzes, viewUserQuizzes } from "../actions/quizAction";
+import Loader from "../components/universal/Loader";
 
 function MyQuizzesScreen() {
   const params = useParams();
@@ -34,22 +34,22 @@ function MyQuizzesScreen() {
     navigate(`/mycourses/${params.slug}/myquiz/create`);
   }
 
-  const handlePublished = () => {
-
-  }
-
-  const handleEdit = () => {
-
-  }
-
   useEffect(() => {
-    if (!quizzes && user.user.is_staff) {
+    if (!quizzes && user.user.is_staff ) {
       dispatch(viewQuizzes(params.slug))
     }
     if (!quizzes && !user.user.is_staff) {
       dispatch(viewUserQuizzes(params.slug))
     }
-  }, [course, quizzes])
+
+    if (quizzes && course.slug !== params.slug && user.user.is_staff) {
+      dispatch(viewQuizzes(params.slug))
+    }
+
+    if (quizzes && course.slug !== params.slug && !user.user.is_staff) {
+      dispatch(viewUserQuizzes(params.slug))
+    }
+  }, [course, quizzes, params])
 
   const breadcrumb = (
     <Breadcrumbs
@@ -75,13 +75,14 @@ function MyQuizzesScreen() {
         key="1"
         color={neural500}
       >
-        My Quizzes
+        {course && course.title} - Quiz
       </Typography>
     </Breadcrumbs>
   );
   return (
     <Container>
-      <Box pt={5} pb={10}>
+      {loading && <Loader/>}
+      {!loading && <Box pt={5} pb={10}>
         {breadcrumb}
         <Typography
           variant="h3"
@@ -94,7 +95,7 @@ function MyQuizzesScreen() {
             mb: "16px",
           }}
         >
-          My Quizzes {user.user.is_staff && "(Instructor View)"}
+          {course && course.title} - Quiz {user.user.is_staff && "(Instructor View)"}
         </Typography>
 
         {/* Button if is instructor */}
@@ -109,6 +110,8 @@ function MyQuizzesScreen() {
                   fontSize: 14,
                   mb: 2,
                   mr: 2,
+                  px: 2,
+                  py: 1,
                   fontWeight: 600,
                   width: "100%",
                   borderRadius: 3,
@@ -118,44 +121,6 @@ function MyQuizzesScreen() {
                 onClick={handleCreate}
               >
                 Create Quiz
-              </Button>
-            </Grid>
-            <Grid item mr={2}>
-              <Button
-                sx={{
-                  backgroundColor: orangeLight,
-                  fontFamily: fontType,
-                  color: neural900,
-                  fontSize: 14,
-                  mb: 2,
-                  fontWeight: 600,
-                  width: "100%",
-                  borderRadius: 3,
-                  textDecoration: "none",
-                  ":hover": { backgroundColor: orangeLight },
-                }}
-                onClick={handleEdit}
-              >
-                Edit Course
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                sx={{
-                  backgroundColor: orangeLight,
-                  fontFamily: fontType,
-                  color: neural900,
-                  fontSize: 14,
-                  mr: 2,
-                  fontWeight: 600,
-                  width: "100%",
-                  borderRadius: 3,
-                  textDecoration: "none",
-                  ":hover": { backgroundColor: orangeLight },
-                }}
-                onClick={handlePublished}
-              >
-                {course && course.published ? "Unpublished" : "Published"}
               </Button>
             </Grid>
             <Grid item>
@@ -170,12 +135,10 @@ function MyQuizzesScreen() {
                   textDecoration: "none",
                   px: 2,
                   py: 1,
-                  ml: 2,
                   ":hover": { backgroundColor: purplishBlueDark },
                 }}
                 // href={`/mycourses/${params.id}/myquiz`}
-                as={Link}
-                to={`/mycourses/${params.slug}`}
+                onClick={() => navigate(`/mycourses/${params.slug}`)}
               >
                 View Lessons
               </Button>
@@ -184,24 +147,51 @@ function MyQuizzesScreen() {
         )}
 
         {/* Buttons if not instructor */}
-        {!user.user.is_staff && (<Button
-          sx={{
-            backgroundColor: purplishBlue,
-            fontFamily: fontType,
-            color: white,
-            fontSize: 14,
-            width: "100%",
-            borderRadius: 3,
-            ":hover": { backgroundColor: purplishBlueDark },
-            textDecoration: "none",
-            px: 2,
-            py: 1,
-          }}
-          as={Link}
-          to={`/mycourses/${params.slug}`}
-        >
-          View Lessons
-        </Button>)}
+        {!user.user.is_staff && (<>
+              <Grid container display={{ xs: "none", md: "block" }}>
+                <Grid item xs={1.5}>
+                  <Button
+                    sx={{
+                      backgroundColor: purplishBlue,
+                      fontFamily: fontType,
+                      color: white,
+                      fontSize: 14,
+                      width: "100%",
+                      borderRadius: 3,
+                      textDecoration: "none",
+                      px: 2,
+                      py: 1,
+                      ":hover": { backgroundColor: purplishBlueDark },
+                    }}
+                    onClick={() => navigate(`/mycourses/${params.slug}`)}
+                  >
+                    View Lessons
+                  </Button>
+                </Grid>
+              </Grid>
+
+              <Grid container display={{ xs: "block", md: "none" }}>
+                <Grid item xs={12}>
+                  <Button
+                    sx={{
+                      backgroundColor: purplishBlue,
+                      fontFamily: fontType,
+                      color: white,
+                      fontSize: 14,
+                      width: "100%",
+                      borderRadius: 3,
+                      textDecoration: "none",
+                      px: 2,
+                      py: 1,
+                      ":hover": { backgroundColor: purplishBlueDark },
+                    }}
+                    onClick={() => navigate(`/mycourses/${params.slug}`)}
+                  >
+                    View Lessons
+                  </Button>
+                </Grid>
+              </Grid>
+            </>)}
 
         {/* QuizCard if is instructor */}
         {user.user.is_staff && <Grid container spacing={2} mt={1}>
@@ -215,12 +205,12 @@ function MyQuizzesScreen() {
         {/* QuizCard if is not instructor */}
         {!user.user.is_staff && <Grid container spacing={2} mt={1}>
           {quizzes && quizzes.map((quiz) => (
-            <Grid key={quiz.quiz._id} item xs={12} md={4}>
+            <Grid key={quiz.quiz._id} item xs={12} md={4} width="100%">
               <QuizCard key={quiz._id} quiz={quiz.quiz} is_staff={user.user.is_staff} score={quiz.score} done={quiz.done}/>
             </Grid>
           ))}
         </Grid>}
-      </Box>
+      </Box>}
     </Container>
   );
 }

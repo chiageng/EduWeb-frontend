@@ -3,6 +3,12 @@ import {
   QUIZ_CREATE_REQUEST,
   QUIZ_CREATE_SUCCESS,
   QUIZ_CREATE_RESET,
+
+  QUIZ_EDIT_FAIL,
+  QUIZ_EDIT_REQUEST,
+  QUIZ_EDIT_SUCCESS,
+  QUIZ_EDIT_RESET,
+
   QUIZZES_VIEW_FAIL,
   QUIZZES_VIEW_REQUEST,
   QUIZZES_VIEW_SUCCESS,
@@ -47,6 +53,25 @@ export const quizCreateReducers = (state = {}, action) => {
       return { loading: false, error: action.payload };
 
     case QUIZ_CREATE_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const quizEditReducers = (state = {}, action) => {
+  switch (action.type) {
+    case QUIZ_EDIT_REQUEST:
+      return { loading: true };
+
+    case QUIZ_EDIT_SUCCESS:
+      return { loading: false, success: true };
+
+    case QUIZ_EDIT_FAIL:
+      return { loading: false, error: action.payload };
+
+    case QUIZ_EDIT_RESET:
       return {};
 
     default:

@@ -3,13 +3,7 @@ import {
   Typography,
   TextField,
   Grid,
-  Card,
   Button,
-  FormControl,
-  RadioGroup,
-  CardContent,
-  FormControlLabel,
-  Radio,
   Container,
   Box,
 } from "@mui/material";
@@ -18,13 +12,10 @@ import {
   neural500,
   white,
   purplishBlueDark,
-  purplishBluePale,
   purplishBlue,
-  neural700,
   red,
 } from "../../design/color";
 import { fontType } from "../../design/font";
-import QuizQuestion from "../screenHelpers/QuizQuestion";
 import QuizQuestionHelper from "./QuizQuestionHelper";
 
 function QuizQuestionForm({
@@ -60,6 +51,8 @@ function QuizQuestionForm({
   preview4,
   preview,
   pending,
+  imageLoading,
+  imageDeleteLoading,
 }) {
   const clickHandler = () => {};
 
@@ -89,8 +82,8 @@ function QuizQuestionForm({
               hidden
               onChange={handleImage}
             />
-            <Button variant="contained" component="span">
-              {pending ? "Uploading..." : "Upload Image"}
+            <Button variant="contained" component="span" disabled={imageLoading || imageDeleteLoading}>
+              {imageLoading ? "Uploading..." : imageDeleteLoading ? "Deleting..." : "Upload Image"}
             </Button>
             {preview && (
               <Button
@@ -106,6 +99,7 @@ function QuizQuestionForm({
                   },
                 }}
                 onClick={handleImageRemove}
+                disabled={imageLoading || imageDeleteLoading}
               >
                 Remove
               </Button>
@@ -176,6 +170,8 @@ function QuizQuestionForm({
           answer={answer}
           setAnswer={setAnswer}
           pending={pending}
+          imageLoading={imageLoading}
+          imageDeleteLoading={imageDeleteLoading}
         ></QuizQuestionHelper>
 
         <Typography

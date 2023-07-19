@@ -10,6 +10,7 @@ import { userViewCourses, viewCourses } from "../actions/courseActions";
 import { fontType } from "../design/font";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/universal/Loader";
+import Message from "../components/universal/Message";
 
 function MyCoursesScreen() {
   const dispatch = useDispatch();
@@ -30,9 +31,6 @@ function MyCoursesScreen() {
     }
     if (user && !courses && user.user.is_staff) {
       dispatch(viewCourses());
-    }
-    if (courses) {
-      console.log(courses.courses);
     }
   }, [user, courses]);
 
@@ -59,6 +57,7 @@ function MyCoursesScreen() {
 
   return (
     <Container>
+      {error && <Message type="error">{error}</Message>}
       {loading && <Loader />}
       {!loading && (
         <Box pt={5} pb={10}>
@@ -122,7 +121,7 @@ function MyCoursesScreen() {
             user.user.is_staff && (
               <Grid container spacing={3}>
                 {courses.map((course) => (
-                  <Grid item xs={12} md={3} key={0}>
+                  <Grid item xs={12} md={3} key={course._id}>
                     <Course
                       course={course}
                       staff={user.user.is_staff}

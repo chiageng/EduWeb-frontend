@@ -7,12 +7,9 @@ import {
   CardContent,
   CardActions,
   Card,
-  Box,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
-  ListItemText,
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { fontType } from "../../design/font";

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,13 +18,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../actions/userActions";
 import { useDispatch } from "react-redux";
 
-function ResponsiveAppBar({user}) {
+function ResponsiveAppBar({ user }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [login, setLogin] = useState(false);
 
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -47,7 +46,7 @@ function ResponsiveAppBar({user}) {
     handleCloseUserMenu();
     handleCloseNavMenu();
     dispatch(logout());
-    navigate('./login')
+    navigate("./login");
   };
 
   const handleLogin = () => {
@@ -66,7 +65,9 @@ function ResponsiveAppBar({user}) {
               variant="h1"
               noWrap
               component="a"
-              href="/"
+              onClick={() => {
+                navigate(`/`);
+              }}
               sx={{
                 display: { xs: "none", md: "flex" },
                 fontFamily: "Poppins",
@@ -76,6 +77,7 @@ function ResponsiveAppBar({user}) {
                 lineHeight: "125%",
                 color: purplishBlue,
                 textDecoration: "none",
+                ":hover": { cursor: "pointer" },
               }}
             >
               EDUWEB
@@ -86,7 +88,9 @@ function ResponsiveAppBar({user}) {
               variant="h1"
               noWrap
               component="a"
-              href="/"
+              onClick={() => {
+                navigate(`/`);
+              }}
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -142,28 +146,27 @@ function ResponsiveAppBar({user}) {
                 >
                   <MenuItem
                     key="/courses"
-                    as={Link}
-                    to="/mycourses"
                     sx={{
                       textDecoration: "none",
                       ":visited": {
                         color: "black",
                       },
                     }}
-                    onClick={handleCloseNavMenu}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(`/courses`);
+                    }}
                   >
                     <Typography textAlign="center">Courses</Typography>
                   </MenuItem>
-                  <MenuItem key="/blog" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Blog</Typography>
-                  </MenuItem>
-                  <MenuItem key="/pricing" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Pricing</Typography>
-                  </MenuItem>
-                  <MenuItem key="/aboutus" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">About Us</Typography>
-                  </MenuItem>
-                  <MenuItem key="/login" onClick={handleLogin} href={`/login`}>
+                  <MenuItem
+                    key="/login"
+                    onClick={() => {
+                      handleLogin();
+                      navigate(`/login`);
+                    }}
+                    href={`/login`}
+                  >
                     <Typography textAlign="center">Log in / Sign up</Typography>
                   </MenuItem>
                 </Menu>
@@ -207,17 +210,47 @@ function ResponsiveAppBar({user}) {
                     display: { xs: "block", md: "none" },
                   }}
                 >
-                  <MenuItem key="/dashboard" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Dashboard</Typography>
-                  </MenuItem>
-                  <MenuItem key="/course" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Course</Typography>
-                  </MenuItem>
-                  <MenuItem key="/mycourse" onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    key="/dashboard"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(`/`);
+                    }}
+                  >
                     <Typography
                       textAlign="center"
-                      as={Link}
-                      to="/mycourses"
+                      sx={{
+                        textDecoration: "none",
+                        ":visited": {
+                          color: "black",
+                        },
+                      }}
+                    >
+                      Dashboard
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem key="/course" onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(`/courses`);
+                  }}>
+                    <Typography
+                      textAlign="center"
+                      sx={{
+                        textDecoration: "none",
+                        ":visited": {
+                          color: "black",
+                        },
+                      }}
+                    >
+                      Course
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem key="/mycourse" onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(`/mycourses`);
+                  }}>
+                    <Typography
+                      textAlign="center"
                       sx={{
                         textDecoration: "none",
                         ":visited": {
@@ -228,14 +261,21 @@ function ResponsiveAppBar({user}) {
                       My Course
                     </Typography>
                   </MenuItem>
-                  <MenuItem key="/pricing" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Quiz</Typography>
-                  </MenuItem>
-                  <MenuItem key="/aboutus" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">Achievements</Typography>
-                  </MenuItem>
-                  <MenuItem key="/cart" onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">My Cart</Typography>
+                  <MenuItem key="/profile" onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(`/myprofile`);
+                  }}>
+                    <Typography
+                      textAlign="center"
+                      sx={{
+                        textDecoration: "none",
+                        ":visited": {
+                          color: "black",
+                        },
+                      }}
+                    >
+                      Profile
+                    </Typography>
                   </MenuItem>
                   <MenuItem key="/login" onClick={handleLogout}>
                     <Typography textAlign="center">Logout</Typography>
@@ -255,7 +295,10 @@ function ResponsiveAppBar({user}) {
               >
                 <Button
                   key="/courses"
-                  onClick={handleCloseNavMenu}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(`/courses`);
+                  }}
                   sx={{
                     my: "24px",
                     color: neural900,
@@ -264,39 +307,8 @@ function ResponsiveAppBar({user}) {
                     fontWeight: 600,
                     lineHeight: "140%",
                   }}
-                  href='/courses'
                 >
                   Courses
-                </Button>
-                <Button
-                  key="/blog"
-                  href="/mycourses"
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: "24px",
-                    color: neural900,
-                    display: "block",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: "140%",
-                  }}
-                >
-                  My Courses
-                </Button>
-                <Button
-                  key="/shoppingcart"
-                  href="/shoppingcart"
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: "24px",
-                    color: neural900,
-                    display: "block",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: "140%",
-                  }}
-                >
-                  shopping cart
                 </Button>
                 <Button
                   key="/aboutus"
@@ -332,8 +344,10 @@ function ResponsiveAppBar({user}) {
                 </Button>
                 <Button
                   key="/login"
-                  onClick={handleLogin}
-                  href={`/login`}
+                  onClick={() => {
+                    handleLogin();
+                    navigate(`/login`);
+                  }}
                   sx={{
                     ml: 2,
                     my: "24px",
@@ -364,7 +378,10 @@ function ResponsiveAppBar({user}) {
               >
                 <Button
                   key="/dashboard"
-                  onClick={handleCloseNavMenu}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(`/`);
+                  }}
                   sx={{
                     my: "24px",
                     color: neural900,
@@ -378,8 +395,10 @@ function ResponsiveAppBar({user}) {
                 </Button>
                 <Button
                   key="/courses"
-                  onClick={handleCloseNavMenu}
-                  href="/courses"
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(`/courses`);
+                  }}
                   sx={{
                     my: "24px",
                     color: neural900,
@@ -393,10 +412,10 @@ function ResponsiveAppBar({user}) {
                 </Button>
                 <Button
                   key="/mycourse"
-                  // onClick={handleCloseNavMenu}
-                  // as={Link}
-                  // to="/mycourses"
-                  href="/mycourses"
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(`/mycourses`);
+                  }}
                   sx={{
                     my: "24px",
                     color: neural900,
@@ -409,38 +428,13 @@ function ResponsiveAppBar({user}) {
                 >
                   My Course
                 </Button>
-                <Button
-                  key="/quiz"
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: "24px",
-                    color: neural900,
-                    display: "block",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: "140%",
-                  }}
-                >
-                  Quiz
-                </Button>
-                <Button
-                  key="/achievements"
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: "24px",
-                    color: neural900,
-                    display: "block",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: "140%",
-                  }}
-                >
-                  Achievements
-                </Button>
 
                 <Button
-                  key="/cart"
-                  onClick={handleCloseNavMenu}
+                  key="/profile"
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(`/myprofile`);
+                  }}
                   sx={{
                     my: "24px",
                     mr: 2,
@@ -451,15 +445,12 @@ function ResponsiveAppBar({user}) {
                     lineHeight: "140%",
                   }}
                 >
-                  My Cart
+                  Profile
                 </Button>
 
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src=""
-                    />
+                    <Avatar alt="Remy Sharp" src="" />
                   </IconButton>
                 </Tooltip>
                 <Menu

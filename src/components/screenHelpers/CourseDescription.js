@@ -9,7 +9,7 @@ import {
   CardMedia,
   Divider,
 } from "@mui/material";
-import { neural300, neural500, neural700, neural900, white } from "../../design/color";
+import { neural500, neural700, neural900 } from "../../design/color";
 import { fontType } from "../../design/font";
 import BasicRating from "../universal/BasicRating";
 
@@ -110,7 +110,7 @@ function CourseDescription({title, descriptions, lessons, instructor}) {
           >
             <ul>
               {lessons.map(lesson => (
-                <li>{lesson.title}</li>
+                <li key={lesson.title}>{lesson.title}</li>
               )).slice(0, 6)}
             </ul>
           </Typography>

@@ -24,6 +24,8 @@ import CourseScreen from "./screens/CourseScreen";
 import InstructorQuizScreen from "./screens/InstructorQuizScreen";
 import CreateQuizQuestionScreen from "./screens/CreateQuizQuestion";
 import EditQuizQuestionScreen from "./screens/EditQuizQuestion";
+import EditQuizScreen from "./screens/EditQuizScreen";
+import EditProfileScreen from "./screens/EditProfileScreen";
 
 
 function App() {
@@ -65,6 +67,10 @@ function App() {
               element={<CreateQuizScreen></CreateQuizScreen>}
             ></Route>
             <Route
+              path="/mycourses/:slug/myquiz/:quizSlug/edit"
+              element={<EditQuizScreen></EditQuizScreen>}
+            ></Route>
+            <Route
               path="/mycourses/:slug/myquiz/:quizSlug"
               element={<MyQuizScreen></MyQuizScreen>}
             ></Route>
@@ -83,6 +89,10 @@ function App() {
              <Route
               path="/myprofile"
               element={<MyProfileScreen></MyProfileScreen>}
+            ></Route>
+            <Route
+              path="/myprofile/edit"
+              element={<EditProfileScreen></EditProfileScreen>}
             ></Route>
             <Route
               path="/mycourses/:slug/:topicSlug"

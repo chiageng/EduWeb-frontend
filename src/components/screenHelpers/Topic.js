@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,13 +8,9 @@ import { Button, Grid } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { fontType } from "../../design/font";
 import {
-  neural500,
   neural900,
   orangeLight,
-  purplishBlue,
-  purplishBlueDark,
   purplishBlueLight,
-  purplishBluePale,
   red,
 } from "../../design/color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -24,7 +20,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function Topic({ topic, user }) {
-  const currentUrl = window.location.href;
   const dispatch = useDispatch();
   const params = useParams();
   const navigate = useNavigate();
@@ -42,108 +37,8 @@ export default function Topic({ topic, user }) {
   };
 
   const handleWatch = () => {
-    navigate(`/mycourses/${params.slug}/${topic.slug}`)
-  }
-
-  const old = (
-    <Box
-      sx={{
-        display: "flex",
-        flexGrow: 1,
-        justifyContent: "right",
-        pl: 1,
-        pb: 1,
-      }}
-    >
-      {user && user.user.is_staff && (
-        <Button
-          key="/handleEdit"
-          onClick={handleEdit}
-          sx={{
-            my: "24px",
-            display: "block",
-            fontSize: 14,
-            fontWeight: 600,
-            lineHeight: "140%",
-            borderRadius: 4,
-            height: 45,
-            width: 180,
-            mr: 3,
-            fontFamily: fontType,
-            backgroundColor: purplishBlueLight,
-            color: neural900,
-            fontWeight: 600,
-            ":hover": { backgroundColor: purplishBlueLight },
-          }}
-        >
-          <Grid container>
-            <Grid item mt={0.5} px={2}>
-              Edit Video
-            </Grid>
-            <Grid item pr={2}>
-              <EditOutlinedIcon />
-            </Grid>
-          </Grid>
-        </Button>
-      )}
-      {user && user.user.is_staff && (
-        <Button
-          key="/handleDelete"
-          onClick={handleDelete}
-          sx={{
-            my: "24px",
-            display: "block",
-            fontSize: 14,
-            fontWeight: 600,
-            lineHeight: "140%",
-            borderRadius: 4,
-            mr: 3,
-            fontFamily: fontType,
-            backgroundColor: red,
-            color: neural900,
-            fontWeight: 600,
-            ":hover": { backgroundColor: red },
-          }}
-        >
-          <Grid container>
-            <Grid item mt={0.5} px={2}>
-              Delete Video
-            </Grid>
-            <Grid item pr={2}>
-              <DeleteOutlineIcon />
-            </Grid>
-          </Grid>
-        </Button>
-      )}
-      <Button
-        key="/courses"
-        onClick={handleWatch}
-        sx={{
-          my: "24px",
-          display: "block",
-          fontSize: 14,
-          fontWeight: 600,
-          lineHeight: "140%",
-          borderRadius: 10,
-          mr: 3,
-          fontFamily: fontType,
-          backgroundColor: orangeLight,
-          color: neural900,
-          fontWeight: 600,
-          ":hover": { backgroundColor: orangeLight },
-        }}
-      >
-        <Grid container>
-          <Grid item mt={0.5} px={2}>
-            Watch Videos
-          </Grid>
-          <Grid item pr={2}>
-            <PlayArrowOutlinedIcon />
-          </Grid>
-        </Grid>
-      </Button>
-    </Box>
-  );
+    navigate(`/mycourses/${params.slug}/${topic.slug}`);
+  };
 
   return (
     <>
@@ -154,126 +49,125 @@ export default function Topic({ topic, user }) {
           mx: 5,
           borderRadius: "10px",
           mb: "16px",
+          alignItems: "center"
         }}
       >
         <CardMedia
           component="img"
-          sx={{ width: 64, mx: 2, height: 64, mt: 2 }}
+          sx={{ width: 64, mx: 2, height: 64}}
           image={topic && topic.image.Location}
         />
-        <Box sx={{ display: "flex", flexGrow: 1 }}>
-          <Grid container spacing={0} justifyContent="space-between">
-            <Grid item>
-              <CardContent>
-                <Typography
-                  component="div"
-                  variant="h5"
-                  fontFamily={fontType}
-                  fontWeight={700}
-                  color={neural900}
-                  fontSize="18px"
-                >
-                  {topic.title}
-                </Typography>
-              </CardContent>
-            </Grid>
-            <Grid item>
+        <Box sx={{ display: "flex", flexGrow: 1, minHeight: "100px", alignItems:"center" }}>
+          <CardContent>
+            <Typography
+              component="div"
+              variant="h5"
+              fontFamily={fontType}
+              fontWeight={700}
+              color={neural900}
+              fontSize="18px"
+            >
+              {topic.title}
+            </Typography>
+          </CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              flexGrow: 1,
+              justifyContent: "right",
+              minWidth: "600px"
+            }}
+          >
+            {user && user.user.is_staff && (
+              <Button
+                key="/handleEdit"
+                onClick={handleEdit}
+                sx={{
+                  my: "24px",
+                  display: "block",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  lineHeight: "140%",
+                  borderRadius: 4,
+                  height: 45,
+                  mr: 3,
+                  fontFamily: fontType,
+                  color: neural900,
+                  fontWeight: 600,
+                  backgroundColor: purplishBlueLight,
+                  ":hover": { backgroundColor: purplishBlueLight },
+                }}
+              >
+                <Grid container>
+                  <Grid item mt={0.5} px={2}>
+                    Edit
+                  </Grid>
+                  <Grid item pr={2}>
+                    <EditOutlinedIcon />
+                  </Grid>
+                </Grid>
+              </Button>
+            )}
+
+            {user && user.user.is_staff && (
+              <Button
+                key="/handleDelete"
+                onClick={handleDelete}
+                sx={{
+                  my: "24px",
+                  display: "block",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  lineHeight: "140%",
+                  borderRadius: 4,
+                  mr: 3,
+                  height: 45,
+                  fontFamily: fontType,
+                  backgroundColor: red,
+                  color: neural900,
+                  fontWeight: 600,
+                  ":hover": { backgroundColor: red },
+                }}
+              >
+                <Grid container>
+                  <Grid item mt={0.5} px={2}>
+                    Delete
+                  </Grid>
+                  <Grid item pr={2}>
+                    <DeleteOutlineIcon />
+                  </Grid>
+                </Grid>
+              </Button>
+            )}
+            <Button
+              key="/courses"
+              onClick={handleWatch}
+              sx={{
+                my: "24px",
+                display: "block",
+                fontSize: 14,
+                fontWeight: 600,
+                lineHeight: "140%",
+                borderRadius: 10,
+                height: 45,
+                mr: 3,
+                fontFamily: fontType,
+                backgroundColor: orangeLight,
+                color: neural900,
+                fontWeight: 600,
+                ":hover": { backgroundColor: orangeLight },
+              }}
+            >
               <Grid container>
-                <Grid item>
-                  {user && user.user.is_staff && (
-                    <Button
-                      key="/handleEdit"
-                      onClick={handleEdit}
-                      sx={{
-                        my: "24px",
-                        display: "block",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        lineHeight: "140%",
-                        borderRadius: 4,
-                        height: 45,
-                        mr: 3,
-                        fontFamily: fontType,
-                        backgroundColor: purplishBlueLight,
-                        color: neural900,
-                        fontWeight: 600,
-                        ":hover": { backgroundColor: purplishBlueLight },
-                      }}
-                    >
-                      <Grid container>
-                        <Grid item mt={0.5} px={2}>
-                          Edit
-                        </Grid>
-                        <Grid item pr={2}>
-                          <EditOutlinedIcon />
-                        </Grid>
-                      </Grid>
-                    </Button>
-                  )}
+                <Grid item mt={0.5} px={2}>
+                  Watch Videos
                 </Grid>
-                <Grid item>
-                  {user && user.user.is_staff && (
-                    <Button
-                      key="/handleDelete"
-                      onClick={handleDelete}
-                      sx={{
-                        my: "24px",
-                        display: "block",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        lineHeight: "140%",
-                        borderRadius: 4,
-                        mr: 3,
-                        fontFamily: fontType,
-                        backgroundColor: red,
-                        color: neural900,
-                        fontWeight: 600,
-                        ":hover": { backgroundColor: red },
-                      }}
-                    >
-                      <Grid container>
-                        <Grid item mt={0.5} px={2}>
-                          Delete
-                        </Grid>
-                        <Grid item pr={2}>
-                          <DeleteOutlineIcon />
-                        </Grid>
-                      </Grid>
-                    </Button>
-                  )}
-                </Grid>
-                <Grid item>
-                  <Button
-                    key="/courses"
-                    onClick={handleWatch}
-                    sx={{
-                      my: "24px",
-                      display: "block",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      lineHeight: "140%",
-                      borderRadius: 10,
-                      mr: 3,
-                      fontFamily: fontType,
-                      backgroundColor: orangeLight,
-                      color: neural900,
-                      fontWeight: 600,
-                      ":hover": { backgroundColor: orangeLight },
-                    }}
-                  >
-                    <Grid container>
-                      <Grid item mt={0.5} px={2}>
-                        Watch Videos
-                      </Grid>
-                      <Grid item pr={2}>
-                        <PlayArrowOutlinedIcon />
-                      </Grid>
-                    </Grid>
-                  </Button>
+                <Grid item pr={2}>
+                  <PlayArrowOutlinedIcon />
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </Button>
+          </Box>
         </Box>
       </Card>
 
@@ -283,11 +177,12 @@ export default function Topic({ topic, user }) {
           display: { xs: "flex", md: "none" },
           borderRadius: 3,
           mb: "16px",
+          alignItems:"center"
         }}
       >
         <CardMedia
           component="img"
-          sx={{ width: 40, mx: 1, height: 40, mt: 2 }}
+          sx={{ width: 40, mx: 1, height: 40 }}
           image={topic.image.Location}
         />
         <Box sx={{ display: "flex", flexGrow: 1 }}>
@@ -299,6 +194,7 @@ export default function Topic({ topic, user }) {
               fontFamily={fontType}
               fontWeight={700}
               color={neural900}
+              mr={0}
             >
               {topic.title}
             </Typography>
@@ -308,6 +204,8 @@ export default function Topic({ topic, user }) {
               display: "flex",
               flexGrow: 1,
               justifyContent: "right",
+              minWidth: "150px",
+              alignItems: "center"
             }}
           >
             {user && user.user.is_staff && (
@@ -321,7 +219,7 @@ export default function Topic({ topic, user }) {
                   fontWeight: 600,
                   lineHeight: "140%",
                   borderRadius: 5,
-                  mr: 2,
+                  mr: 1,
                   width: 36,
                   height: 36,
                   fontFamily: fontType,
@@ -344,9 +242,9 @@ export default function Topic({ topic, user }) {
                 fontWeight: 600,
                 lineHeight: "140%",
                 borderRadius: 5,
-                mr: 2,
                 width: 36,
                 height: 36,
+                mr:1,
                 backgroundColor: orangeLight,
                 color: neural900,
                 ":hover": { backgroundColor: orangeLight },

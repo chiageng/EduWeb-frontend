@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/universal/Message';
 import axios from 'axios';
-import { forceLogout, logout } from '../actions/userActions';
+import { forceLogout } from '../actions/userActions';
 
 function Header() {
   const currentUrl = window.location.pathname;

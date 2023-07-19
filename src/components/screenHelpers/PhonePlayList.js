@@ -32,7 +32,7 @@ export default function PhonePlayList({lessons, title, instructor}) {
   const params = useParams();
 
   const output= lessons && lessons.map(lesson => (
-    <ListItem sx={{ py: "8px" }}>
+    <ListItem sx={{ py: "8px" }} key={lesson._id}>
       <Button
         onClick={() => navigate(`/mycourses/${params.slug}/${lesson.slug}`)}
         style={{ textAlign: "left" }}

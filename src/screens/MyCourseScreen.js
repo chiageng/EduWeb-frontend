@@ -10,7 +10,6 @@ import {
   white,
   purplishBlueDark,
   orangeLight,
-  orangePale,
 } from "../design/color";
 import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
@@ -145,6 +144,8 @@ function MyCourseScreen() {
                     fontSize: 14,
                     mb: 2,
                     mr: 2,
+                    px: 2,
+                    py: 1,
                     fontWeight: 600,
                     width: "100%",
                     borderRadius: 3,
@@ -164,6 +165,8 @@ function MyCourseScreen() {
                     color: neural900,
                     fontSize: 14,
                     mb: 2,
+                    px: 2,
+                    py: 1,
                     fontWeight: 600,
                     width: "100%",
                     borderRadius: 3,
@@ -184,6 +187,8 @@ function MyCourseScreen() {
                     fontSize: 14,
                     mb: 2,
                     mr: 2,
+                    px: 2,
+                    py: 1,
                     fontWeight: 600,
                     width: "100%",
                     borderRadius: 3,
@@ -210,9 +215,7 @@ function MyCourseScreen() {
                     ml: 2,
                     ":hover": { backgroundColor: purplishBlueDark },
                   }}
-                  // href={`/mycourses/${params.id}/myquiz`}
-                  as={Link}
-                  to={`/mycourses/${params.slug}/myquiz`}
+                  onClick={() => navigate(`/mycourses/${params.slug}/myquiz`)}
                 >
                   View Quiz
                 </Button>
@@ -222,25 +225,51 @@ function MyCourseScreen() {
 
           {/* Button if not instructor */}
           {!user.user.is_staff && (
-            <Button
-              sx={{
-                backgroundColor: purplishBlue,
-                fontFamily: fontType,
-                color: white,
-                fontSize: 14,
-                width: "100%",
-                borderRadius: 3,
-                textDecoration: "none",
-                px: 2,
-                py: 1,
-                ":hover": { backgroundColor: purplishBlueDark },
-              }}
-              // href={`/mycourses/${params.id}/myquiz`}
-              as={Link}
-              to={`/mycourses/${params.slug}/myquiz`}
-            >
-              View Quiz
-            </Button>
+            <>
+              <Grid container display={{ xs: "none", md: "block" }}>
+                <Grid item xs={1.5}>
+                  <Button
+                    sx={{
+                      backgroundColor: purplishBlue,
+                      fontFamily: fontType,
+                      color: white,
+                      fontSize: 14,
+                      width: "100%",
+                      borderRadius: 3,
+                      textDecoration: "none",
+                      px: 2,
+                      py: 1,
+                      ":hover": { backgroundColor: purplishBlueDark },
+                    }}
+                    onClick={() => navigate(`/mycourses/${params.slug}/myquiz`)}
+                  >
+                    View Quiz
+                  </Button>
+                </Grid>
+              </Grid>
+
+              <Grid container display={{ xs: "block", md: "none" }}>
+                <Grid item xs={12}>
+                  <Button
+                    sx={{
+                      backgroundColor: purplishBlue,
+                      fontFamily: fontType,
+                      color: white,
+                      fontSize: 14,
+                      width: "100%",
+                      borderRadius: 3,
+                      textDecoration: "none",
+                      px: 2,
+                      py: 1,
+                      ":hover": { backgroundColor: purplishBlueDark },
+                    }}
+                    onClick={() => navigate(`/mycourses/${params.slug}/myquiz`)}
+                  >
+                    View Quiz
+                  </Button>
+                </Grid>
+              </Grid>
+            </>
           )}
 
           <Box mt={2}>

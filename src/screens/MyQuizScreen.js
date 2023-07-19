@@ -8,7 +8,6 @@ import {
   Breadcrumbs,
   Card,
   CardContent,
-  CardMedia,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import {

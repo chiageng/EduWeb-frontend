@@ -18,10 +18,14 @@ import {
   red,
 } from "../../design/color";
 import { fontType } from "../../design/font";
+import Loader from "../universal/Loader";
 
-export const CourseForm = ({title, setTitle, price, setPrice, preview, handleImage, handleImageRemove, handleSubmit, loading}) => {
+export const CourseForm = ({title, setTitle, price, setPrice, preview, handleImage, handleImageRemove, handleSubmit, loading, imageLoading, imageDeleteLoading}) => {
+
   return (
-    <Grid container>
+    <>
+    {loading && <Loader/>}
+    {!loading && <Grid container>
           <Grid item xs={0} sm={3}></Grid>
           <Grid item xs={12} sm={6}>
             <Card>
@@ -122,8 +126,8 @@ export const CourseForm = ({title, setTitle, price, setPrice, preview, handleIma
                       hidden
                       onChange={handleImage}
                     />
-                    <Button variant="contained" component="span">
-                      {loading ? 'Uploading...' : 'Upload Image'}
+                    <Button variant="contained" component="span" disabled={imageLoading || imageDeleteLoading}>
+                      {imageLoading ? 'Uploading...' : imageDeleteLoading ? "Deleting..." : 'Upload Image'}
                     </Button>
                     {preview && (
                       <Button
@@ -139,6 +143,7 @@ export const CourseForm = ({title, setTitle, price, setPrice, preview, handleIma
                           },
                         }}  
                         onClick={handleImageRemove}
+                        disabled={imageLoading || imageDeleteLoading}
                       >
                         Remove
                       </Button>
@@ -171,6 +176,7 @@ export const CourseForm = ({title, setTitle, price, setPrice, preview, handleIma
             </Card>
           </Grid>
           <Grid item></Grid>
-        </Grid>
+        </Grid>}
+        </>
   )
 }

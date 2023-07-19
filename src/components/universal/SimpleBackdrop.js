@@ -12,11 +12,8 @@ import {
   white,
 } from "../../design/color";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { useNavigate, useParams } from "react-router-dom";
 
 export default function SimpleBackdrop({ end, onClick, result, totalQuestions, buttonHandler }) {
-  const params = useParams();
-  const navigate = useNavigate();
 
   return (
     <>
