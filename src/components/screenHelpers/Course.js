@@ -100,7 +100,7 @@ function Course({ course, staff, progress }) {
         >
           <Button
             size="small"
-            onClick={() => navigate(`/mycourses/${course._id}/myquiz`)}
+            onClick={() => navigate(`/mycourses/${course._slug}/myquiz`)}
             sx={{
               color: neural900,
               fontSize: 12,
