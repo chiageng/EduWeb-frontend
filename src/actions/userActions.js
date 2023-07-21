@@ -22,7 +22,7 @@ import {
 import axios from "axios";
 import { COURSES_VIEW_RESET } from "../constants/course";
 
-const domain = "http://localhost:8000"
+const domain = "http://localhost:3000"
 
 export const registerUser =
   ({ email, password, name }) =>
