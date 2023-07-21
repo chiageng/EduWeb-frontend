@@ -38,7 +38,7 @@ import {
 } from "../constants/course";
 import axios from "axios";
 
-const domain = "https://eduweb-backend.cg-test.co"
+const domain = "http://localhost:8000"
 
 export const createCourse =
   ({ title, price, image }) =>

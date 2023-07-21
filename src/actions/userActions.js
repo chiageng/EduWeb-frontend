@@ -22,7 +22,7 @@ import {
 import axios from "axios";
 import { COURSES_VIEW_RESET } from "../constants/course";
 
-const domain = "https://eduweb-backend.cg-test.co"
+const domain = "http://localhost:8000"
 
 export const registerUser =
   ({ email, password, name }) =>
