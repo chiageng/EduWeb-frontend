@@ -38,7 +38,7 @@ import {
 } from "../constants/course";
 import axios from "axios";
 
-const domain = "http://localhost:3000"
+const domain = "http://localhost:8000"
 
 export const createCourse =
   ({ title, price, image }) =>
