@@ -38,6 +38,8 @@ import {
 } from "../constants/course";
 import axios from "axios";
 
+const domain = "https://eduweb-backend.cg-test.co"
+
 export const createCourse =
   ({ title, price, image }) =>
   async (dispatch) => {
@@ -52,7 +54,7 @@ export const createCourse =
         },
       };
       const { data } = await axios.post(
-        "/api/course/createcourse",
+        `${domain}/api/course/createcourse`,
         { title, price, image },
         config
       );
@@ -80,7 +82,7 @@ export const viewCourses = () => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get("/api/instructor/courses", config);
+    const { data } = await axios.get(`${domain}/api/instructor/courses`, config);
 
     dispatch({
       type: COURSES_VIEW_SUCCESS,
@@ -105,7 +107,7 @@ export const userViewCourses = () => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get("/api/user/courses", config);
+    const { data } = await axios.get(`${domain}/api/user/courses`, config);
 
     dispatch({
       type: COURSES_VIEW_SUCCESS,
@@ -130,7 +132,7 @@ export const viewPriceCourses = () => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get("/api/courses", config);
+    const { data } = await axios.get(`${domain}/api/courses`, config);
 
     dispatch({
       type: COURSES_PRICE_VIEW_SUCCESS,
@@ -155,7 +157,7 @@ export const viewCourse = (slug) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/course/${slug}`, config);
+    const { data } = await axios.get(`${domain}/api/course/${slug}`, config);
 
     dispatch({
       type: COURSE_VIEW_SUCCESS,
@@ -180,7 +182,7 @@ export const userViewCourse = (slug) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/user/course/${slug}`, config);
+    const { data } = await axios.get(`${domain}/api/user/course/${slug}`, config);
 
     dispatch({
       type: COURSE_VIEW_SUCCESS,
@@ -205,7 +207,7 @@ export const viewPriceCourse = (slug) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/course/cart/${slug}`, config);
+    const { data } = await axios.get(`${domain}/api/course/cart/${slug}`, config);
 
     dispatch({
       type: COURSE_VIEW_SUCCESS,
@@ -231,7 +233,7 @@ export const createTopic = (slug, title, video, image) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      `/api/course/${slug}/createtopic/`,
+      `${domain}/api/course/${slug}/createtopic/`,
       { title, video, image },
       config
     );
@@ -262,7 +264,7 @@ export const editCourse =
         },
       };
       const { data } = await axios.put(
-        `/api/course/${slug}/editcourse`,
+        `${domain}/api/course/${slug}/editcourse`,
         { title, price, image },
         config
       );
@@ -293,7 +295,7 @@ export const deleteTopic =
         },
       };
       const { data } = await axios.put(
-        `/api/course/${slug}/${lesson_id}`,
+        `${domain}/api/course/${slug}/${lesson_id}`,
         config
       );
 
@@ -323,7 +325,7 @@ export const editTopic =
         },
       };
       const { data } = await axios.post(
-        `/api/course/${slug}/${lesson_id}/edit`,
+        `${domain}/api/course/${slug}/${lesson_id}/edit`,
         { title, video, image },
         config
       );
@@ -354,7 +356,7 @@ export const viewTopic =
         },
       };
       const { data } = await axios.get(
-        `/api/course/${slug}/${lesson_id}/view`,
+        `${domain}/api/course/${slug}/${lesson_id}/view`,
         config
       );
 
@@ -381,7 +383,7 @@ export const checkEnroll = (slug) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/course/cart/${slug}/check`, config);
+    const { data } = await axios.get(`${domain}/api/course/cart/${slug}/check`, config);
 
     dispatch({
       type: CHECK_ENROLL_SUCCESS,
@@ -406,7 +408,7 @@ export const enrollCourse = (slug) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.post(`/api/course/cart/${slug}/enroll`, config);
+    const { data } = await axios.post(`${domain}/api/course/cart/${slug}/enroll`, config);
 
     dispatch({
       type: COURSE_ENROLL_SUCCESS,
@@ -431,7 +433,7 @@ export const watchVideo = ({slug, topicSlug}) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/course/${slug}/${topicSlug}`, config);
+    const { data } = await axios.get(`${domain}/api/course/${slug}/${topicSlug}`, config);
 
     dispatch({
       type: WATCH_VIDEO_SUCCESS,
@@ -457,7 +459,7 @@ export const userWatchVideo = ({slug, topicSlug}) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/user/course/${slug}/${topicSlug}`, config);
+    const { data } = await axios.get(`${domain}/api/user/course/${slug}/${topicSlug}`, config);
 
     dispatch({
       type: WATCH_VIDEO_SUCCESS,

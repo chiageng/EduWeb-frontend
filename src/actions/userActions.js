@@ -22,13 +22,15 @@ import {
 import axios from "axios";
 import { COURSES_VIEW_RESET } from "../constants/course";
 
+const domain = "https://eduweb-backend.cg-test.co"
+
 export const registerUser =
   ({ email, password, name }) =>
   async (dispatch) => {
     try {
       dispatch({ type: USER_REGISTER_REQUEST });
 
-      const { data } = await axios.post("/api/register", {
+      const { data } = await axios.post(`${domain}/api/register`, {
         email,
         password,
         name,
@@ -62,7 +64,7 @@ export const loginUser =
         },
       };
       const { data } = await axios.post(
-        "/api/login",
+        `${domain}/api/login`,
         { email: email, password: password },
         config
       );
@@ -92,7 +94,7 @@ export const logout = () => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get("/api/logout", config);
+    const { data } = await axios.get(`${domain}/api/logout`, config);
 
     dispatch({ type: LOGOUT });
     dispatch({ type: COURSES_VIEW_RESET });
@@ -123,7 +125,7 @@ export const forceLogout = () => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get("/api/logout", config);
+    const { data } = await axios.get(`${domain}/api/logout`, config);
 
     dispatch({
       type: USER_LOGOUT_SUCCESS,
@@ -169,7 +171,7 @@ export const editProfile =
         },
       };
       const { data } = await axios.put(
-        `/api/myprofile/edit`,
+        `${domain}/api/myprofile/edit`,
         {
           name,
           examTitle,
@@ -209,7 +211,7 @@ export const viewProfile = () => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/myprofile`, config);
+    const { data } = await axios.get(`${domain}/api/myprofile`, config);
 
     dispatch({
       type: VIEW_PROFILE_SUCCESS,
