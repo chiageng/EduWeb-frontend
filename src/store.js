@@ -33,6 +33,7 @@ import {
   quizzesViewReducers,
 } from "./reducers/quizReducer";
 import { imageDeleteReducers, imageUploadReducers, videoDeleteReducers, videoUploadReducers } from "./reducers/uploadReducer";
+import { commentCreateReducers } from "./reducers/forumReducer";
 
 const userInfoFromStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user")) !== null
@@ -78,6 +79,7 @@ const store = configureStore({
     imageDelete: imageDeleteReducers,
     videoDelete: videoDeleteReducers,
     videoUpload: videoUploadReducers,
+    commentCreate: commentCreateReducers,
   },
   preloadedState: initialState,
   middleware: middleware,

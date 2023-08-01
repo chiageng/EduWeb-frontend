@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import VideoPlayer from "../components/screenHelpers/VideoPlayer";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -28,15 +28,22 @@ import PhonePlayList from "../components/screenHelpers/PhonePlayList";
 import { useDispatch, useSelector } from "react-redux";
 import { userWatchVideo, watchVideo } from "../actions/courseActions";
 import Loader from "../components/universal/Loader";
+import { createComment, updateForum, userUpdateForum } from "../actions/forumActions";
+import { COMMENT_CREATE_RESET } from "../constants/forum";
 
 function VideoScreen() {
+  const [comment, setComment] = useState("");
+
   const params = useParams();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const videoWatch = useSelector((state) => state.videoWatch);
-  const { loading, lesson, lessons, error, course } = videoWatch;
+  const { loading, lesson, lessons, error, course, comments } = videoWatch;
+
+  const commentCreate = useSelector(state => state.commentCreate);
+  const { success:commentCreateSuccess } = commentCreate;
 
   const userLogin = useSelector(state => state.userLogin);
   const { user } = userLogin;
@@ -83,6 +90,20 @@ function VideoScreen() {
     </Breadcrumbs>
   );
 
+  const submitComment = (e) => {
+    e.preventDefault();
+
+    dispatch(createComment({ course: params.slug, lesson: lesson._id, comment}))
+
+    setComment("");
+  }
+
+  const scrollRef = useRef(null);
+
+  const scrollToBottom = () => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
   useEffect(() => {
     if ((!lesson || lesson.slug != params.topicSlug) && user.user.is_staff ) {
       dispatch(watchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
@@ -90,7 +111,17 @@ function VideoScreen() {
     if ((!lesson || lesson.slug != params.topicSlug) && !user.user.is_staff ) {
       dispatch(userWatchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
     }
-  }, [params, user]);
+    if (commentCreateSuccess && user.user.is_staff) {
+      dispatch(updateForum({ slug: params.slug, topicSlug: params.topicSlug }));
+      dispatch({ type: COMMENT_CREATE_RESET })
+    }
+    if (commentCreateSuccess && !user.user.is_staff) {
+      dispatch(userUpdateForum({ slug: params.slug, topicSlug: params.topicSlug }));
+      dispatch({ type: COMMENT_CREATE_RESET })
+    }
+    
+    
+  }, [params, user, lesson, commentCreateSuccess, comments]);
 
   return (
     <Container>
@@ -191,7 +222,7 @@ function VideoScreen() {
               <PhonePlayList lessons={lessons} title={course && course.title} instructor={course && course.instructor_name}/>
 
               {/* Forum for both phone and webpage */}
-              <Forum />
+              <Forum  comment={comment} setComment={setComment} submitComment={submitComment} comments={comments} scrollRef={scrollRef} currentUser={user.user.name}/>
             </Grid>
 
             {/* Webpage playlist */}

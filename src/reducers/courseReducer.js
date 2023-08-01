@@ -54,6 +54,7 @@ import {
   WATCH_VIDEO_FAIL,
   WATCH_VIDEO_REQUEST,
   WATCH_VIDEO_SUCCESS,
+  WATCH_VIDEO_RESET
 
 } from "../constants/course";
 
@@ -261,10 +262,13 @@ export const videoWatchReducers = (state = {}, action) => {
       return { loading: true };
 
     case WATCH_VIDEO_SUCCESS:
-      return { loading: false, course: action.payload.course, lessons: action.payload.lessons, lesson: action.payload.lesson };
+      return { loading: false, course: action.payload.course, lessons: action.payload.lessons, lesson: action.payload.lesson, comments: action.payload.comments };
 
     case WATCH_VIDEO_FAIL:
       return { loading: false, error: action.payload };
+
+    case WATCH_VIDEO_RESET:
+      return { }
 
     default:
       return state;
