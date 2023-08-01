@@ -28,7 +28,12 @@ import PhonePlayList from "../components/screenHelpers/PhonePlayList";
 import { useDispatch, useSelector } from "react-redux";
 import { userWatchVideo, watchVideo } from "../actions/courseActions";
 import Loader from "../components/universal/Loader";
-import { createComment, updateForum, userUpdateForum } from "../actions/forumActions";
+import {
+  createComment,
+  updateForum,
+  userUpdateForum,
+  viewForum,
+} from "../actions/forumActions";
 import { COMMENT_CREATE_RESET } from "../constants/forum";
 
 function VideoScreen() {
@@ -40,12 +45,15 @@ function VideoScreen() {
   const navigate = useNavigate();
 
   const videoWatch = useSelector((state) => state.videoWatch);
-  const { loading, lesson, lessons, error, course, comments } = videoWatch;
+  const { loading, lesson, lessons, error, course } = videoWatch;
 
-  const commentCreate = useSelector(state => state.commentCreate);
-  const { success:commentCreateSuccess } = commentCreate;
+  const forumView = useSelector((state) => state.forumView);
+  const { loading: forumLoading, forum } = forumView;
 
-  const userLogin = useSelector(state => state.userLogin);
+  const commentCreate = useSelector((state) => state.commentCreate);
+  const { success: commentCreateSuccess } = commentCreate;
+
+  const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
 
   const breadcrumb = (
@@ -93,35 +101,33 @@ function VideoScreen() {
   const submitComment = (e) => {
     e.preventDefault();
 
-    dispatch(createComment({ course: params.slug, lesson: lesson._id, comment}))
+    dispatch(
+      createComment({ course: params.slug, lesson: lesson._id, comment })
+    );
 
     setComment("");
-  }
+  };
 
   const scrollRef = useRef(null);
 
-  const scrollToBottom = () => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
-
   useEffect(() => {
-    if ((!lesson || lesson.slug != params.topicSlug) && user.user.is_staff ) {
+    if (!lesson || lesson.slug != params.topicSlug) {
       dispatch(watchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
     }
-    if ((!lesson || lesson.slug != params.topicSlug) && !user.user.is_staff ) {
-      dispatch(userWatchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
+    if (commentCreateSuccess) {
+      dispatch(updateForum({ slug: params.slug, topicSlug: params.topicSlug, forumId: lesson.forum }));
+      dispatch({ type: COMMENT_CREATE_RESET });
     }
-    if (commentCreateSuccess && user.user.is_staff) {
-      dispatch(updateForum({ slug: params.slug, topicSlug: params.topicSlug }));
-      dispatch({ type: COMMENT_CREATE_RESET })
+    if (lesson && !forum) {
+      dispatch(
+        viewForum({
+          slug: params.slug,
+          topicSlug: params.topicSlug,
+          forumId: lesson.forum,
+        })
+      );
     }
-    if (commentCreateSuccess && !user.user.is_staff) {
-      dispatch(userUpdateForum({ slug: params.slug, topicSlug: params.topicSlug }));
-      dispatch({ type: COMMENT_CREATE_RESET })
-    }
-    
-    
-  }, [params, user, lesson, commentCreateSuccess, comments]);
+  }, [params, user, lesson, commentCreateSuccess, forum]);
 
   return (
     <Container>
@@ -144,7 +150,10 @@ function VideoScreen() {
           {breadcrumb}
           <Grid container spacing={5}>
             <Grid item xs={12} md={8}>
-              <VideoPlayer video={lesson && lesson.video.Location} image={lesson && lesson.image.Location} />
+              <VideoPlayer
+                video={lesson && lesson.video.Location}
+                image={lesson && lesson.image.Location}
+              />
               <Card
                 sx={{
                   display: "flex",
@@ -219,15 +228,31 @@ function VideoScreen() {
               </Card>
 
               {/* Phone Playlist */}
-              <PhonePlayList lessons={lessons} title={course && course.title} instructor={course && course.instructor_name}/>
+              <PhonePlayList
+                lessons={lessons}
+                title={course && course.title}
+                instructor={course && course.instructor_name}
+              />
 
               {/* Forum for both phone and webpage */}
-              <Forum  comment={comment} setComment={setComment} submitComment={submitComment} comments={comments} scrollRef={scrollRef} currentUser={user.user.name}/>
+              <Forum
+                comment={comment}
+                setComment={setComment}
+                submitComment={submitComment}
+                comments={forum}
+                scrollRef={scrollRef}
+                currentUser={user.user.name}
+                loading={forumLoading}
+              />
             </Grid>
 
             {/* Webpage playlist */}
             <Grid item md={4} display={{ xs: "none", md: "flex" }}>
-              <PlayList lessons={lessons} title={course && course.title} instructor={course && course.instructor_name}/>
+              <PlayList
+                lessons={lessons}
+                title={course && course.title}
+                instructor={course && course.instructor_name}
+              />
             </Grid>
           </Grid>
         </Box>

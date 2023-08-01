@@ -18,6 +18,7 @@ import {
   purplishBlueDark,
 } from "../../design/color";
 import { useDispatch } from "react-redux";
+import Loader from "../universal/Loader";
 
 export default function Forum({
   comment,
@@ -26,6 +27,7 @@ export default function Forum({
   comments,
   scrollRef,
   currentUser,
+  loading,
 }) {
   const item =
     comments &&
@@ -98,7 +100,6 @@ export default function Forum({
       scrollRef.current.scrollIntoView({
         behavior: "smooth",
         block: "end",
-        inline: "nearest",
       });
     }
   }, [item]);
@@ -113,63 +114,68 @@ export default function Forum({
         height: "430px",
       }}
     >
-      <Box
-        component="div"
-        id="scrollBottom"
-        sx={{
-          overflowY: "scroll",
-          height: "350px",
-          "&:hover::-webkit-scrollbar": {
-            display: "block",
-          },
-          "&::-webkit-scrollbar": {
-            display: "block",
-            width: "0.512rem",
-          },
-          "&::-webkit-scrollbar-track": {
-            boxShadow: `inset 0 0 6px ${purplishBluePale}`,
-            webkitBoxShadow: `inset 0 0 6px ${purplishBluePale}`,
-            backgroundColor: purplishBluePale,
-            borderRadius: "8px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: purplishBlue,
-            borderRadius: "8px",
-          },
-        }}
-      >
-        {/* Display all comments session */}
-        {item}
-        <Box component="div" ref={scrollRef} />
-      </Box>
-
-            {/* Comment session */}
-            <CardContent sx={{ py: "8px" }}>
-        <Box
-          item
-          xs={8}
-          sm={10}
-          display="block"
-          mt={1}
-          component="form"
-          onSubmit={submitComment}
-        >
-          <TextField
-            inputProps={{
-              style: {
-                fontSize: 14,
+      {loading && <Loader />}
+      {!loading && (
+        <>
+          <Box
+            component="div"
+            id="scrollBottom"
+            sx={{
+              overflowY: "scroll",
+              height: "350px",
+              "&:hover::-webkit-scrollbar": {
+                display: "block",
+              },
+              "&::-webkit-scrollbar": {
+                display: "block",
+                width: "0.512rem",
+              },
+              "&::-webkit-scrollbar-track": {
+                boxShadow: `inset 0 0 6px ${purplishBluePale}`,
+                webkitBoxShadow: `inset 0 0 6px ${purplishBluePale}`,
                 backgroundColor: purplishBluePale,
-                color: purplishBlueDark,
+                borderRadius: "8px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: purplishBlue,
+                borderRadius: "8px",
               },
             }}
-            size="small"
-            fullWidth
-            label="Write a comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-        </Box>
-      </CardContent>
+          >
+            {/* Display all comments session */}
+            {item}
+            <Box component="div" ref={scrollRef} />
+          </Box>
+
+          {/* Comment session */}
+          <CardContent sx={{ py: "8px" }}>
+            <Box
+              xs={8}
+              sm={10}
+              display="block"
+              mt={1}
+              component="form"
+              onSubmit={submitComment}
+            >
+              <TextField
+                inputProps={{
+                  style: {
+                    fontSize: 14,
+                    backgroundColor: purplishBluePale,
+                    color: purplishBlueDark,
+                    height: 20,
+                  },
+                }}
+                size="small"
+                fullWidth
+                label="Write a comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </Box>
+          </CardContent>
+        </>
+      )}
     </Card>
   );
 }

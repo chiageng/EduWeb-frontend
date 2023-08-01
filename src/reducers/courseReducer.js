@@ -262,7 +262,7 @@ export const videoWatchReducers = (state = {}, action) => {
       return { loading: true };
 
     case WATCH_VIDEO_SUCCESS:
-      return { loading: false, course: action.payload.course, lessons: action.payload.lessons, lesson: action.payload.lesson, comments: action.payload.comments };
+      return { loading: false, course: action.payload.course, lessons: action.payload.lessons, lesson: action.payload.lesson };
 
     case WATCH_VIDEO_FAIL:
       return { loading: false, error: action.payload };
