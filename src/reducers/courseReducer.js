@@ -47,6 +47,18 @@ import {
   CHECK_ENROLL_REQUEST,
   CHECK_ENROLL_SUCCESS,
 
+  CHECK_STUDENTS_ENROLLMENT_FAIL,
+  CHECK_STUDENTS_ENROLLMENT_REQUEST,
+  CHECK_STUDENTS_ENROLLMENT_SUCCESS,
+
+  APPROVE_STUDENTS_ENROLLMENT_FAIL,
+  APPROVE_STUDENTS_ENROLLMENT_REQUEST,
+  APPROVE_STUDENTS_ENROLLMENT_SUCCESS,
+
+  REMOVE_STUDENTS_ENROLLMENT_FAIL,
+  REMOVE_STUDENTS_ENROLLMENT_REQUEST,
+  REMOVE_STUDENTS_ENROLLMENT_SUCCESS,
+
   COURSE_ENROLL_FAIL,
   COURSE_ENROLL_REQUEST,
   COURSE_ENROLL_SUCCESS,
@@ -229,9 +241,57 @@ export const checkEnrolledReducers = (state = {}, action) => {
       return { loading: true };
 
     case CHECK_ENROLL_SUCCESS:
-      return { loading: false, enroll: action.payload };
+      return { loading: false, enrollment: action.payload };
 
     case CHECK_ENROLL_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+}
+
+export const checkStudentsEnrollmentReducers = (state = {}, action) => {
+  switch (action.type) {
+    case CHECK_STUDENTS_ENROLLMENT_REQUEST:
+      return { loading: true };
+
+    case CHECK_STUDENTS_ENROLLMENT_SUCCESS:
+      return { loading: false, enrollment: action.payload };
+
+    case CHECK_STUDENTS_ENROLLMENT_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+}
+
+export const approveStudentsEnrollmentReducers = (state = {}, action) => {
+  switch (action.type) {
+    case APPROVE_STUDENTS_ENROLLMENT_REQUEST:
+      return { loading: true };
+
+    case APPROVE_STUDENTS_ENROLLMENT_SUCCESS:
+      return { loading: false, success: true };
+
+    case APPROVE_STUDENTS_ENROLLMENT_FAIL:
+      return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+}
+
+export const removeStudentsEnrollmentReducers = (state = {}, action) => {
+  switch (action.type) {
+    case REMOVE_STUDENTS_ENROLLMENT_REQUEST:
+      return { loading: true };
+
+    case REMOVE_STUDENTS_ENROLLMENT_SUCCESS:
+      return { loading: false, success: true };
+
+    case REMOVE_STUDENTS_ENROLLMENT_FAIL:
       return { loading: false, error: action.payload };
 
     default:

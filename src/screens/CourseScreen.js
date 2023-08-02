@@ -23,18 +23,29 @@ function CourseScreen() {
   const { loading, course, lessons, error } = courseView;
 
   const enrollCheck = useSelector((state) => state.enrollCheck);
-  const { loading: enrollLoading, enroll } = enrollCheck;
+  const { loading: enrollLoading, enrollment } = enrollCheck;
+
+  const courseEnroll = useSelector(state => state.courseEnroll);
+  const { success } = courseEnroll;
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { user } = userLogin;
 
   useEffect(() => {
     if (!course || course.slug != params.slug) {
       dispatch(viewPriceCourse(params.slug));
       dispatch(checkEnroll(params.slug));
     }
+
   }, [params, course]);
+
+  useEffect(() => {
+    dispatch(checkEnroll(params.slug));
+  }, [success])
 
   const handleAddToCart = (e) => {
     e.preventDefault();
-    if (!enroll) {
+    if (!enrollment) {
       dispatch(enrollCourse(params.slug));
     } else {
       navigate(`/mycourses/${params.slug}`);
@@ -66,8 +77,9 @@ function CourseScreen() {
                   key={course._id}
                   price={course.price}
                   onClick={handleAddToCart}
-                  enroll={enroll}
+                  enrollment={enrollment}
                   image={course.image.Location}
+                  isStaff={user.user.is_staff}
                 />
               )}
             </Grid>
@@ -88,9 +100,9 @@ function CourseScreen() {
                   key={course._id}
                   price={course.price}
                   onClick={handleAddToCart}
-                  enroll={enroll}
+                  enrollment={enrollment}
                   image={course.image.Location}
-          
+                  isStaff={user.user.is_staff}
                 />
               )}
               <Review />

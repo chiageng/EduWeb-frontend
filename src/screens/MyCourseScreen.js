@@ -13,7 +13,7 @@ import {
 } from "../design/color";
 import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { userViewCourse, viewCourse } from "../actions/courseActions";
+import { viewCourse } from "../actions/courseActions";
 import Topic from "../components/screenHelpers/Topic";
 import Loader from "../components/universal/Loader";
 import axios from "axios";
@@ -73,11 +73,8 @@ function MyCourseScreen() {
     if (!user) {
       navigate("./login");
     }
-    if (user && user.user.is_staff) {
+    if (user && !course || course.slug !== params.slug) {
       dispatch(viewCourse(params.slug));
-    }
-    if (user && !user.user.is_staff) {
-      dispatch(userViewCourse(params.slug));
     }
   }, [params, userLogin, user, topicDelete, toggle]);
 
@@ -143,7 +140,6 @@ function MyCourseScreen() {
                     color: neural900,
                     fontSize: 14,
                     mb: 2,
-                    mr: 2,
                     px: 2,
                     py: 1,
                     fontWeight: 600,
@@ -178,7 +174,7 @@ function MyCourseScreen() {
                   Edit Course
                 </Button>
               </Grid>
-              <Grid item>
+              <Grid item mr={2}>
                 <Button
                   sx={{
                     backgroundColor: orangeLight,
@@ -186,7 +182,6 @@ function MyCourseScreen() {
                     color: neural900,
                     fontSize: 14,
                     mb: 2,
-                    mr: 2,
                     px: 2,
                     py: 1,
                     fontWeight: 600,
@@ -200,7 +195,30 @@ function MyCourseScreen() {
                   {course && course.published ? "Unpublished" : "Published"}
                 </Button>
               </Grid>
-              <Grid item>
+
+              <Grid item mr={2}>
+                <Button
+                  sx={{
+                    backgroundColor: orangeLight,
+                    fontFamily: fontType,
+                    color: neural900,
+                    fontSize: 14,
+                    mb: 2,
+                    px: 2,
+                    py: 1,
+                    fontWeight: 600,
+                    width: "100%",
+                    borderRadius: 3,
+                    textDecoration: "none",
+                    ":hover": { backgroundColor: orangeLight },
+                  }}
+                  onClick={() => navigate(`/mycourses/checkStudentsEnrollment/${params.slug}`)}
+                >
+                  Students Enrollment
+                </Button>
+              </Grid>
+
+              <Grid item mr={2}>
                 <Button
                   sx={{
                     backgroundColor: purplishBlue,
@@ -212,7 +230,6 @@ function MyCourseScreen() {
                     textDecoration: "none",
                     px: 2,
                     py: 1,
-                    ml: 2,
                     ":hover": { backgroundColor: purplishBlueDark },
                   }}
                   onClick={() => navigate(`/mycourses/${params.slug}/myquiz`)}
@@ -220,6 +237,8 @@ function MyCourseScreen() {
                   View Quiz
                 </Button>
               </Grid>
+
+            
             </Grid>
           )}
 

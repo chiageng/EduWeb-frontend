@@ -2,39 +2,63 @@ import {
   COURSE_CREATE_FAIL,
   COURSE_CREATE_REQUEST,
   COURSE_CREATE_SUCCESS,
+
   COURSE_EDIT_FAIL,
   COURSE_EDIT_REQUEST,
   COURSE_EDIT_SUCCESS,
+
   COURSES_VIEW_FAIL,
   COURSES_VIEW_REQUEST,
   COURSES_VIEW_SUCCESS,
+
   COURSES_PRICE_VIEW_FAIL,
   COURSES_PRICE_VIEW_REQUEST,
   COURSES_PRICE_VIEW_SUCCESS,
+
   COURSE_VIEW_FAIL,
   COURSE_VIEW_REQUEST,
   COURSE_VIEW_SUCCESS,
+
   TOPIC_CREATE_FAIL,
   TOPIC_CREATE_REQUEST,
   TOPIC_CREATE_SUCCESS,
+
   TOPIC_EDIT_FAIL,
   TOPIC_EDIT_REQUEST,
   TOPIC_EDIT_SUCCESS,
+
   TOPIC_DELETE_FAIL,
   TOPIC_DELETE_REQUEST,
   TOPIC_DELETE_SUCCESS,
+
   TOPIC_VIEW_FAIL,
   TOPIC_VIEW_REQUEST,
   TOPIC_VIEW_SUCCESS,
+
   CHECK_ENROLL_FAIL,
   CHECK_ENROLL_REQUEST,
   CHECK_ENROLL_SUCCESS,
+
+  CHECK_STUDENTS_ENROLLMENT_FAIL,
+  CHECK_STUDENTS_ENROLLMENT_REQUEST,
+  CHECK_STUDENTS_ENROLLMENT_SUCCESS,
+
+  APPROVE_STUDENTS_ENROLLMENT_FAIL,
+  APPROVE_STUDENTS_ENROLLMENT_REQUEST,
+  APPROVE_STUDENTS_ENROLLMENT_SUCCESS,
+
+  REMOVE_STUDENTS_ENROLLMENT_FAIL,
+  REMOVE_STUDENTS_ENROLLMENT_REQUEST,
+  REMOVE_STUDENTS_ENROLLMENT_SUCCESS,
+
   COURSE_ENROLL_FAIL,
   COURSE_ENROLL_REQUEST,
   COURSE_ENROLL_SUCCESS,
+
   WATCH_VIDEO_FAIL,
   WATCH_VIDEO_REQUEST,
   WATCH_VIDEO_SUCCESS,
+
 } from "../constants/course";
 import axios from "axios";
 
@@ -156,31 +180,6 @@ export const viewCourse = (slug) => async (dispatch) => {
       },
     };
     const { data } = await axios.get(`/api/course/${slug}`, config);
-
-    dispatch({
-      type: COURSE_VIEW_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: COURSE_VIEW_FAIL,
-      payload: error.response.data,
-    });
-  }
-};
-
-export const userViewCourse = (slug) => async (dispatch) => {
-  try {
-    dispatch({
-      type: COURSE_VIEW_REQUEST,
-    });
-
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-      },
-    };
-    const { data } = await axios.get(`/api/user/course/${slug}`, config);
 
     dispatch({
       type: COURSE_VIEW_SUCCESS,
@@ -381,7 +380,7 @@ export const checkEnroll = (slug) => async (dispatch) => {
         "Content-type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/course/cart/${slug}/check`, config);
+    const { data } = await axios.get(`/api/course/${slug}/checkEnroll`, config);
 
     dispatch({
       type: CHECK_ENROLL_SUCCESS,
@@ -390,6 +389,102 @@ export const checkEnroll = (slug) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CHECK_ENROLL_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+export const checkStudentsEnrollment = (slug) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CHECK_STUDENTS_ENROLLMENT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.get(`/api/course/checkStudentsEnrollment/${slug}`, config);
+
+    dispatch({
+      type: CHECK_STUDENTS_ENROLLMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CHECK_STUDENTS_ENROLLMENT_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+export const updateStudentsEnrollment = (slug) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.get(`/api/course/checkStudentsEnrollment/${slug}`, config);
+
+    dispatch({
+      type: CHECK_STUDENTS_ENROLLMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CHECK_STUDENTS_ENROLLMENT_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+export const approveStudentsEnrollment = (slug, user) => async (dispatch) => {
+  try {
+    dispatch({
+      type: APPROVE_STUDENTS_ENROLLMENT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.post(`/api/course/approveEnrollment/${slug}`, { user }, config);
+
+    dispatch({
+      type: APPROVE_STUDENTS_ENROLLMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: APPROVE_STUDENTS_ENROLLMENT_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+export const removeStudentsEnrollment = (slug, user) => async (dispatch) => {
+  try {
+    dispatch({
+      type: REMOVE_STUDENTS_ENROLLMENT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.post(`/api/course/removeEnrollment/${slug}`, { user }, config);
+
+    dispatch({
+      type: REMOVE_STUDENTS_ENROLLMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: REMOVE_STUDENTS_ENROLLMENT_FAIL,
       payload: error.response.data,
     });
   }

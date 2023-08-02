@@ -15,7 +15,12 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { fontType } from "../../design/font";
 import { neural700, purplishBlue } from "../../design/color";
 
-export default function AddToCart({price, onClick, enroll, image}) {
+export default function AddToCart({price, onClick, enrollment, image, isStaff}) {
+  let disabled = false;
+  if ((enrollment !== null && !enrollment.enroll) || isStaff) {
+    disabled = true;
+  }
+
   return (
     <Card
       sx={{
@@ -48,8 +53,9 @@ export default function AddToCart({price, onClick, enroll, image}) {
             fontWeight: 600,
             borderRadius: 3,
           }}
+          disabled={disabled}
         >
-          {enroll ? "View Course" : "Add To Cart"}
+          {enrollment ? enrollment.enroll ? "View Course" : "Requested" : "Enroll"}
         </Button>
       </CardActions>
       <CardContent>
