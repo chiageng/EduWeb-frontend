@@ -59,6 +59,14 @@ import {
   WATCH_VIDEO_REQUEST,
   WATCH_VIDEO_SUCCESS,
 
+  CREATE_REVIEW_FAIL,
+  CREATE_REVIEW_REQUEST,
+  CREATE_REVIEW_SUCCESS,
+
+  VIEW_REVIEWS_FAIL,
+  VIEW_REVIEWS_REQUEST,
+  VIEW_REVIEWS_SUCCESS,
+
 } from "../constants/course";
 import axios from "axios";
 
@@ -540,29 +548,55 @@ export const watchVideo = ({slug, topicSlug}) => async (dispatch) => {
   }
 };
 
+export const createReview = ({slug, rating, comment}) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CREATE_REVIEW_REQUEST,
+    });
 
-// export const userWatchVideo = ({slug, topicSlug}) => async (dispatch) => {
-//   try {
-//     dispatch({
-//       type: WATCH_VIDEO_REQUEST,
-//     });
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.post(`/api/course/${slug}/createReview`, { rating, comment }, config);
 
-//     const config = {
-//       headers: {
-//         "Content-type": "application/json",
-//       },
-//     };
-//     const { data } = await axios.get(`/api/user/course/${slug}/${topicSlug}`, config);
+    dispatch({
+      type: CREATE_REVIEW_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CREATE_REVIEW_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
 
-//     dispatch({
-//       type: WATCH_VIDEO_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: WATCH_VIDEO_FAIL,
-//       payload: error.response.data,
-//     });
-//   }
-// };
+export const viewReviews = (slug) => async (dispatch) => {
+  try {
+    dispatch({
+      type: VIEW_REVIEWS_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.get(`/api/course/${slug}/viewReviews`, config);
+
+    dispatch({
+      type: VIEW_REVIEWS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: VIEW_REVIEWS_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+
 

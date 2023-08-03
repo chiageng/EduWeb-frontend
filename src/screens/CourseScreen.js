@@ -4,8 +4,10 @@ import { Grid, Box, Typography, Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkEnroll,
+  createReview,
   enrollCourse,
   viewPriceCourse,
+  viewReviews,
 } from "../actions/courseActions";
 import CourseDescription from "../components/screenHelpers/CourseDescription";
 import AddToCart from "../components/screenHelpers/AddToCart";
@@ -14,6 +16,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/universal/Loader";
 
 function CourseScreen() {
+  const [open, setOpen] = useState(false);
+  const [rate, setRate] = useState(0);
+  const [comment, setComment] = useState("");
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   const params = useParams();
 
   const dispatch = useDispatch();
@@ -25,23 +39,33 @@ function CourseScreen() {
   const enrollCheck = useSelector((state) => state.enrollCheck);
   const { loading: enrollLoading, enrollment } = enrollCheck;
 
-  const courseEnroll = useSelector(state => state.courseEnroll);
+  const courseEnroll = useSelector((state) => state.courseEnroll);
   const { success } = courseEnroll;
 
-  const userLogin = useSelector(state => state.userLogin);
+  const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
+
+  const reviewCreate = useSelector((state) => state.reviewCreate);
+  const { success: reviewSuccess } = reviewCreate;
+
+  const reviewsView = useSelector(state => state.reviewsView);
+  const { loading:reviewLoading, reviews } = reviewsView;
 
   useEffect(() => {
     if (!course || course.slug != params.slug) {
       dispatch(viewPriceCourse(params.slug));
       dispatch(checkEnroll(params.slug));
+      dispatch(viewReviews(params.slug));
     }
-
   }, [params, course]);
 
   useEffect(() => {
     dispatch(checkEnroll(params.slug));
-  }, [success])
+
+    if (reviewSuccess) {
+      dispatch(viewReviews(params.slug));
+    }
+  }, [success, reviewSuccess]);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -52,24 +76,42 @@ function CourseScreen() {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createReview({ slug: params.slug, rating: rate, comment }));
+    handleClose();
+  };
+
   return (
     <Container>
       {(loading || enrollLoading) && <Loader />}
-      {(!loading && !enrollLoading) && (
+      {!loading && !enrollLoading && (
         <Box pt={5} pb={10}>
           <Grid container spacing={3}>
             {/* Display for pc */}
             <Grid item display={{ xs: "none", md: "block" }} md={8.5}>
               {course && (
                 <CourseDescription
-                key={course._title}
+                  key={course._title}
                   title={course.title}
                   description={course.description}
                   lessons={lessons}
                   instructor={course.instructor_name}
                 />
               )}
-              <Review />
+              <Review
+                open={open}
+                setOpen={setOpen}
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                handleSubmit={handleSubmit}
+                rate={rate}
+                comment={comment}
+                setRate={setRate}
+                setComment={setComment}
+                submitted={enrollment && enrollment.reviewed}
+                reviews={reviews && reviews}
+              />
             </Grid>
             <Grid item display={{ xs: "none", md: "block" }} md={3.5}>
               {course && (
@@ -105,7 +147,19 @@ function CourseScreen() {
                   isStaff={user.user.is_staff}
                 />
               )}
-              <Review />
+              <Review
+                open={open}
+                setOpen={setOpen}
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                handleSubmit={handleSubmit}
+                rate={rate}
+                comment={comment}
+                setRate={setRate}
+                setComment={setComment}
+                submitted={enrollment && enrollment.reviewed}
+                reviews={reviews && reviews}
+              />
             </Grid>
           </Grid>
         </Box>

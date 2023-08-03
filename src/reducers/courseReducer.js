@@ -66,7 +66,17 @@ import {
   WATCH_VIDEO_FAIL,
   WATCH_VIDEO_REQUEST,
   WATCH_VIDEO_SUCCESS,
-  WATCH_VIDEO_RESET
+  WATCH_VIDEO_RESET,
+
+  CREATE_REVIEW_FAIL,
+  CREATE_REVIEW_REQUEST,
+  CREATE_REVIEW_SUCCESS,
+  CREATE_REVIEW_RESET,
+
+  VIEW_REVIEWS_FAIL,
+  VIEW_REVIEWS_REQUEST,
+  VIEW_REVIEWS_SUCCESS,
+  VIEW_REVIEWS_RESET,
 
 } from "../constants/course";
 
@@ -328,6 +338,44 @@ export const videoWatchReducers = (state = {}, action) => {
       return { loading: false, error: action.payload };
 
     case WATCH_VIDEO_RESET:
+      return { }
+
+    default:
+      return state;
+  }
+}
+
+export const reviewCreateReducers = (state = {}, action) => {
+  switch (action.type) {
+    case CREATE_REVIEW_REQUEST:
+      return { loading: true };
+
+    case CREATE_REVIEW_SUCCESS:
+      return { loading: false, success: true };
+
+    case CREATE_REVIEW_FAIL:
+      return { loading: false, error: action.payload };
+
+    case CREATE_REVIEW_RESET:
+      return { }
+
+    default:
+      return state;
+  }
+}
+
+export const reviewsViewReducers = (state = {}, action) => {
+  switch (action.type) {
+    case VIEW_REVIEWS_REQUEST:
+      return { loading: true };
+
+    case VIEW_REVIEWS_SUCCESS:
+      return { loading: false, reviews: action.payload };
+
+    case VIEW_REVIEWS_FAIL:
+      return { loading: false, error: action.payload };
+
+    case VIEW_REVIEWS_RESET:
       return { }
 
     default:

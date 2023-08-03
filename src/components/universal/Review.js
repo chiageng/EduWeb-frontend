@@ -1,5 +1,14 @@
-import React from "react";
-import { CardActions, Grid, Button, CardContent, CardMedia, Card, Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  CardActions,
+  Grid,
+  Button,
+  CardContent,
+  CardMedia,
+  Card,
+  Box,
+  Typography,
+} from "@mui/material";
 import { fontType } from "../../design/font";
 import {
   neural300,
@@ -10,10 +19,14 @@ import {
   orangeLight,
 } from "../../design/color";
 import BasicRating from "./BasicRating";
+import Backdrop from "@mui/material/Backdrop";
+import ReviewForm from "../forms/ReviewForm";
 
-export default function Review() {
-  const item = (
-    <CardContent sx={{ py: "8px" }}>
+export default function Review({ open, setOpen, handleOpen, handleClose, handleSubmit , rate, setRate, comment, setComment, submitted, reviews }) {
+  
+
+  const item = reviews && reviews.map(review => (
+    <CardContent sx={{ py: "8px" }} key={review.review._id}>
       <Grid container spacing={2}>
         <Grid item xs={2} sm={1} display="block" mt={1}>
           <CardMedia
@@ -32,7 +45,7 @@ export default function Review() {
               pt: 0.5,
             }}
           >
-            Chia Geng
+            {review.user.name}
           </Typography>
           <Typography
             sx={{
@@ -45,7 +58,7 @@ export default function Review() {
           >
             2h ago
           </Typography>
-          <BasicRating value={5} />
+          <BasicRating value={review.review.rating} />
           <Typography
             sx={{
               fontSize: "14px",
@@ -55,11 +68,12 @@ export default function Review() {
               pt: 0.5,
             }}
           >
-            Here is a test comment
+            {review.review.comment}
           </Typography>
         </Grid>
       </Grid>
     </CardContent>
+  )
   );
 
   return (
@@ -69,7 +83,6 @@ export default function Review() {
         borderRadius: "10px",
         mb: "16px",
         width: "100%",
-
       }}
     >
       <CardContent>
@@ -111,13 +124,6 @@ export default function Review() {
       >
         {/* Display all comments session */}
         {item}
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
-        {item}
       </Box>
 
       <CardActions>
@@ -138,9 +144,17 @@ export default function Review() {
             fontWeight: 700,
             ":hover": { backgroundColor: orangeLight },
           }}
+          onClick={handleOpen}
+          disabled={submitted}
         >
-          Write Review
+          {submitted ? "Submitted Review" : "Write Review"}
         </Button>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={open}
+        >
+          <ReviewForm rate={rate} setRate={setRate} comment={comment} setComment={setComment} handleClose={handleClose} handleSubmit={handleSubmit}/>
+        </Backdrop>
       </CardActions>
     </Card>
   );
