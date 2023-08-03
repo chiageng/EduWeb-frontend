@@ -155,7 +155,7 @@ export const viewQuiz = (slug, quizSlug) => async (dispatch) => {
       },
     };
     const { data } = await axios.get(
-      `/api/course/${slug}/quiz/${quizSlug}`,
+      `/api/course/${slug}/quiz/${quizSlug}/view`,
       config
     );
 

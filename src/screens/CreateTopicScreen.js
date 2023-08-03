@@ -7,7 +7,7 @@ import Resizer from "react-image-file-resizer";
 import { Container, Box, Typography } from "@mui/material";
 import { neural900 } from "../design/color";
 import { createTopic } from "../actions/courseActions";
-import { TOPIC_CREATE_RESET } from "../constants/course";
+import { COURSE_VIEW_RESET, TOPIC_CREATE_RESET } from "../constants/course";
 import Loader from "../components/universal/Loader";
 import TopicForm from "../components/forms/TopicForm";
 import { deleteImage, deleteVideo, uploadImage, uploadVideo } from "../actions/uploadActions";
@@ -47,6 +47,7 @@ function CreateTopicScreen() {
   useEffect(() => {
     if (success) {
       dispatch({ type: TOPIC_CREATE_RESET });
+      dispatch({ type: COURSE_VIEW_RESET })
       navigate(`/mycourses/${params.slug}`);
     }
   }, [topicCreate]);

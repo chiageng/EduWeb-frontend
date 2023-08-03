@@ -62,7 +62,7 @@ function CoursePrice({ course }) {
           </Typography>
         </Grid>
         <Grid item xs={1} sm={3}>
-          <Rating value={+course.rating} sx={{}} />
+          <Rating value={+course.ratings} sx={{}} />
         </Grid>
       </Grid>
     </Box>

@@ -76,7 +76,11 @@ function MyCourseScreen() {
     if (user && !course || course.slug !== params.slug) {
       dispatch(viewCourse(params.slug));
     }
-  }, [params, userLogin, user, topicDelete, toggle]);
+  }, [params, userLogin, user, topicDelete]);
+
+  useEffect(() => {
+    dispatch(viewCourse(params.slug));
+  }, [toggle])
 
   const breadcrumb = (
     <Breadcrumbs

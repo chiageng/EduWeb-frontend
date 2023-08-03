@@ -118,7 +118,11 @@ function VideoScreen() {
       dispatch(updateForum({ slug: params.slug, topicSlug: params.topicSlug, forumId: lesson.forum }));
       dispatch({ type: COMMENT_CREATE_RESET });
     }
-    if (lesson && !forum) {
+
+  }, [params, user, lesson, commentCreateSuccess, forum]);
+
+  useEffect(() => {
+    if (lesson) {
       dispatch(
         viewForum({
           slug: params.slug,
@@ -127,7 +131,7 @@ function VideoScreen() {
         })
       );
     }
-  }, [params, user, lesson, commentCreateSuccess, forum]);
+  }, [lesson])
 
   return (
     <Container>

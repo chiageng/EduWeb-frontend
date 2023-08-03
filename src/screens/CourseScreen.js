@@ -97,6 +97,7 @@ function CourseScreen() {
                   description={course.description}
                   lessons={lessons}
                   instructor={course.instructor_name}
+                  rating={course.ratings}
                 />
               )}
               <Review
@@ -111,6 +112,8 @@ function CourseScreen() {
                 setComment={setComment}
                 submitted={enrollment && enrollment.reviewed}
                 reviews={reviews && reviews}
+                enrolled={enrollment && enrollment.enroll}
+                isStaff={user.user.is_staff}
               />
             </Grid>
             <Grid item display={{ xs: "none", md: "block" }} md={3.5}>
@@ -135,6 +138,7 @@ function CourseScreen() {
                   description={course.description}
                   lessons={lessons}
                   instructor={course.instructor_name}
+                  rating={course.ratings}
                 />
               )}
               {course && (
@@ -159,6 +163,8 @@ function CourseScreen() {
                 setComment={setComment}
                 submitted={enrollment && enrollment.reviewed}
                 reviews={reviews && reviews}
+                enrolled={enrollment && enrollment.enroll}
+                isStaff={user.user.is_staff}
               />
             </Grid>
           </Grid>

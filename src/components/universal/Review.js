@@ -22,59 +22,74 @@ import BasicRating from "./BasicRating";
 import Backdrop from "@mui/material/Backdrop";
 import ReviewForm from "../forms/ReviewForm";
 
-export default function Review({ open, setOpen, handleOpen, handleClose, handleSubmit , rate, setRate, comment, setComment, submitted, reviews }) {
-  
+export default function Review({
+  open,
+  setOpen,
+  handleOpen,
+  handleClose,
+  handleSubmit,
+  rate,
+  setRate,
+  comment,
+  setComment,
+  submitted,
+  reviews,
+  enrolled,
+  isStaff,
+}) {
+  const disabled = !enrolled || submitted || isStaff;
 
-  const item = reviews && reviews.map(review => (
-    <CardContent sx={{ py: "8px" }} key={review.review._id}>
-      <Grid container spacing={2}>
-        <Grid item xs={2} sm={1} display="block" mt={1}>
-          <CardMedia
-            sx={{ height: 32, width: 32 }}
-            image="/images/avatar.jpg"
-          />
-        </Grid>
+  const item =
+    reviews &&
+    reviews.map((review) => (
+      <CardContent sx={{ py: "8px" }} key={review.review._id}>
+        <Grid container spacing={2}>
+          <Grid item xs={2} sm={1} display="block" mt={1}>
+            <CardMedia
+              sx={{ height: 32, width: 32 }}
+              image="/images/avatar.jpg"
+            />
+          </Grid>
 
-        <Grid item xs={10} sm={11} display="block" mt={1}>
-          <Typography
-            sx={{
-              fontSize: "16px",
-              fontFamily: fontType,
-              fontWeight: 600,
-              color: neural900,
-              pt: 0.5,
-            }}
-          >
-            {review.user.name}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "14px",
-              fontFamily: fontType,
-              fontWeight: 400,
-              color: neural300,
-              pt: 0.5,
-            }}
-          >
-            2h ago
-          </Typography>
-          <BasicRating value={review.review.rating} />
-          <Typography
-            sx={{
-              fontSize: "14px",
-              fontFamily: fontType,
-              fontWeight: 400,
-              color: neural900,
-              pt: 0.5,
-            }}
-          >
-            {review.review.comment}
-          </Typography>
+          <Grid item xs={10} sm={11} display="block" mt={1}>
+            <Typography
+              sx={{
+                fontSize: "16px",
+                fontFamily: fontType,
+                fontWeight: 600,
+                color: neural900,
+                pt: 0.5,
+              }}
+            >
+              {review.user.name}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "14px",
+                fontFamily: fontType,
+                fontWeight: 400,
+                color: neural300,
+                pt: 0.5,
+              }}
+            >
+              2h ago
+            </Typography>
+            <BasicRating value={review.review.rating} />
+            <Typography
+              sx={{
+                fontSize: "14px",
+                fontFamily: fontType,
+                fontWeight: 400,
+                color: neural900,
+                pt: 0.5,
+              }}
+            >
+              {review.review.comment}
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>
-    </CardContent>
-  )
-  );
+      </CardContent>
+    ));
 
   return (
     <Card
@@ -145,7 +160,7 @@ export default function Review({ open, setOpen, handleOpen, handleClose, handleS
             ":hover": { backgroundColor: orangeLight },
           }}
           onClick={handleOpen}
-          disabled={submitted}
+          disabled={disabled}
         >
           {submitted ? "Submitted Review" : "Write Review"}
         </Button>
@@ -153,7 +168,14 @@ export default function Review({ open, setOpen, handleOpen, handleClose, handleS
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={open}
         >
-          <ReviewForm rate={rate} setRate={setRate} comment={comment} setComment={setComment} handleClose={handleClose} handleSubmit={handleSubmit}/>
+          <ReviewForm
+            rate={rate}
+            setRate={setRate}
+            comment={comment}
+            setComment={setComment}
+            handleClose={handleClose}
+            handleSubmit={handleSubmit}
+          />
         </Backdrop>
       </CardActions>
     </Card>

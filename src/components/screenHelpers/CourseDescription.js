@@ -13,7 +13,7 @@ import { neural500, neural700, neural900 } from "../../design/color";
 import { fontType } from "../../design/font";
 import BasicRating from "../universal/BasicRating";
 
-function CourseDescription({title, descriptions, lessons, instructor}) {
+function CourseDescription({title, descriptions, lessons, instructor, rating}) {
   return (
     <Card
       sx={{
@@ -36,7 +36,7 @@ function CourseDescription({title, descriptions, lessons, instructor}) {
             {title}
           </Typography>
 
-          <BasicRating value={5} />
+          <BasicRating value={rating} />
 
           <Grid container spacing={1}>
             <Grid item  display="block" mt={1}>
