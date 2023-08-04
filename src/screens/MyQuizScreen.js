@@ -155,7 +155,7 @@ export const MyQuizScreen = () => {
       </Typography>
       <Typography
         as={Link}
-        to={`/mycourses/${params.id}/myquiz`}
+        to={`/mycourses/${params.slug}/myquiz`}
         sx={{
           textDecoration: "none",
           ":hover": { textDecoration: "underline" },

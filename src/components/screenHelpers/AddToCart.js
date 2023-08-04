@@ -21,6 +21,16 @@ export default function AddToCart({price, onClick, enrollment, image, isStaff}) 
     disabled = true;
   }
 
+  let buttonOutput = "Enroll Course";
+  if (enrollment === null) {
+
+  } else if (enrollment !== null && !enrollment.enroll) {
+    buttonOutput = "Requested"
+  } else if (enrollment !== null && enrollment.enroll) {
+    buttonOutput = "View Course"
+  }
+
+  // let enroll = enrollment && enrollment.enroll
   return (
     <Card
       sx={{
@@ -55,7 +65,7 @@ export default function AddToCart({price, onClick, enrollment, image, isStaff}) 
           }}
           disabled={disabled}
         >
-          {enrollment ? enrollment.enroll ? "View Course" : "Requested" : "Enroll"}
+          {buttonOutput}
         </Button>
       </CardActions>
       <CardContent>

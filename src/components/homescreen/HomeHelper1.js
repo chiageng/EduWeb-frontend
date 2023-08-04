@@ -148,7 +148,7 @@ function HomeHelper1() {
             display="inline"
             fontFamily="Poppins"
             sx={{
-              fontSize: 36,
+              fontSize: 32,
               fontWeight: 900,
               fontStyle: "normal",
               color: neural900,
@@ -160,7 +160,7 @@ function HomeHelper1() {
             display="inline"
             fontFamily="Poppins"
             sx={{
-              fontSize: 36,
+              fontSize: 32,
               fontWeight: 900,
               fontStyle: "normal",
               color: purplishBlue,
@@ -173,7 +173,7 @@ function HomeHelper1() {
             display="inline"
             fontFamily="Poppins"
             sx={{
-              fontSize: 36,
+              fontSize: 32,
               fontWeight: 900,
               fontStyle: "normal",
               color: neural900,
@@ -185,7 +185,7 @@ function HomeHelper1() {
           <Typography
             fontFamily="Poppins"
             sx={{
-              fontSize: 36,
+              fontSize: 32,
               fontWeight: 900,
               fontStyle: "normal",
               color: neural900,
@@ -199,7 +199,7 @@ function HomeHelper1() {
               display="inline"
               fontFamily="Poppins"
               sx={{
-                fontSize: 36,
+                fontSize: 32,
                 fontWeight: 900,
                 fontStyle: "normal",
                 color: neural900,
@@ -212,7 +212,7 @@ function HomeHelper1() {
               display="inline"
               fontFamily="Poppins"
               sx={{
-                fontSize: 36,
+                fontSize: 32,
                 fontWeight: 900,
                 fontStyle: "normal",
                 color: purplishBlue,

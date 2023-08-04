@@ -122,7 +122,7 @@ function CourseScreen() {
                   key={course._id}
                   price={course.price}
                   onClick={handleAddToCart}
-                  enrollment={enrollment}
+                  enrollment={enrollment && enrollment}
                   image={course.image.Location}
                   isStaff={user.user.is_staff}
                 />
@@ -146,7 +146,7 @@ function CourseScreen() {
                   key={course._id}
                   price={course.price}
                   onClick={handleAddToCart}
-                  enrollment={enrollment}
+                  enrollment={enrollment && enrollment}
                   image={course.image.Location}
                   isStaff={user.user.is_staff}
                 />
