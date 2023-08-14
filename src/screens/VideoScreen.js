@@ -115,10 +115,15 @@ function VideoScreen() {
       dispatch(watchVideo({ slug: params.slug, topicSlug: params.topicSlug }));
     }
     if (commentCreateSuccess) {
-      dispatch(updateForum({ slug: params.slug, topicSlug: params.topicSlug, forumId: lesson.forum }));
+      dispatch(
+        updateForum({
+          slug: params.slug,
+          topicSlug: params.topicSlug,
+          forumId: lesson.forum,
+        })
+      );
       dispatch({ type: COMMENT_CREATE_RESET });
     }
-
   }, [params, user, lesson, commentCreateSuccess, forum]);
 
   useEffect(() => {
@@ -131,7 +136,7 @@ function VideoScreen() {
         })
       );
     }
-  }, [lesson])
+  }, [lesson]);
 
   return (
     <Container>

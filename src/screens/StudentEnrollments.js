@@ -13,14 +13,30 @@ import {
   Typography,
   Breadcrumbs,
   Button,
+  Grid,
+  TextField,
+  InputAdornment,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  FormHelperText,
+  Divider,
 } from "@mui/material";
 import {
   hotPink,
   hotPinkPale,
+  neural100,
+  neural300,
   neural500,
   neural900,
   orangeLight,
+  purplishBlue,
+  purplishBlueDark,
   purplishBlueLight,
+  purplishBlueMedium,
+  purplishBluePale,
+  white,
 } from "../design/color";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -34,28 +50,21 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fontType } from "../design/font";
 import Loader from "../components/universal/Loader";
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
 const columns = [
-  { id: "name", label: "Student Name", minWidth: 170 },
-  { id: "enrollment", label: "Enrollment", minWidth: 100 },
+  { id: "name", label: "Student", minWidth: 170 },
+  { id: "status", label: "Status", minWidth: 100 },
+  {
+    id: "progress",
+    label: "Progress",
+    minWidth: 200 
+  },
   {
     id: "action",
     label: "Action",
-    align: "center",
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
     minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
   },
 ];
 
@@ -81,33 +90,37 @@ export default function StudentEnrollments() {
   };
 
   function createData(name, enrollment, user) {
-    const enrollmentOutput = enrollment ? "Enrolled" : "Requested"
+    const enrollmentOutput = enrollment ? "Enrolled" : "Requested";
     const actionOutput = enrollment ? (
-      <Button
-        sx={{
-          backgroundColor: hotPink,
-          fontFamily: fontType,
-          color: neural900,
-          fontSize: 12,
-          px: 1,
-          py: 1,
-          fontWeight: 600,
-          width: "100%",
-          borderRadius: 3,
-          textDecoration: "none",
-          ":hover": { backgroundColor: hotPink },
-        }}
-        disabled={removeLoading}
-        onClick={() => removeEnrollment(user)}
-      >
-        Remove Enrollment
-      </Button>
+      // <Button
+      //   sx={{
+      //     backgroundColor: white,
+      //     fontFamily: fontType,
+      //     color: "error",
+      //     fontSize: 12,
+      //     variant: "outlined",
+      //     px: 1,
+      //     py: 1,
+      //     fontWeight: 600,
+      //     width: "100%",
+      //     borderRadius: 3,
+      //     textDecoration: "none",
+      //     ":hover": { backgroundColor: hotPink },
+      //   }}
+      //   disabled={removeLoading}
+      //   onClick={() => removeEnrollment(user)}
+      // >
+      //   Remove Enrollment
+      // </Button>
+      <Button variant="outlined" sx={{":outlined": {borderColor: purplishBlueDark}}}>
+      Error
+    </Button>
     ) : (
       <Button
         sx={{
-          backgroundColor: orangeLight,
+          backgroundColor: purplishBlue,
           fontFamily: fontType,
-          color: neural900,
+          color: white,
           fontSize: 12,
           px: 1,
           py: 1,
@@ -115,7 +128,8 @@ export default function StudentEnrollments() {
           width: "100%",
           borderRadius: 3,
           textDecoration: "none",
-          ":hover": { backgroundColor: orangeLight },
+          ":hover": { backgroundColor: purplishBlueMedium },
+          ":focus": {  backgroundColor: purplishBlueDark }
         }}
         onClick={() => handleEnrollment(user)}
       >
@@ -147,20 +161,21 @@ export default function StudentEnrollments() {
   );
   const { loading: checkLoading, enrollment } = studentsEnrollmentCheck;
 
-  const studentEnrollmentApprove = useSelector( (state) => state.studentEnrollmentApprove );
-  const { loading:approveLoading, success } = studentEnrollmentApprove;
+  const studentEnrollmentApprove = useSelector(
+    (state) => state.studentEnrollmentApprove
+  );
+  const { loading: approveLoading, success } = studentEnrollmentApprove;
 
-  const studentEnrollmentRemove = useSelector(state => state.studentEnrollmentRemove);
-  const { loading:removeLoading, success:removeSucces } = studentEnrollmentRemove;
+  const studentEnrollmentRemove = useSelector(
+    (state) => state.studentEnrollmentRemove
+  );
+  const { loading: removeLoading, success: removeSucces } =
+    studentEnrollmentRemove;
 
   const rows =
     enrollment &&
     enrollment.map((item) =>
-      createData(
-        item.user.name,
-        item.enrollment.enroll,
-        item.user._id
-      )
+      createData(item.user.name, item.enrollment.enroll, item.user._id)
     );
 
   const breadcrumb = (
@@ -242,23 +257,79 @@ export default function StudentEnrollments() {
           Students Enrollment
         </Typography>
 
+        <Grid container mb={2}>
+          <Grid item xs={12} md={4}>
+            <TextField
+              margin="normal"
+              fullWidth
+              value=""
+              onChange={(e) => console.log(e.target.value)}
+              name="search"
+              label={`Search Students`}
+              id="search"
+              InputProps={{
+                style: {
+                  backgroundColor: white,
+                },
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={false} md={1}></Grid>
+
+          <Grid item xs={12} md={4} mt={2}>
+            <FormControl sx={{ minWidth: 200 }}>
+              <InputLabel id="demo-simple-select-helper-label">
+                Status
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value=""
+                label="Status"
+                // onChange={handleChange}
+                sx={{ minWidth: "200px", backgroundColor: white, fontSize: 14 }}
+              >
+                <MenuItem value="enrolled">Enrolled</MenuItem>
+                <MenuItem value="requested">Requested</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 600 }}>
-            <Table stickyHeader aria-label="sticky table">
+            <Table
+              stickyHeader
+              aria-label="sticky table"
+              sx={{
+                "& .MuiTableCell-root": {
+                  border: `0.5px solid ${neural100}`,
+                },
+              }}
+            >
               <TableHead sx={{ fontWeight: 500 }}>
                 <TableRow>
                   {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                      sx={{
-                        fontWeight: 600,
-                        backgroundColor: purplishBlueLight,
-                      }}
-                    >
-                      {column.label}
-                    </TableCell>
+                    <>
+                      <TableCell
+                        key={column.id}
+                        align="center"
+                        style={{ minWidth: column.minWidth }}
+                        sx={{
+                          fontWeight: 600,
+                          backgroundColor: white,
+                          color: neural300
+                        }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    </>
                   ))}
                 </TableRow>
               </TableHead>

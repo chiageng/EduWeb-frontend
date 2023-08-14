@@ -14,8 +14,9 @@ import {
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { fontType } from "../../design/font";
 import { neural700, purplishBlue } from "../../design/color";
+import Loader from "../universal/Loader";
 
-export default function AddToCart({price, onClick, enrollment, image, isStaff}) {
+export default function AddToCart({price, onClick, enrollment, image, isStaff, loading}) {
   let disabled = false;
   if ((enrollment !== null && !enrollment.enroll) || isStaff) {
     disabled = true;
@@ -39,7 +40,8 @@ export default function AddToCart({price, onClick, enrollment, image, isStaff}) 
         width: "100%",
       }}
     >
-      <CardMedia sx={{ height: 200 }} image={image} />
+      {loading && <Loader/>}
+      {!loading && <><CardMedia sx={{ height: 200 }} image={image} />
       <CardContent>
         <Typography
           color={neural700}
@@ -138,7 +140,7 @@ export default function AddToCart({price, onClick, enrollment, image, isStaff}) 
             </Typography>
           </ListItem>
         </List>
-      </CardContent>
+      </CardContent></>}
     </Card>
   );
 }

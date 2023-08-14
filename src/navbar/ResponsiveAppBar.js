@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { neural900, orange, purplishBlue } from "../design/color";
+import { activeBlueButton, activeBorderBlueButton, hoverBlueButton, hoverBorderBlueButton, neural900, orange, pressedBlueButton, pressedBorderBackgroundBlueButton, pressedBorderBlueButton, purplishBlue, purplishBlueDark, white } from "../design/color";
 import { ThemeProvider } from "@mui/material/styles";
 import myTheme from "./Theme";
 import { Link, useNavigate } from "react-router-dom";
@@ -165,7 +165,6 @@ function ResponsiveAppBar({ user }) {
                       handleLogin();
                       navigate(`/login`);
                     }}
-                    href={`/login`}
                   >
                     <Typography textAlign="center">Log in / Sign up</Typography>
                   </MenuItem>
@@ -327,16 +326,25 @@ function ResponsiveAppBar({ user }) {
                 <Button
                   key="/android"
                   onClick={handleCloseNavMenu}
+                  variant="outlined"
                   sx={{
                     my: "24px",
-                    color: neural900,
+                    ml: 1.5,
+                    color: purplishBlueDark,
+                    px: 4, 
+                    py: 1.25,
+                    borderRadius: 2,
                     display: "block",
                     fontSize: 12,
                     fontWeight: 600,
                     lineHeight: "140%",
-                    backgroundColor: orange,
+                    borderColor: activeBorderBlueButton,
                     ":hover": {
-                      bgcolor: orange,
+                      borderColor: hoverBorderBlueButton,
+                    }, 
+                    ":focus": {
+                      bgcolor: pressedBorderBackgroundBlueButton,
+                      borderColor: pressedBorderBlueButton,
                     },
                   }}
                 >
@@ -351,15 +359,20 @@ function ResponsiveAppBar({ user }) {
                   sx={{
                     ml: 2,
                     my: "24px",
-                    color: neural900,
+                    color: white,
+                    px: 4, 
+                    py: 1.25,
+                    borderRadius: 2,
                     display: "block",
                     fontSize: 12,
                     fontWeight: 600,
-                    lineHeight: "140%",
-                    backgroundColor: purplishBlue,
+                    backgroundColor: activeBlueButton,
                     ":hover": {
-                      bgcolor: purplishBlue,
+                      bgcolor: hoverBlueButton,
                     },
+                    ":focus": {
+                      backgroundColor: pressedBlueButton,
+                    }
                   }}
                 >
                   Log in / Sign up

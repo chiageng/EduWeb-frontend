@@ -21,6 +21,7 @@ import {
 import BasicRating from "./BasicRating";
 import Backdrop from "@mui/material/Backdrop";
 import ReviewForm from "../forms/ReviewForm";
+import Loader from "./Loader";
 
 export default function Review({
   open,
@@ -36,6 +37,7 @@ export default function Review({
   reviews,
   enrolled,
   isStaff,
+  loading,
 }) {
   const disabled = !enrolled || submitted || isStaff;
 
@@ -100,7 +102,8 @@ export default function Review({
         width: "100%",
       }}
     >
-      <CardContent>
+      {loading && <Loader/>}
+      {!loading && <><CardContent>
         <Typography
           sx={{
             fontSize: "22px",
@@ -177,7 +180,7 @@ export default function Review({
             handleSubmit={handleSubmit}
           />
         </Backdrop>
-      </CardActions>
+      </CardActions></>}
     </Card>
   );
 }

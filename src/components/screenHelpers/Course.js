@@ -16,8 +16,13 @@ import {
   neural700,
   orangeLight,
   neural500,
+  activeBlueButton,
+  hoverBlueButton,
+  pressedBlueButton,
+  white,
 } from "../../design/color";
 import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import { fontType } from "../../design/font";
 
 function Course({ course, staff, progress }) {
   const colors = [purplishBlue, hotPink, skyBlue];
@@ -73,44 +78,43 @@ function Course({ course, staff, progress }) {
       </CardContent>
       <CardActions>
         <Box sx={{ display: "flex", flexGrow: 1, justifyContent: "left" }}>
-          <PlayCircleFilledWhiteIcon sx={{ color: useColor }} />
           <Button
             size="small"
             onClick={() => navigate(`/mycourses/${course.slug}`)}
             style={{
               textDecoration: "none",
-              fontFamily: "Poppins",
-              color: neural700,
+              fontFamily: fontType,
+              color: neural900,
               display: "flex",
             }}
+            startIcon={<PlayCircleFilledWhiteIcon/>}
           >
             Lesson
           </Button>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexGrow: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: orangeLight,
-            borderRadius: "8px",
-          }}
-        >
-          <Button
+        <Button
             size="small"
             onClick={() => navigate(`/mycourses/${course.slug}/myquiz`)}
             sx={{
               color: neural900,
               fontSize: 12,
               fontWeight: 600,
+              color: white,
+              borderRadius: 2,
+              px: 3,
+              py: 1,
               fontFamily: "Poppins",
+              backgroundColor: activeBlueButton,
+              ":hover": {
+                backgroundColor: hoverBlueButton,
+              },
+              ":focus": {
+                backgroundColor: pressedBlueButton,
+              },
             }}
           >
             View Quiz
           </Button>
-        </Box>
       </CardActions>
     </Card>
   );

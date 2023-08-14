@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Course from "../components/screenHelpers/Course";
 // import { courses } from "../Courses";
 import { Grid, Box, Typography, Container, Button } from "@mui/material";
-import { neural500, neural900, orangeLight } from "../design/color";
+import { activeOrangeButton, hoverOrangeButton, neural500, neural900, orangeLight, pressedOrangeButton } from "../design/color";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,23 +34,6 @@ function MyCoursesScreen() {
     }
   }, [user, courses]);
 
-  const breadcrumb = (
-    <Breadcrumbs
-      separator={<NavigateNextIcon fontSize="small" />}
-      aria-label="breadcrumb"
-      mb={3}
-    >
-      <Typography
-        style={{ textDecoration: "none" }}
-        underline="none"
-        key="1"
-        color={neural500}
-      >
-        My Course {user && user.user.is_staff && "(Instructor Page)"}
-      </Typography>
-    </Breadcrumbs>
-  );
-
   const handleButton = () => {
     navigate("/createcourse");
   };
@@ -61,7 +44,6 @@ function MyCoursesScreen() {
       {loading && <Loader />}
       {!loading && (
         <Box pt={5} pb={10}>
-          {breadcrumb}
           <Typography
             variant="h3"
             fontFamily="Poppins"
@@ -80,7 +62,7 @@ function MyCoursesScreen() {
               <Grid item>
                 <Button
                   sx={{
-                    backgroundColor: orangeLight,
+                    backgroundColor: activeOrangeButton,
                     fontFamily: fontType,
                     color: neural900,
                     fontSize: 14,
@@ -90,7 +72,8 @@ function MyCoursesScreen() {
                     width: "100%",
                     borderRadius: 3,
                     textDecoration: "none",
-                    ":hover": { backgroundColor: orangeLight },
+                    ":hover": { backgroundColor: hoverOrangeButton },
+                    ":focus": { backgroundColor: pressedOrangeButton },
                   }}
                   onClick={handleButton}
                 >

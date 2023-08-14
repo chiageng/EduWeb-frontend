@@ -12,8 +12,9 @@ import {
 import { neural500, neural700, neural900 } from "../../design/color";
 import { fontType } from "../../design/font";
 import BasicRating from "../universal/BasicRating";
+import Loader from "../universal/Loader";
 
-function CourseDescription({title, descriptions, lessons, instructor, rating}) {
+function CourseDescription({title, descriptions, lessons, instructor, rating, loading}) {
   return (
     <Card
       sx={{
@@ -23,7 +24,8 @@ function CourseDescription({title, descriptions, lessons, instructor, rating}) {
         width: "100%",
       }}
     >
-      <Box sx={{ display: "flex", flexGrow: 1 }}>
+      {loading && <Loader/>}
+      {!loading && <Box sx={{ display: "flex", flexGrow: 1 }}>
         <CardContent sx={{width: "100%"}}>
           <Typography
             variant="h5"
@@ -124,7 +126,7 @@ function CourseDescription({title, descriptions, lessons, instructor, rating}) {
             pb: 1,
           }}
         ></Box>
-      </Box>
+      </Box>}
     </Card>
   );
 }

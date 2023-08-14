@@ -96,7 +96,7 @@ export default function Forum({
     ));
 
   useEffect(() => {
-    if (item) {
+    if (item && scrollRef.current) {
       scrollRef.current.scrollIntoView({
         behavior: "smooth",
         block: "end",

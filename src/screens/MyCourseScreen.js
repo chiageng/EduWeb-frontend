@@ -73,14 +73,14 @@ function MyCourseScreen() {
     if (!user) {
       navigate("./login");
     }
-    if (user && !course || course.slug !== params.slug) {
+    if ((user && !course) || course.slug !== params.slug) {
       dispatch(viewCourse(params.slug));
     }
   }, [params, userLogin, user, topicDelete]);
 
   useEffect(() => {
     dispatch(viewCourse(params.slug));
-  }, [toggle])
+  }, [toggle]);
 
   const breadcrumb = (
     <Breadcrumbs
@@ -117,21 +117,37 @@ function MyCourseScreen() {
       {!loading && !topicLoading && (
         <Box pt={5} pb={10}>
           {breadcrumb}
+
           {/* View Quiz button for webpage */}
-          <Typography
-            variant="h3"
-            fontFamily="Poppins"
-            sx={{
-              fontSize: 32,
-              fontWeight: 600,
-              fontStyle: "normal",
-              color: neural900,
-              mb: "18px",
-            }}
-          >
-            {course ? course.title : "Video Topic"}{" "}
-            {user && user.user.is_staff && "(Instructor Page)"}
-          </Typography>
+          <Grid container display="flex" justifyContent="space-between">
+            <Grid item xs={12} md={6}>
+              <Typography
+                variant="h3"
+                fontFamily="Poppins"
+                sx={{
+                  fontSize: 32,
+                  fontWeight: 600,
+                  fontStyle: "normal",
+                  color: neural900,
+                  mb: "18px",
+                }}
+              >
+                {course ? course.title : "Video Topic"}{" "}
+                {user && user.user.is_staff && "(Instructor Page)"}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Grid container display="flex" alignContent="flex-end">
+                <Grid item xs={12} md={6}>
+                  Search
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  view quiz
+                </Grid>
+              </Grid>
+            </Grid>
+
+          </Grid>
 
           {/* Button if is instructor */}
           {user && user.user.is_staff && (
@@ -216,7 +232,11 @@ function MyCourseScreen() {
                     textDecoration: "none",
                     ":hover": { backgroundColor: orangeLight },
                   }}
-                  onClick={() => navigate(`/mycourses/checkStudentsEnrollment/${params.slug}`)}
+                  onClick={() =>
+                    navigate(
+                      `/mycourses/checkStudentsEnrollment/${params.slug}`
+                    )
+                  }
                 >
                   Students Enrollment
                 </Button>
@@ -241,8 +261,6 @@ function MyCourseScreen() {
                   View Quiz
                 </Button>
               </Grid>
-
-            
             </Grid>
           )}
 

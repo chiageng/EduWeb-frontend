@@ -48,13 +48,13 @@ function CourseScreen() {
   const reviewCreate = useSelector((state) => state.reviewCreate);
   const { success: reviewSuccess } = reviewCreate;
 
-  const reviewsView = useSelector(state => state.reviewsView);
-  const { loading:reviewLoading, reviews } = reviewsView;
+  const reviewsView = useSelector((state) => state.reviewsView);
+  const { loading: reviewLoading, reviews } = reviewsView;
 
   useEffect(() => {
     if (!course || course.slug != params.slug) {
       dispatch(viewPriceCourse(params.slug));
-      dispatch(checkEnroll(params.slug));
+      // dispatch(checkEnroll(params.slug));
       dispatch(viewReviews(params.slug));
     }
   }, [params, course]);
@@ -98,6 +98,7 @@ function CourseScreen() {
                   lessons={lessons}
                   instructor={course.instructor_name}
                   rating={course.ratings}
+                  loading={loading}
                 />
               )}
               <Review
@@ -114,6 +115,7 @@ function CourseScreen() {
                 reviews={reviews && reviews}
                 enrolled={enrollment && enrollment.enroll}
                 isStaff={user.user.is_staff}
+                loading={reviewLoading}
               />
             </Grid>
             <Grid item display={{ xs: "none", md: "block" }} md={3.5}>
@@ -125,6 +127,7 @@ function CourseScreen() {
                   enrollment={enrollment && enrollment}
                   image={course.image.Location}
                   isStaff={user.user.is_staff}
+                  loading={enrollLoading}
                 />
               )}
             </Grid>
@@ -139,6 +142,7 @@ function CourseScreen() {
                   lessons={lessons}
                   instructor={course.instructor_name}
                   rating={course.ratings}
+                  loading={loading}
                 />
               )}
               {course && (
@@ -149,6 +153,7 @@ function CourseScreen() {
                   enrollment={enrollment && enrollment}
                   image={course.image.Location}
                   isStaff={user.user.is_staff}
+                  loading={enrollLoading}
                 />
               )}
               <Review
@@ -165,6 +170,7 @@ function CourseScreen() {
                 reviews={reviews && reviews}
                 enrolled={enrollment && enrollment.enroll}
                 isStaff={user.user.is_staff}
+                loading={reviewLoading}
               />
             </Grid>
           </Grid>
