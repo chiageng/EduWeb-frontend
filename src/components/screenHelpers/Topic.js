@@ -8,10 +8,20 @@ import { Button, Grid } from "@mui/material";
 import PlayArrowOutlinedIcon from "@mui/icons-material/PlayArrowOutlined";
 import { fontType } from "../../design/font";
 import {
+  activeBlueButton,
+  activeLightBlueButton,
+  activeRedButton,
+  hoverBlueButton,
+  hoverLightBlueButton,
+  hoverRedButton,
   neural900,
   orangeLight,
+  pressedBlueButton,
+  pressedLightBlueButton,
+  pressedRedButton,
   purplishBlueLight,
   red,
+  white,
 } from "../../design/color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -84,28 +94,23 @@ export default function Topic({ topic, user }) {
                 onClick={handleEdit}
                 sx={{
                   my: "24px",
-                  display: "block",
                   fontSize: 14,
                   fontWeight: 600,
                   lineHeight: "140%",
-                  borderRadius: 4,
+                  borderRadius: 2,
                   height: 45,
                   mr: 3,
+                  px: 2,
                   fontFamily: fontType,
                   color: neural900,
                   fontWeight: 600,
-                  backgroundColor: purplishBlueLight,
-                  ":hover": { backgroundColor: purplishBlueLight },
+                  backgroundColor: activeLightBlueButton,
+                  ":hover": { backgroundColor: hoverLightBlueButton },
+                  ":focus": { backgroundColor: pressedLightBlueButton },
                 }}
+                endIcon={<EditOutlinedIcon/>}
               >
-                <Grid container>
-                  <Grid item mt={0.5} px={2}>
-                    Edit
-                  </Grid>
-                  <Grid item pr={2}>
-                    <EditOutlinedIcon />
-                  </Grid>
-                </Grid>
+                Edit
               </Button>
             )}
 
@@ -115,28 +120,23 @@ export default function Topic({ topic, user }) {
                 onClick={handleDelete}
                 sx={{
                   my: "24px",
-                  display: "block",
                   fontSize: 14,
                   fontWeight: 600,
                   lineHeight: "140%",
-                  borderRadius: 4,
+                  borderRadius: 2,
                   mr: 3,
                   height: 45,
+                  px: 2,
                   fontFamily: fontType,
-                  backgroundColor: red,
+                  backgroundColor: activeRedButton,
                   color: neural900,
                   fontWeight: 600,
-                  ":hover": { backgroundColor: red },
+                  ":hover": { backgroundColor: hoverRedButton },
+                  ":focus": { backgroundColor: pressedRedButton },
                 }}
+                endIcon={<DeleteOutlineIcon/>}
               >
-                <Grid container>
-                  <Grid item mt={0.5} px={2}>
-                    Delete
-                  </Grid>
-                  <Grid item pr={2}>
-                    <DeleteOutlineIcon />
-                  </Grid>
-                </Grid>
+                Delete
               </Button>
             )}
             <Button
@@ -144,28 +144,23 @@ export default function Topic({ topic, user }) {
               onClick={handleWatch}
               sx={{
                 my: "24px",
-                display: "block",
                 fontSize: 14,
+                px: 2,
                 fontWeight: 600,
                 lineHeight: "140%",
-                borderRadius: 10,
+                borderRadius: 2,
                 height: 45,
                 mr: 3,
                 fontFamily: fontType,
-                backgroundColor: orangeLight,
-                color: neural900,
+                backgroundColor: activeBlueButton,
+                color: white,
                 fontWeight: 600,
-                ":hover": { backgroundColor: orangeLight },
+                ":hover": { backgroundColor: hoverBlueButton },
+                ":focus": { backgroundColor: pressedBlueButton },
               }}
+              endIcon={<PlayArrowOutlinedIcon/>}
             >
-              <Grid container>
-                <Grid item mt={0.5} px={2}>
-                  Watch Videos
-                </Grid>
-                <Grid item pr={2}>
-                  <PlayArrowOutlinedIcon />
-                </Grid>
-              </Grid>
+              Watch Lesson
             </Button>
           </Box>
         </Box>
@@ -223,13 +218,14 @@ export default function Topic({ topic, user }) {
                   width: 36,
                   height: 36,
                   fontFamily: fontType,
-                  backgroundColor: purplishBlueLight,
+                  backgroundColor: activeLightBlueButton,
                   color: neural900,
                   fontWeight: 600,
-                  ":hover": { backgroundColor: purplishBlueLight },
+                  ":hover": { backgroundColor: hoverLightBlueButton },
+                  ":focus": { backgroundColor: pressedLightBlueButton },
                 }}
               >
-                <EditOutlinedIcon />
+                <EditOutlinedIcon/>
               </Button>
             )}
             <Button
@@ -245,9 +241,10 @@ export default function Topic({ topic, user }) {
                 width: 36,
                 height: 36,
                 mr:1,
-                backgroundColor: orangeLight,
-                color: neural900,
-                ":hover": { backgroundColor: orangeLight },
+                backgroundColor: activeBlueButton,
+                color: white,
+                ":hover": { backgroundColor: hoverBlueButton },
+                ":focus": { backgroundColor: pressedBlueButton },
               }}
             >
               <PlayArrowOutlinedIcon />

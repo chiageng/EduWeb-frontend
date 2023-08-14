@@ -11,6 +11,9 @@ import {
 } from "../../design/color";
 import { fontType } from "../../design/font";
 import Progress from "../universal/Progress";
+import LoadingButton from "@mui/lab/LoadingButton";
+import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import Loader from "../universal/Loader";
 function TopicForm({
   setTitle,
@@ -27,9 +30,9 @@ function TopicForm({
   handleSubmit,
   video,
   image,
-  imageLoading, 
+  imageLoading,
   imageDeleteLoading,
-  videoLoading, 
+  videoLoading,
   videoDeleteLoading,
 }) {
   const pending = !video || !image;
@@ -84,9 +87,26 @@ function TopicForm({
                   hidden
                   onChange={handleImage}
                 />
-                <Button variant="contained" component="span" disabled={imageLoading || imageDeleteLoading}>
-                  {imageLoading ? "Uploading..." : imageDeleteLoading ? "Deleting..." : "Upload Image"}
-                </Button>
+                {/* <Button
+                  variant="contained"
+                  component="span"
+                  disabled={imageLoading || imageDeleteLoading}
+                >
+                  {imageLoading
+                    ? "Uploading..."
+                    : imageDeleteLoading
+                    ? "Deleting..."
+                    : "Upload Image"}
+                </Button> */}
+                <LoadingButton
+                  variant="contained"
+                  component="span"
+                  loading={imageLoading || imageDeleteLoading}
+                  loadingPosition="end"
+                  endIcon={<ImageOutlinedIcon />}
+                >
+                  <span>Upload Image</span>
+                </LoadingButton>
                 {preview && (
                   <Button
                     sx={{
@@ -119,9 +139,18 @@ function TopicForm({
                   onChange={handleVideo}
                   disabled={uploading}
                 />
-                <Button variant="contained" component="span" disabled={videoLoading || videoDeleteLoading}>
-                  {videoLoading ? "Uploading" : videoDeleteLoading ? "Deleting" : "Upload Video"}
-                </Button>
+                {/* <Button variant="contained" component="span" disabled={videoLoading || videoDeleteLoading}>
+                  {videoLoading ? <Loader/> : "UploadVideo"}
+                </Button> */}
+                <LoadingButton
+                  variant="contained"
+                  component="span"
+                  loading={videoLoading || videoDeleteLoading}
+                  loadingPosition="end"
+                  endIcon={<OndemandVideoOutlinedIcon />}
+                >
+                  <span>Upload Video</span>
+                </LoadingButton>
                 {videoFile && (
                   <Button
                     sx={{
@@ -160,10 +189,10 @@ function TopicForm({
             <Grid item xs={8} sm={10}></Grid>
             <Grid item xs={4} sm={2} pb={2}>
               <Button
+                variant="contained"
                 sx={{
                   mr: 2,
                   color: neural900,
-                  display: "block",
                   fontSize: 16,
                   fontWeight: 400,
                   lineHeight: "140%",
@@ -175,8 +204,7 @@ function TopicForm({
                   ":disabled": {
                     backgroundColor: neural500,
                     color: white,
-                  }
-                  
+                  },
                 }}
                 onClick={handleSubmit}
                 disabled={pending}

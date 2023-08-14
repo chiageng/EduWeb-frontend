@@ -361,7 +361,7 @@ export const viewTopic =
         },
       };
       const { data } = await axios.get(
-        `/api/course/${slug}/${lesson_id}/view`,
+        `/api/course/${slug}/view/${lesson_id}/topic`,
         config
       );
 

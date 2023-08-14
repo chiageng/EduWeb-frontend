@@ -1,3 +1,5 @@
+import { lightBlue } from "@mui/material/colors"
+
 export const purplishBlue = "#6347EB"
 export const purplishBlueDark = "#391B8E"
 export const purplishBlueMedium ="#7A7CFF"
@@ -43,3 +45,11 @@ export const activeBorderBlueButton = purplishBlue;
 export const activeOrangeButton = orangeLight;
 export const hoverOrangeButton = orangePale;
 export const pressedOrangeButton = orange;
+
+export const activeRedButton = red;
+export const hoverRedButton = paleRed;
+export const pressedRedButton = red;
+
+export const activeLightBlueButton = skyBlueLight;
+export const hoverLightBlueButton = skyBluePale;
+export const pressedLightBlueButton = skyBlue;
