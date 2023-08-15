@@ -145,6 +145,7 @@ export default function Topic({ topic, user }) {
               sx={{
                 my: "24px",
                 fontSize: 14,
+                textTransform: "capitalize",
                 px: 2,
                 fontWeight: 600,
                 lineHeight: "140%",

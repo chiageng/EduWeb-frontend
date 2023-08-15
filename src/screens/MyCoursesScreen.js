@@ -85,7 +85,7 @@ function MyCoursesScreen() {
 
           {/* display courses if is not staff */}
           {courses &&
-            !user.user.is_staff &&(
+            (
               <Grid container spacing={3}>
                 {courses.map((course) => (
                   <Grid item xs={12} md={3} key={course.course._id}>
@@ -93,21 +93,6 @@ function MyCoursesScreen() {
                       course={course.course}
                       staff={user.user.is_staff}
                       progress={course.progress}
-                    ></Course>
-                  </Grid>
-                ))}
-              </Grid>
-            )}{" "}
-
-            {/* display courses if is staff (different data structure) */}
-          {courses &&
-            user.user.is_staff && (
-              <Grid container spacing={3}>
-                {courses.map((course) => (
-                  <Grid item xs={12} md={3} key={course._id}>
-                    <Course
-                      course={course}
-                      staff={user.user.is_staff}
                     ></Course>
                   </Grid>
                 ))}

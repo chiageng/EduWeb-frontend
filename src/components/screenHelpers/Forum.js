@@ -8,7 +8,10 @@ import { Grid, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { fontType } from "../../design/font";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import moment from "moment";
 import {
   neural300,
   neural900,
@@ -16,6 +19,7 @@ import {
   purplishBlue,
   neural700,
   purplishBlueDark,
+  white,
 } from "../../design/color";
 import { useDispatch } from "react-redux";
 import Loader from "../universal/Loader";
@@ -28,6 +32,8 @@ export default function Forum({
   scrollRef,
   currentUser,
   loading,
+  upVote,
+  downVote,
 }) {
   const item =
     comments &&
@@ -62,7 +68,7 @@ export default function Forum({
                 pt: 0.5,
               }}
             >
-              2h ago
+              {moment.utc(obj.comment.createdAt).local().startOf('seconds').fromNow()}
             </Typography>
             <Typography
               sx={{
@@ -75,21 +81,79 @@ export default function Forum({
             >
               {obj.comment.comment}
             </Typography>
-            <Typography mt={1}>
-              <ThumbUpOffAltIcon
-                onClick={() => console.log("Like")}
-                sx={{
-                  ":hover": { cursor: "pointer" },
-                }}
-              />
-              <ThumbDownOffAltIcon
-                onClick={() => console.log("Like")}
-                sx={{
-                  ":hover": { cursor: "pointer" },
-                  ml: 2,
-                }}
-              />
-            </Typography>
+            <Grid container mt={1} display="flex">
+              <Grid item mt={0.25}>
+                <>
+                  {!obj.upvote && (
+                    <ThumbUpOffAltIcon
+                      onClick={() => upVote(obj.comment._id)}
+                      sx={{
+                        ":hover": { cursor: "pointer" },
+                      }}
+                    />
+                  )}
+                  {obj.upvote && (
+                    <ThumbUpIcon
+                      onClick={() => upVote(obj.comment._id)}
+                      sx={{
+                        ":hover": { cursor: "pointer" },
+                        color: purplishBlue,
+                      }}
+                    />
+                  )}
+                </>
+              </Grid>
+
+              <Grid item ml={1}>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontFamily: fontType,
+                    fontWeight: 400,
+                    color: neural900,
+                    pt: 0.5,
+                  }}
+                >
+                  {obj.comment.upvote}
+                </Typography>
+              </Grid>
+
+              <Grid item mt={0.25} ml={2}>
+              <>
+                  {!obj.downvote && (
+                    <ThumbDownOffAltIcon
+                      onClick={() => downVote(obj.comment._id)}
+                      sx={{
+                        ":hover": { cursor: "pointer" },
+                      }}
+                    />
+                  )}
+                  {obj.downvote && (
+                    <ThumbDownIcon
+                      onClick={() => downVote(obj.comment._id)}
+                      sx={{
+                        ":hover": { cursor: "pointer" },
+                        color: purplishBlue,
+                      }}
+                    />
+                  )}
+                </>
+              </Grid>
+
+              <Grid item ml={1}>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontFamily: fontType,
+                    fontWeight: 400,
+                    color: neural900,
+                    pt: 0.5,
+                  }}
+                >
+                  {obj.comment.downvote}
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Box>
@@ -117,6 +181,34 @@ export default function Forum({
       {loading && <Loader />}
       {!loading && (
         <>
+          {/* Comment session */}
+          <CardContent sx={{ py: "8px" }}>
+            <Box
+              xs={8}
+              sm={10}
+              display="block"
+              mt={1}
+              component="form"
+              onSubmit={submitComment}
+            >
+              <TextField
+                inputProps={{
+                  style: {
+                    fontSize: 14,
+                    backgroundColor: purplishBluePale,
+                    color: purplishBlueDark,
+                    height: 20,
+                  },
+                }}
+                size="small"
+                fullWidth
+                label="Write a comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </Box>
+          </CardContent>
+
           <Box
             component="div"
             id="scrollBottom"
@@ -146,34 +238,6 @@ export default function Forum({
             {item}
             <Box component="div" ref={scrollRef} />
           </Box>
-
-          {/* Comment session */}
-          <CardContent sx={{ py: "8px" }}>
-            <Box
-              xs={8}
-              sm={10}
-              display="block"
-              mt={1}
-              component="form"
-              onSubmit={submitComment}
-            >
-              <TextField
-                inputProps={{
-                  style: {
-                    fontSize: 14,
-                    backgroundColor: purplishBluePale,
-                    color: purplishBlueDark,
-                    height: 20,
-                  },
-                }}
-                size="small"
-                fullWidth
-                label="Write a comment"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-            </Box>
-          </CardContent>
         </>
       )}
     </Card>

@@ -30,11 +30,17 @@ import { userWatchVideo, watchVideo } from "../actions/courseActions";
 import Loader from "../components/universal/Loader";
 import {
   createComment,
+  downvoteComment,
   updateForum,
+  upvoteComment,
   userUpdateForum,
   viewForum,
 } from "../actions/forumActions";
-import { COMMENT_CREATE_RESET } from "../constants/forum";
+import { COMMENT_CREATE_RESET, COMMENT_VOTE_RESET } from "../constants/forum";
+import QuizList from "../components/screenHelpers/QuizList";
+import PhoneQuizList from "../components/screenHelpers/PhoneQuizList";
+import { viewQuizzes, viewUserQuizzes } from "../actions/quizAction";
+import moment from "moment";
 
 function VideoScreen() {
   const [comment, setComment] = useState("");
@@ -45,7 +51,7 @@ function VideoScreen() {
   const navigate = useNavigate();
 
   const videoWatch = useSelector((state) => state.videoWatch);
-  const { loading, lesson, lessons, error, course } = videoWatch;
+  const { loading, lesson, lessons, error, course} = videoWatch;
 
   const forumView = useSelector((state) => state.forumView);
   const { loading: forumLoading, forum } = forumView;
@@ -55,6 +61,12 @@ function VideoScreen() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
+
+  const quizzesView = useSelector(state => state.quizzesView)
+  const { loading:quizzesLoading, quizzes, } = quizzesView;
+
+  const commentVote = useSelector(state => state.commentVote);
+  const { success:voteSuccess} = commentVote;
 
   const breadcrumb = (
     <Breadcrumbs
@@ -108,6 +120,14 @@ function VideoScreen() {
     setComment("");
   };
 
+  const upVote = (commentId) => {
+    dispatch(upvoteComment({ slug: params.slug, topicSlug: params.topicSlug, commentId}))
+  }
+
+  const downVote = (commentId) => {
+    dispatch(downvoteComment({ slug: params.slug, topicSlug: params.topicSlug, commentId}))
+  }
+
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -124,7 +144,18 @@ function VideoScreen() {
       );
       dispatch({ type: COMMENT_CREATE_RESET });
     }
-  }, [params, user, lesson, commentCreateSuccess, forum]);
+
+    if (voteSuccess) {
+      dispatch(
+        updateForum({
+          slug: params.slug,
+          topicSlug: params.topicSlug,
+          forumId: lesson.forum,
+        })
+      );
+      dispatch({ type: COMMENT_VOTE_RESET });
+    }
+  }, [params, user, lesson, commentCreateSuccess, forum, voteSuccess]);
 
   useEffect(() => {
     if (lesson) {
@@ -138,11 +169,29 @@ function VideoScreen() {
     }
   }, [lesson]);
 
+  useEffect(() => {
+    if (course && !quizzes && user.user.is_staff ) {
+      dispatch(viewQuizzes(params.slug))
+    }
+    if (course && !quizzes && !user.user.is_staff) {
+      dispatch(viewUserQuizzes(params.slug))
+    }
+
+    if (course && quizzes && course.slug !== params.slug && user.user.is_staff) {
+      dispatch(viewQuizzes(params.slug))
+    }
+
+    if (course && quizzes && course.slug !== params.slug && !user.user.is_staff) {
+      dispatch(viewUserQuizzes(params.slug))
+    }
+  }, [course, quizzes, params])
+
   return (
     <Container>
       {loading && <Loader />}
       {!loading && (
         <Box pt={5} pb={10}>
+          {breadcrumb}
           <Typography
             variant="h3"
             fontFamily="Poppins"
@@ -156,7 +205,6 @@ function VideoScreen() {
           >
             {lesson && lesson.title}
           </Typography>
-          {breadcrumb}
           <Grid container spacing={5}>
             <Grid item xs={12} md={8}>
               <VideoPlayer
@@ -199,7 +247,7 @@ function VideoScreen() {
                       fontFamily={fontType}
                       component="div"
                     >
-                      Published on {lesson && lesson.createdAt.substring(0, 10)}
+                      Published on {lesson && moment.utc(lesson.createdAt).local().startOf('seconds').fromNow()}
                     </Typography>
                   </CardContent>
                   <Box
@@ -235,23 +283,14 @@ function VideoScreen() {
                   </Box>
                 </Box>
               </Card>
+            </Grid>
 
-              {/* Phone Playlist */}
+            {/* Phone Playlist */}
+            <Grid item xs={12} display={{ xs: "block", md: "none" }} mt={-5}>
               <PhonePlayList
                 lessons={lessons}
                 title={course && course.title}
                 instructor={course && course.instructor_name}
-              />
-
-              {/* Forum for both phone and webpage */}
-              <Forum
-                comment={comment}
-                setComment={setComment}
-                submitComment={submitComment}
-                comments={forum}
-                scrollRef={scrollRef}
-                currentUser={user.user.name}
-                loading={forumLoading}
               />
             </Grid>
 
@@ -261,6 +300,41 @@ function VideoScreen() {
                 lessons={lessons}
                 title={course && course.title}
                 instructor={course && course.instructor_name}
+              />
+            </Grid>
+
+            {/* Phone Quizlist */}
+            <Grid item xs={12} display={{ xs: "block", md: "none" }} mt={-5}>
+              <PhoneQuizList
+                instructor={course && course.instructor_name}
+                quizzes={quizzes}
+                isStaff={user.user.is_staff}
+                loading={quizzesLoading}
+              />
+            </Grid>
+
+            <Grid item md={8} xs={12} mt={-5}>
+              {/* Forum for both phone and webpage */}
+              <Forum
+                comment={comment}
+                setComment={setComment}
+                submitComment={submitComment}
+                comments={forum}
+                scrollRef={scrollRef}
+                currentUser={user.user.name}
+                loading={forumLoading}
+                upVote={upVote}
+                downVote={downVote}
+              />
+            </Grid>
+
+            {/* Webpage playlist */}
+            <Grid item md={4} display={{ xs: "none", md: "flex" }} mt={-5}>
+              <QuizList
+                instructor={course && course.instructor_name}
+                quizzes={quizzes}
+                isStaff={user.user.is_staff}
+                loading={quizzesLoading}
               />
             </Grid>
           </Grid>

@@ -41,15 +41,18 @@ function MyCourseScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
-
+  const [search, setSearch] = useState("");
+  
   const courseView = useSelector((state) => state.courseView);
   const { loading, course, lessons, error } = courseView;
-
+  
   const topicDelete = useSelector((state) => state.topicDelete);
   const { loading: topicLoading, success } = topicDelete;
-
+  
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
+  
+  const [filteredLessons, setFilteredLessons] = useState(lessons)
 
   // handle button for create topic for instructor
   const handleButton = () => {
@@ -60,6 +63,17 @@ function MyCourseScreen() {
   const handleEdit = () => {
     navigate(`./edit`);
   };
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    let updatedList = [...lessons];
+    
+    updatedList = updatedList.filter(item => {
+      return item.title.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1;
+    })
+
+    setFilteredLessons(updatedList);
+  }
 
   const handlePublished = async () => {
     if (course && course.published == false) {
@@ -157,8 +171,8 @@ function MyCourseScreen() {
               <TextField
                 fullWidth
                 margin="normal"
-                value=""
-                onChange={(e) => console.log(e.target.value)}
+                value={search}
+                onChange={handleSearch}
                 name="search"
                 label={`Search Topic`}
                 id="search"
@@ -190,6 +204,7 @@ function MyCourseScreen() {
                   fontWeight: 600,
                   lineHeight: "140%",
                   borderColor: activeBorderBlueButton,
+                  backgroundColor: white,
                   ":hover": {
                     borderColor: hoverBorderBlueButton,
                   },
@@ -307,8 +322,12 @@ function MyCourseScreen() {
           )}
 
           <Box mt={2}>
-            {lessons &&
+            {search === "" && lessons && 
               lessons.map((topic) => (
+                <Topic key={topic._id} topic={topic} user={user} />
+              ))}
+              {search !== "" && filteredLessons && 
+                filteredLessons.map((topic) => (
                 <Topic key={topic._id} topic={topic} user={user} />
               ))}
           </Box>

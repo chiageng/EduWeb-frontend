@@ -70,7 +70,7 @@ function PlayList({ lessons, title, instructor }) {
         borderRadius: "10px",
         mb: "16px",
         width: "430px",
-        height: "430px",
+        height: "550px",
       }}
     >
       <CardContent sx={{ pb: "8px" }}>
@@ -88,7 +88,7 @@ function PlayList({ lessons, title, instructor }) {
       <Box
         sx={{
           overflowY: "scroll",
-          height: "350px",
+          height: "500px",
           "&:hover::-webkit-scrollbar": {
             display: "block",
           },

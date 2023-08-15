@@ -19,141 +19,6 @@ export default function QuizCard({ quiz, is_staff, score, done }) {
     navigation = `/mycourses/${params.slug}/myquiz/${quiz.slug}/instructor`;
   }
 
-  const old = (
-    <>
-      <Card
-        sx={{
-          display: { xs: "none", md: "flex" },
-          mx: 0,
-          borderRadius: "10px",
-          backgroundColor: white,
-          textDecoration: "none",
-          color: neural900,
-          mb: "16px",
-          ":hover": {
-            cursor: "pointer",
-          },
-        }}
-        as={Link}
-        to={navigation}
-      >
-        <Box sx={{ display: "flex", flexGrow: 1 }}>
-          <CardContent>
-            <Typography
-              component="div"
-              variant="h5"
-              fontFamily={fontType}
-              fontWeight={600}
-              color={neural900}
-              fontSize="14px"
-              backgroundColor={purplishBlueLight}
-              p={1}
-              width="100px"
-            >
-              Obj Question
-            </Typography>
-            <Typography
-              component="div"
-              variant="h5"
-              fontFamily={fontType}
-              fontWeight={500}
-              color={neural900}
-              fontSize="18px"
-              mt={1}
-            >
-              {quiz.title}
-            </Typography>
-          </CardContent>
-
-          {/* Display score if exist */}
-          {done && (
-            <Box
-              sx={{
-                display: "flex",
-                flexGrow: 1,
-              }}
-            >
-              <Grid container>
-                <Grid item md={8}></Grid>
-                <Grid
-                  item
-                  md={4}
-                  mt={2}
-                  sx={{
-                    fontFamily: fontType,
-                    fontSize: "14px",
-                    fontWeight: 600,
-                  }}
-                >
-                  <Grid container>
-                    <Grid item md={2}>
-                      <CheckCircleIcon sx={{ color: green }} />
-                    </Grid>
-                    <Grid item ml={2} md={2}>
-                      {score}/{quiz.questions.length}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Box>
-          )}
-        </Box>
-      </Card>
-
-      {/* Quiz Card for phone  */}
-      <Card
-        sx={{
-          display: { xs: "flex", md: "none" },
-          mx: 0,
-          borderRadius: "10px",
-          backgroundColor: white,
-          textDecoration: "none",
-          color: neural900,
-          mb: "4px",
-          ":hover": {
-            cursor: "pointer",
-          },
-        }}
-        as={Link}
-        to={navigation}
-      >
-        <Box sx={{ display: "flex", flexGrow: 1 }}>
-          <CardContent>
-            <Typography
-              component="div"
-              variant="h5"
-              fontFamily={fontType}
-              fontWeight={500}
-              color={neural900}
-              fontSize="18px"
-              mt={0}
-            >
-              {quiz.title}
-            </Typography>
-          </CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              flexGrow: 1,
-            }}
-          >
-            <Grid container>
-              <Grid item xs={10}></Grid>
-              <Grid
-                item
-                xs={2}
-                mt={2}
-                sx={{ fontFamily: fontType, fontSize: "14px", fontWeight: 600 }}
-              >
-                <CheckCircleIcon sx={{ color: green }} />
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Card>
-    </>
-  );
-
   return (
     <Box width="100%">
       {/* Quiz card for Webpage */}
@@ -203,7 +68,7 @@ export default function QuizCard({ quiz, is_staff, score, done }) {
                       fontWeight: 600,
                     }}
                   >
-                    <Grid container>
+                    {done && <Grid container>
                       <Grid item>
                         <CheckCircleIcon
                           sx={{ color: green, fontSize: "22px" }}
@@ -212,7 +77,7 @@ export default function QuizCard({ quiz, is_staff, score, done }) {
                       <Grid item>
                         {score}/{quiz.questions.length}
                       </Grid>
-                    </Grid>
+                    </Grid>}
                   </Grid>
                 </Grid>
               </Grid>
@@ -283,7 +148,7 @@ export default function QuizCard({ quiz, is_staff, score, done }) {
                       fontWeight: 600,
                     }}
                   >
-                    <Grid container>
+                    {done && <Grid container>
                       <Grid item>
                         <CheckCircleIcon
                           sx={{ color: green, fontSize: "22px" }}
@@ -292,7 +157,7 @@ export default function QuizCard({ quiz, is_staff, score, done }) {
                       <Grid item>
                         {score}/{quiz.questions.length}
                       </Grid>
-                    </Grid>
+                    </Grid>}
                   </Grid>
                 </Grid>
               </Grid>

@@ -193,23 +193,14 @@ function MyQuizzesScreen() {
               </Grid>
             </>)}
 
-        {/* QuizCard if is instructor */}
-        {user.user.is_staff && <Grid container spacing={2} mt={1}>
-          {quizzes && quizzes.map((quiz) => (
-            <Grid key={quiz._id} item xs={12} md={4}>
-              <QuizCard key={quiz._id} quiz={quiz} is_staff={user.user.is_staff} />
-            </Grid>
-          ))}
-        </Grid>}
-
         {/* QuizCard if is not instructor */}
-        {!user.user.is_staff && <Grid container spacing={2} mt={1}>
+        <Grid container spacing={2} mt={1}>
           {quizzes && quizzes.map((quiz) => (
             <Grid key={quiz.quiz._id} item xs={12} md={4} width="100%">
               <QuizCard key={quiz._id} quiz={quiz.quiz} is_staff={user.user.is_staff} score={quiz.score} done={quiz.done}/>
             </Grid>
           ))}
-        </Grid>}
+        </Grid>
       </Box>}
     </Container>
   );
