@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Box, Typography, Container, Grid, Button } from "@mui/material";
+import { Box, Typography, Container, Grid, Button, TextField, InputAdornment } from "@mui/material";
 import {
   neural500,
   neural900,
@@ -10,12 +10,21 @@ import {
   purplishBlueDark,
   white,
   orangeLight,
+  pressedBorderBackgroundBlueButton,
+  pressedBorderBlueButton,
+  hoverBorderBlueButton,
+  activeBorderBlueButton,
+  hoverOrangeButton,
+  pressedOrangeButton,
+  activeOrangeButton,
 } from "../design/color";
 import QuizCard from "../components/screenHelpers/QuizCard";
 import { fontType } from "../design/font";
 import { useDispatch, useSelector } from "react-redux";
 import { viewQuizzes, viewUserQuizzes } from "../actions/quizAction";
 import Loader from "../components/universal/Loader";
+import SearchIcon from "@mui/icons-material/Search";
+import TopicOutlinedIcon from '@mui/icons-material/TopicOutlined';
 
 function MyQuizzesScreen() {
   const params = useParams();
@@ -26,12 +35,26 @@ function MyQuizzesScreen() {
 
   const userLogin = useSelector(state => state.userLogin);
   const { user } = userLogin;
-
+  
   const quizzesView = useSelector(state => state.quizzesView)
   const { loading, quizzes, course, error } = quizzesView;
+  
+  const [search, setSearch] = useState("");
+  const [filteredQuizzes, setFilteredQuizzes] = useState(quizzes)
 
   const handleCreate = () => {
     navigate(`/mycourses/${params.slug}/myquiz/create`);
+  }
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    let updatedList = [...quizzes];
+    
+    updatedList = updatedList.filter(item => {
+      return item.quiz.title.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1;
+    })
+
+    setFilteredQuizzes(updatedList);
   }
 
   useEffect(() => {
@@ -84,31 +107,89 @@ function MyQuizzesScreen() {
       {loading && <Loader/>}
       {!loading && <Box pt={5} pb={10}>
         {breadcrumb}
-        <Typography
-          variant="h3"
-          fontFamily="Poppins"
-          sx={{
-            fontSize: 32,
-            fontWeight: 600,
-            fontStyle: "normal",
-            color: neural900,
-            mb: "16px",
-          }}
-        >
-          {course && course.title} - Quiz {user.user.is_staff && "(Instructor View)"}
-        </Typography>
+        
+        <Grid container display="flex" alignItems="center">
+            <Grid item xs={12} md={7}>
+              <Typography
+                variant="h3"
+                fontFamily="Poppins"
+                sx={{
+                  fontSize: 32,
+                  fontWeight: 600,
+                  fontStyle: "normal",
+                  color: neural900,
+                  mb: "18px",
+                }}
+              >
+                {course ? course.title : "Quiz Page"}{" "}
+                {user && user.user.is_staff && "(Instructor Page)"}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <TextField
+                fullWidth
+                margin="normal"
+                value={search}
+                onChange={handleSearch}
+                name="search"
+                label={`Search Quiz`}
+                id="search"
+                InputProps={{
+                  style: {
+                    backgroundColor: white,
+                  },
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={false} md={0.25}></Grid>
+
+            <Grid item xs={12} md={1.5}>
+              <Button
+                variant="outlined"
+                fullWidth
+                endIcon={<TopicOutlinedIcon />}
+                sx={{
+                  color: purplishBlueDark,
+                  textTransform: "capitalize",
+                  py: 1.5,
+                  mt: 1,
+                  borderRadius: 2,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  lineHeight: "140%",
+                  borderColor: activeBorderBlueButton,
+                  backgroundColor: white,
+                  ":hover": {
+                    borderColor: hoverBorderBlueButton,
+                  },
+                  ":focus": {
+                    bgcolor: pressedBorderBackgroundBlueButton,
+                    borderColor: pressedBorderBlueButton,
+                  },
+                }}
+                onClick={() => navigate(`/mycourses/${params.slug}`)}
+              >
+                Watch Lesson
+              </Button>
+
+            </Grid>
+          </Grid>
 
         {/* Button if is instructor */}
         {user && user.user.is_staff && (
           <Grid container display="flex">
-            <Grid item mr={2}>
+            <Grid item mr={2} mt={2}>
               <Button
                 sx={{
-                  backgroundColor: orangeLight,
+                  backgroundColor: activeOrangeButton,
                   fontFamily: fontType,
                   color: neural900,
                   fontSize: 14,
-                  mb: 2,
                   mr: 2,
                   px: 2,
                   py: 1,
@@ -116,88 +197,27 @@ function MyQuizzesScreen() {
                   width: "100%",
                   borderRadius: 3,
                   textDecoration: "none",
-                  ":hover": { backgroundColor: orangeLight },
+                  ":hover": { backgroundColor: hoverOrangeButton},
+                  ":focus": { backgroundColor: pressedOrangeButton },
                 }}
                 onClick={handleCreate}
               >
                 Create Quiz
               </Button>
             </Grid>
-            <Grid item>
-              <Button
-                sx={{
-                  backgroundColor: purplishBlue,
-                  fontFamily: fontType,
-                  color: white,
-                  fontSize: 14,
-                  width: "100%",
-                  borderRadius: 3,
-                  textDecoration: "none",
-                  px: 2,
-                  py: 1,
-                  ":hover": { backgroundColor: purplishBlueDark },
-                }}
-                // href={`/mycourses/${params.id}/myquiz`}
-                onClick={() => navigate(`/mycourses/${params.slug}`)}
-              >
-                View Lessons
-              </Button>
-            </Grid>
           </Grid>
         )}
 
-        {/* Buttons if not instructor */}
-        {!user.user.is_staff && (<>
-              <Grid container display={{ xs: "none", md: "block" }}>
-                <Grid item xs={1.5}>
-                  <Button
-                    sx={{
-                      backgroundColor: purplishBlue,
-                      fontFamily: fontType,
-                      color: white,
-                      fontSize: 14,
-                      width: "100%",
-                      borderRadius: 3,
-                      textDecoration: "none",
-                      px: 2,
-                      py: 1,
-                      ":hover": { backgroundColor: purplishBlueDark },
-                    }}
-                    onClick={() => navigate(`/mycourses/${params.slug}`)}
-                  >
-                    View Lessons
-                  </Button>
-                </Grid>
-              </Grid>
-
-              <Grid container display={{ xs: "block", md: "none" }}>
-                <Grid item xs={12}>
-                  <Button
-                    sx={{
-                      backgroundColor: purplishBlue,
-                      fontFamily: fontType,
-                      color: white,
-                      fontSize: 14,
-                      width: "100%",
-                      borderRadius: 3,
-                      textDecoration: "none",
-                      px: 2,
-                      py: 1,
-                      ":hover": { backgroundColor: purplishBlueDark },
-                    }}
-                    onClick={() => navigate(`/mycourses/${params.slug}`)}
-                  >
-                    View Lessons
-                  </Button>
-                </Grid>
-              </Grid>
-            </>)}
-
-        {/* QuizCard if is not instructor */}
+        {/* QuizCard */}
         <Grid container spacing={2} mt={1}>
-          {quizzes && quizzes.map((quiz) => (
+          { search === "" && quizzes && quizzes.map((quiz) => (
             <Grid key={quiz.quiz._id} item xs={12} md={4} width="100%">
-              <QuizCard key={quiz._id} quiz={quiz.quiz} is_staff={user.user.is_staff} score={quiz.score} done={quiz.done}/>
+              <QuizCard key={quiz._id} quiz={quiz.quiz} is_staff={user.user.is_staff} score={quiz.score} done={quiz.done} published={quiz.quiz.published}/>
+            </Grid>
+          ))}
+          { search !== "" && filteredQuizzes && filteredQuizzes.map((quiz) => (
+            <Grid key={quiz.quiz._id} item xs={12} md={4} width="100%">
+              <QuizCard key={quiz._id} quiz={quiz.quiz} is_staff={user.user.is_staff} score={quiz.score} done={quiz.done} published={quiz.quiz.published}/>
             </Grid>
           ))}
         </Grid>

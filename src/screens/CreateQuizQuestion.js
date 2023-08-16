@@ -73,6 +73,10 @@ function CreateQuizQuestionScreen() {
     );
   };
 
+  const handleCancel = (e) => {
+    navigate(`/mycourses/${params.slug}/myquiz/${params.quizSlug}/instructor`)
+  }
+
   const handleImageRemove = () => {
     dispatch(deleteImage(image, setPreview, setImage));
   };
@@ -122,130 +126,6 @@ function CreateQuizQuestionScreen() {
     // setPreview(window.URL.createObjectURL(file));
     dispatch(uploadImage(file, setPreview4, setImage4));
   };
-
-  // const handleImage1Remove = async () => {
-  //   try {
-  //     setPending(true);
-  //     const res = await axios.post("/api/course/remove-image", { image: image1 });
-  //     setImage1();
-  //     setPreview1("");
-  //     setPending(false);
-  //   } catch (error) {
-  //     console.log("Error when delete image");
-  //   }
-  // };
-
-  // const handleImage1 = (e) => {
-  //   let file = e.target.files[0];
-  //   setPreview1(window.URL.createObjectURL(file));
-
-  //   // resize image before send to s3
-  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-  //     try {
-  //       setPending(true);
-  //       let { data } = await axios.post("/api/course/upload-image", {
-  //         image: uri,
-  //       });
-
-  //       // set image in the state
-  //       setImage1(data);
-  //       setPending(false);
-  //     } catch (error) {}
-  //   });
-  // };
-
-  // const handleImage2Remove = async () => {
-  //   try {
-  //     setPending(true);
-  //     const res = await axios.post("/api/course/remove-image", { image: image2 });
-  //     setImage2();
-  //     setPreview2("");
-  //     setPending(false);
-  //   } catch (error) {
-  //     console.log("Error when delete image");
-  //   }
-  // };
-
-  // const handleImage2 = (e) => {
-  //   let file = e.target.files[0];
-  //   setPreview2(window.URL.createObjectURL(file));
-
-  //   // resize image before send to s3
-  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-  //     try {
-  //       setPending(true);
-  //       let { data } = await axios.post("/api/course/upload-image", {
-  //         image: uri,
-  //       });
-
-  //       // set image in the state
-  //       setImage2(data);
-  //       setPending(false);
-  //     } catch (error) {}
-  //   });
-  // };
-
-  // const handleImage3Remove = async () => {
-  //   try {
-  //     setPending(true);
-  //     const res = await axios.post("/api/course/remove-image", { image: image3 });
-  //     setImage3();
-  //     setPreview3("");
-  //     setPending(false);
-  //   } catch (error) {
-  //     console.log("Error when delete image");
-  //   }
-  // };
-
-  // const handleImage3 = (e) => {
-  //   let file = e.target.files[0];
-  //   setPreview3(window.URL.createObjectURL(file));
-
-  //   // resize image before send to s3
-  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-  //     try {
-  //       setPending(true);
-  //       let { data } = await axios.post("/api/course/upload-image", {
-  //         image: uri,
-  //       });
-
-  //       // set image in the state
-  //       setImage3(data);
-  //       setPending(false);
-  //     } catch (error) {}
-  //   });
-  // };
-
-  // const handleImage4Remove = async () => {
-  //   try {
-  //     setPending(true);
-  //     const res = await axios.post("/api/course/remove-image", { image: image4 });
-  //     setImage4();
-  //     setPreview4("");
-  //     setPending(false);
-  //   } catch (error) {
-  //     console.log("Error when delete image");
-  //   }
-  // };
-
-  // const handleImage4 = (e) => {
-  //   let file = e.target.files[0];
-  //   setPreview4(window.URL.createObjectURL(file));
-
-  //   // resize image before send to s3
-  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-  //     try {
-  //       setPending(true);
-  //       let { data } = await axios.post("/api/course/upload-image", {
-  //         image: uri,
-  //       });
-
-  //       // set image in the state
-  //       setImage4(data);
-  //       setPending(false);
-  //     } catch (error) {}
-  //   });
-  // };
 
   useEffect(() => {
     if (success) {
@@ -308,6 +188,7 @@ function CreateQuizQuestionScreen() {
           pending={pending}
           imageLoading={imageLoading}
           imageDeleteLoading={imageDeleteLoading}
+          handleCancel={handleCancel}
         />
       </Box>}
     </Container>

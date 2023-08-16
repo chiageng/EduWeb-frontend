@@ -4,7 +4,11 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import { neural900, red, white } from "../../design/color";
+import { activeRedButton, hoverRedButton, neural900, pressedRedButton, red, white } from "../../design/color";
+import LoadingButton from "@mui/lab/LoadingButton";
+import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
+import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 export default function QuizQuestionHelper({
   choice1,
@@ -41,7 +45,7 @@ export default function QuizQuestionHelper({
           aria-labelledby="demo-radio-buttons-group-label"
           name="radio-buttons-group"
           sx={{
-            width: "90%",
+            width: "100%",
           }}
         >
           <Grid container display="flex" spacing={0} mb={1}>
@@ -90,35 +94,38 @@ export default function QuizQuestionHelper({
                 hidden
                 onChange={handleImage1}
               />
-              <Button
-                variant="contained"
-                component="span"
-                disabled={imageLoading || imageDeleteLoading}
-              >
-                {imageLoading
-                  ? "Uploading..."
-                  : imageDeleteLoading
-                  ? "Deleting..."
-                  : "Upload Image"}
-              </Button>
+               <LoadingButton
+              variant="contained"
+              component="span"
+              loading={imageLoading || imageDeleteLoading}
+              loadingPosition="end"
+              endIcon={<ImageOutlinedIcon />}
+            >
+              <span>Upload Image</span>
+            </LoadingButton>
               {preview1 && (
-                <Button
-                  sx={{
-                    ml: 2,
-                    color: neural900,
-                    fontSize: 14,
-                    fontWeight: 300,
-                    backgroundColor: red,
-                    color: white,
-                    ":hover": {
-                      backgroundColor: red,
-                    },
-                  }}
-                  onClick={handleImage1Remove}
-                  disabled={imageLoading || imageDeleteLoading}
-                >
-                  Remove
-                </Button>
+                <LoadingButton
+                sx={{
+                  ml: 2,
+                  color: neural900,
+                  fontSize: 14,
+                  fontWeight: 300,
+                  backgroundColor: activeRedButton,
+                  color: white,
+                  ":hover": {
+                    backgroundColor: hoverRedButton,
+                  },
+                  ":focus": {
+                    backgroundColor: pressedRedButton,
+                  },
+                }}
+                onClick={handleImage1Remove}
+                loading={imageLoading || imageDeleteLoading}
+                loadingPosition="end"
+                endIcon={<DeleteOutlinedIcon />}
+              >
+                <span>Remove</span>
+              </LoadingButton>
               )}
             </label>
           </Grid>
@@ -175,35 +182,38 @@ export default function QuizQuestionHelper({
                 hidden
                 onChange={handleImage2}
               />
-              <Button
-                variant="contained"
-                component="span"
-                disabled={imageLoading || imageDeleteLoading}
-              >
-                {imageLoading
-                  ? "Uploading..."
-                  : imageDeleteLoading
-                  ? "Deleting..."
-                  : "Upload Image"}
-              </Button>
+               <LoadingButton
+              variant="contained"
+              component="span"
+              loading={imageLoading || imageDeleteLoading}
+              loadingPosition="end"
+              endIcon={<ImageOutlinedIcon />}
+            >
+              <span>Upload Image</span>
+            </LoadingButton>
               {preview2 && (
-                <Button
-                  sx={{
-                    ml: 2,
-                    color: neural900,
-                    fontSize: 14,
-                    fontWeight: 300,
-                    backgroundColor: red,
-                    color: white,
-                    ":hover": {
-                      backgroundColor: red,
-                    },
-                  }}
-                  onClick={handleImage2Remove}
-                  disabled={imageLoading || imageDeleteLoading}
-                >
-                  Remove
-                </Button>
+                <LoadingButton
+                sx={{
+                  ml: 2,
+                  color: neural900,
+                  fontSize: 14,
+                  fontWeight: 300,
+                  backgroundColor: activeRedButton,
+                  color: white,
+                  ":hover": {
+                    backgroundColor: hoverRedButton,
+                  },
+                  ":focus": {
+                    backgroundColor: pressedRedButton,
+                  },
+                }}
+                onClick={handleImage2Remove}
+                loading={imageLoading || imageDeleteLoading}
+                loadingPosition="end"
+                endIcon={<DeleteOutlinedIcon />}
+              >
+                <span>Remove</span>
+              </LoadingButton>
               )}
             </label>
           </Grid>
@@ -260,35 +270,38 @@ export default function QuizQuestionHelper({
                 hidden
                 onChange={handleImage3}
               />
-              <Button
-                variant="contained"
-                component="span"
-                disabled={imageLoading || imageDeleteLoading}
-              >
-                {imageLoading
-                  ? "Uploading..."
-                  : imageDeleteLoading
-                  ? "Deleting..."
-                  : "Upload Image"}
-              </Button>
+               <LoadingButton
+              variant="contained"
+              component="span"
+              loading={imageLoading || imageDeleteLoading}
+              loadingPosition="end"
+              endIcon={<ImageOutlinedIcon />}
+            >
+              <span>Upload Image</span>
+            </LoadingButton>
               {preview3 && (
-                <Button
-                  sx={{
-                    ml: 2,
-                    color: neural900,
-                    fontSize: 14,
-                    fontWeight: 300,
-                    backgroundColor: red,
-                    color: white,
-                    ":hover": {
-                      backgroundColor: red,
-                    },
-                  }}
-                  onClick={handleImage3Remove}
-                  disabled={imageLoading || imageDeleteLoading}
-                >
-                  Remove
-                </Button>
+                <LoadingButton
+                sx={{
+                  ml: 2,
+                  color: neural900,
+                  fontSize: 14,
+                  fontWeight: 300,
+                  backgroundColor: activeRedButton,
+                  color: white,
+                  ":hover": {
+                    backgroundColor: hoverRedButton,
+                  },
+                  ":focus": {
+                    backgroundColor: pressedRedButton,
+                  },
+                }}
+                onClick={handleImage3Remove}
+                loading={imageLoading || imageDeleteLoading}
+                loadingPosition="end"
+                endIcon={<DeleteOutlinedIcon />}
+              >
+                <span>Remove</span>
+              </LoadingButton>
               )}
             </label>
           </Grid>
@@ -345,35 +358,38 @@ export default function QuizQuestionHelper({
                 hidden
                 onChange={handleImage4}
               />
-              <Button
-                variant="contained"
-                component="span"
-                disabled={imageLoading || imageDeleteLoading}
-              >
-                {imageLoading
-                  ? "Uploading..."
-                  : imageDeleteLoading
-                  ? "Deleting..."
-                  : "Upload Image"}
-              </Button>
+               <LoadingButton
+              variant="contained"
+              component="span"
+              loading={imageLoading || imageDeleteLoading}
+              loadingPosition="end"
+              endIcon={<ImageOutlinedIcon />}
+            >
+              <span>Upload Image</span>
+            </LoadingButton>
               {preview4 && (
-                <Button
-                  sx={{
-                    ml: 2,
-                    color: neural900,
-                    fontSize: 14,
-                    fontWeight: 300,
-                    backgroundColor: red,
-                    color: white,
-                    ":hover": {
-                      backgroundColor: red,
-                    },
-                  }}
-                  onClick={handleImage4Remove}
-                  disabled={imageLoading || imageDeleteLoading}
-                >
-                  Remove
-                </Button>
+                <LoadingButton
+                sx={{
+                  ml: 2,
+                  color: neural900,
+                  fontSize: 14,
+                  fontWeight: 300,
+                  backgroundColor: activeRedButton,
+                  color: white,
+                  ":hover": {
+                    backgroundColor: hoverRedButton,
+                  },
+                  ":focus": {
+                    backgroundColor: pressedRedButton,
+                  },
+                }}
+                onClick={handleImage4Remove}
+                loading={imageLoading || imageDeleteLoading}
+                loadingPosition="end"
+                endIcon={<DeleteOutlinedIcon />}
+              >
+                <span>Remove</span>
+              </LoadingButton>
               )}
             </label>
           </Grid>

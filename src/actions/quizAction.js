@@ -10,18 +10,23 @@ import {
   QUIZZES_VIEW_FAIL,
   QUIZZES_VIEW_REQUEST,
   QUIZZES_VIEW_SUCCESS,
+
   QUIZ_VIEW_FAIL,
   QUIZ_VIEW_REQUEST,
   QUIZ_VIEW_SUCCESS,
+
   QUIZ_QUESTION_CREATE_FAIL,
   QUIZ_QUESTION_CREATE_REQUEST,
   QUIZ_QUESTION_CREATE_SUCCESS,
+
   QUIZ_QUESTION_VIEW_FAIL,
   QUIZ_QUESTION_VIEW_REQUEST,
   QUIZ_QUESTION_VIEW_SUCCESS,
+
   QUIZ_QUESTION_EDIT_FAIL,
   QUIZ_QUESTION_EDIT_REQUEST,
   QUIZ_QUESTION_EDIT_SUCCESS,
+
   QUIZ_QUESTION_DELETE_FAIL,
   QUIZ_QUESTION_DELETE_REQUEST,
   QUIZ_QUESTION_DELETE_SUCCESS,
@@ -29,6 +34,10 @@ import {
   QUIZ_SAVE_FAIL,
   QUIZ_SAVE_REQUEST,
   QUIZ_SAVE_SUCCESS,
+
+  QUIZ_DELETE_FAIL,
+  QUIZ_DELETE_REQUEST,
+  QUIZ_DELETE_SUCCESS,
 } from "../constants/quiz";
 import axios from "axios";
 
@@ -357,3 +366,33 @@ export const userSaveQuiz = ({slug, quizSlug, quizId, score, solutions}) => asyn
     });
   }
 };
+
+export const deleteQuiz =
+  ({ slug, quizSlug }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: QUIZ_DELETE_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.put(
+        `/api/course/${slug}/quiz/${quizSlug}/delete`,
+        config
+      );
+
+      dispatch({
+        type: QUIZ_DELETE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: QUIZ_DELETE_FAIL,
+        payload: error.response.data,
+      });
+    }
+  };

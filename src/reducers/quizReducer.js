@@ -23,18 +23,26 @@ import {
   QUIZ_SAVE_SUCCESS,
   QUIZ_SAVE_RESET,
 
+  QUIZ_DELETE_FAIL,
+  QUIZ_DELETE_REQUEST,
+  QUIZ_DELETE_SUCCESS,
+  QUIZ_DELETE_RESET,
+
   QUIZ_QUESTION_CREATE_FAIL,
   QUIZ_QUESTION_CREATE_REQUEST,
   QUIZ_QUESTION_CREATE_SUCCESS,
   QUIZ_QUESTION_CREATE_RESET,
   QUIZ_QUESTION_VIEW_FAIL,
+
   QUIZ_QUESTION_VIEW_REQUEST,
   QUIZ_QUESTION_VIEW_SUCCESS,
   QUIZ_QUESTION_VIEW_RESET,
+
   QUIZ_QUESTION_EDIT_FAIL,
   QUIZ_QUESTION_EDIT_REQUEST,
   QUIZ_QUESTION_EDIT_SUCCESS,
   QUIZ_QUESTION_EDIT_RESET,
+
   QUIZ_QUESTION_DELETE_FAIL,
   QUIZ_QUESTION_DELETE_REQUEST,
   QUIZ_QUESTION_DELETE_SUCCESS,
@@ -223,6 +231,28 @@ export const quizSaveReducers = (state = {}, action) => {
       return { loading: false, error: action.payload };
 
     case QUIZ_SAVE_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const quizDeleteReducers = (state = {}, action) => {
+  switch (action.type) {
+    case QUIZ_DELETE_REQUEST:
+      return { loading: true };
+
+    case QUIZ_DELETE_SUCCESS:
+      return {
+        loading: false,
+        success: true
+      };
+
+    case QUIZ_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+
+    case QUIZ_DELETE_RESET:
       return {};
 
     default:

@@ -25,13 +25,14 @@ export default function QuizQuestionCard({question}) {
       {/* Quiz card for Webpage */}
       <Card
         sx={{
-          display: { xs: "none", md: "flex" },
+          display: "flex",
           mx: 0,
           borderRadius: "10px",
           backgroundColor: white,
           textDecoration: 'none',
           color: neural900,
-          mb: "16px",
+          mb: "4px",
+          height: "72px",
           ':hover': {
             cursor: 'pointer'
           }
@@ -49,40 +50,6 @@ export default function QuizQuestionCard({question}) {
               color={neural900}
               fontSize="18px"
               mt={1}
-            >
-              {question.question}
-            </Typography>
-          </CardContent>
-        </Box>
-      </Card>
-
-      {/* Quiz Card for phone  */}
-      <Card
-        sx={{
-          display: { xs: "flex", md: "none" },
-          mx: 0,
-          borderRadius: "10px",
-          backgroundColor: white,
-          textDecoration: 'none',
-          color: neural900,
-          mb: "4px",
-          ':hover': {
-            cursor: 'pointer'
-          }
-        }}
-        as={Link}
-        to={`/mycourses/${params.slug}/myquiz/${params.quizSlug}/instructor/${question._id}/edit`}
-      >
-        <Box sx={{ display: "flex", flexGrow: 1 }}>
-          <CardContent>
-            <Typography
-              component="div"
-              variant="h5"
-              fontFamily={fontType}
-              fontWeight={500}
-              color={neural900}
-              fontSize="18px"
-              mt={0}
             >
               {question.question}
             </Typography>

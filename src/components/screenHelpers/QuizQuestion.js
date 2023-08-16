@@ -22,21 +22,22 @@ export default function QuizQuestion({
       <>
         {/* Quiz question after submission for Webpage */}
         <FormControl sx={{ width: "100%" }}>
-          <Grid container spacing={0}>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue={chosenAnswer}
               name="radio-buttons-group"
               sx={{
-                width: "90%",
+                width: "100%",
               }}
             >
+          <Grid container spacing={0} display="flex" justifyContent="space-between">
               {selections &&
                 selections.map((selection) => (
-                  <Grid key={selection._id} item mb={2}>
+                  <Grid item key={selection._id} mb={2} xs={12} md={5.8}>
                     <Card
                       sx={{
                         display: "flex",
+                        height: "100%",
                         backgroundColor:
                           correctAnswer === selection.value
                             ? green
@@ -86,7 +87,7 @@ export default function QuizQuestion({
                           </Grid>
                           <Grid item ml={5}>
                             {selection.image && (
-                              <img src={selection.image.Location}></img>
+                              <img style={{ maxWidth:"100%" , objectFit: "contain"}} src={selection.image.Location}></img>
                             )}
                           </Grid>
                         </Grid>
@@ -94,8 +95,8 @@ export default function QuizQuestion({
                     </Card>
                   </Grid>
                 ))}
-            </RadioGroup>
           </Grid>
+            </RadioGroup>
         </FormControl>
       </>
     );
@@ -105,20 +106,21 @@ export default function QuizQuestion({
     <>
       {/* Quiz question before submission for Webpage */}
       <FormControl sx={{ width: "100%" }}>
-        <Grid container spacing={0}>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             name="radio-buttons-group"
             sx={{
-              width: "90%",
+              width: "100%",
             }}
           >
+        <Grid container spacing={0} display="flex" justifyContent="space-between">
             {selections &&
               selections.map((selection) => (
-                <Grid key={selection._id} item mb={2}>
+                <Grid key={selection._id} item mb={2} xs={12} md={5.8}>
                   <Card
                     sx={{
                       display: "flex",
+                      height: "100%",
                       backgroundColor:
                         correctAnswer === selection.value
                           ? green
@@ -155,9 +157,9 @@ export default function QuizQuestion({
                             }
                           ></FormControlLabel>
                         </Grid>
-                        <Grid item ml={5}>
+                        <Grid item>
                           {selection.image && (
-                            <img src={selection.image.Location}></img>
+                            <img style={{ maxWidth:"100%" , objectFit: "contain"}} src={selection.image.Location}></img>
                           )}
                         </Grid>
                       </Grid>
@@ -165,8 +167,8 @@ export default function QuizQuestion({
                   </Card>
                 </Grid>
               ))}
-          </RadioGroup>
         </Grid>
+          </RadioGroup>
       </FormControl>
     </>
   );

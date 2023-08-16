@@ -10,6 +10,9 @@ import {
   purplishBlueDark,
   purplishBlue,
   white,
+  hoverBlueButton,
+  activeBlueButton,
+  pressedBlueButton,
 } from "../../design/color";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
@@ -23,8 +26,9 @@ export default function SimpleBackdrop({ end, onClick, result, totalQuestions, b
         onClick={onClick}
       >
         {/* Backdrop for webpage design */}
-        <Grid container display={{xs:'none', md: 'block'}}>
-        <Card sx={{ borderRadius: 10, p: 3, width: '30%', mx: 'auto' }}>
+        <Grid container display="flex" justifyContent="center">
+          <Grid item xs={12} md={4}>
+          <Card sx={{ borderRadius: 5, p: 3, mx: 1 }}>
           <CardContent>
             <Grid
               container
@@ -36,7 +40,7 @@ export default function SimpleBackdrop({ end, onClick, result, totalQuestions, b
                   sx={{
                     fontWeight: 800,
                     fontFamily: fontType,
-                    fontSize: "30px",
+                    fontSize: "16px",
                     color: neural900,
                     mb: 2
                   }}
@@ -45,17 +49,17 @@ export default function SimpleBackdrop({ end, onClick, result, totalQuestions, b
                 </Typography>
               </Grid>
               <Grid item>
-                <Grid container>
-                  <Grid item md={2} mt={0.5}>
-                    <CheckCircleIcon sx={{ color: green }} />
+                <Grid container justifyContent="space-around">
+                  <Grid item mt={0.75}>
+                    <CheckCircleIcon sx={{ color: green, fontSize: "32px" }} />
                   </Grid>
-                  <Grid item ml={2} md={2}>
+                  <Grid item >
                     <Typography
                       sx={{
                         fontWeight: 600,
                         fontFamily: fontType,
-                        fontSize: "20px",
-                        color: neural700,
+                        fontSize: "32px",
+                        color: neural900,
                         mb: 2
                       }}
                     >
@@ -67,13 +71,17 @@ export default function SimpleBackdrop({ end, onClick, result, totalQuestions, b
               <Grid item>
                 <Button
                   sx={{
-                    backgroundColor: purplishBlue,
+                    backgroundColor: activeBlueButton,
                     fontFamily: fontType,
                     color: white,
                     fontSize: 14,
+                    textTransform: "capitalize",
+                    px: 4,
+                    py: 1.5,
                     width: "100%",
                     borderRadius: 3,
-                    ":hover": { backgroundColor: purplishBlueDark },
+                    ":hover": { backgroundColor: hoverBlueButton },
+                    ":focus": { backgroundColor: pressedBlueButton },
                   }}
                   onClick={buttonHandler}
                 >
@@ -83,10 +91,11 @@ export default function SimpleBackdrop({ end, onClick, result, totalQuestions, b
             </Grid>
           </CardContent>
         </Card>
+          </Grid>
         </Grid>
 
         {/* Backdrop for phone design */}
-        <Grid container display={{xs:'block', md: 'none'}}>
+        {/* <Grid container display={{xs:'block', md: 'none'}}>
         <Card sx={{ borderRadius: 10, p: 3, width: '60%', mx: 'auto' }}>
           <CardContent>
             <Grid
@@ -146,7 +155,7 @@ export default function SimpleBackdrop({ end, onClick, result, totalQuestions, b
             </Grid>
           </CardContent>
         </Card>
-        </Grid>
+        </Grid> */}
       </Backdrop>
     </>
   );

@@ -191,6 +191,7 @@ export default function Topic({ topic, user }) {
               fontWeight={700}
               color={neural900}
               mr={0}
+              mt={1}
             >
               {topic.title}
             </Typography>

@@ -8,7 +8,10 @@ import {
   Breadcrumbs,
   Card,
   CardContent,
+  CardMedia,
 } from "@mui/material";
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 import { useNavigate, useParams } from "react-router-dom";
 import {
   neural500,
@@ -18,6 +21,15 @@ import {
   purplishBlueDark,
   white,
   purplishBlueLight,
+  hoverBlueButton,
+  disabledButton,
+  disabledButtonText,
+  activeBorderBlueButton,
+  hoverBorderBlueButton,
+  pressedBorderBackgroundBlueButton,
+  pressedBorderBlueButton,
+  activeBlueButton,
+  pressedBlueButton,
 } from "../design/color";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
@@ -26,7 +38,11 @@ import { fontType } from "../design/font";
 import SimpleBackdrop from "../components/universal/SimpleBackdrop";
 import { useDispatch, useSelector } from "react-redux";
 import { userSaveQuiz, userViewQuiz } from "../actions/quizAction";
-import { QUIZZES_VIEW_RESET, QUIZ_VIEW_RESET } from "../constants/quiz";
+import {
+  QUIZZES_VIEW_RESET,
+  QUIZ_SAVE_RESET,
+  QUIZ_VIEW_RESET,
+} from "../constants/quiz";
 
 export const MyQuizScreen = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -132,6 +148,7 @@ export const MyQuizScreen = () => {
 
     if (success) {
       navigate(`/mycourses/${params.slug}/myquiz`);
+      dispatch({ type: QUIZ_SAVE_RESET });
     }
   }, [course, quiz, currentQuestion, selections, params, success, userQuiz]);
 
@@ -175,8 +192,6 @@ export const MyQuizScreen = () => {
       </Typography>
     </Breadcrumbs>
   );
-
-  const output = <></>;
 
   return (
     <Container>
@@ -235,19 +250,12 @@ export const MyQuizScreen = () => {
 
           {/* If got image */}
           {questions[currentQuestion].question.image && (
-            // <Card
-            //   sx={{
-            //     borderRadius: "5px",
-            //     mb: "16px",
-            //     width: "auto"
-            //   }}
-            // >
-            //   <CardMedia
-            //   sx={{height: 100}}
-            //     image={questions[currentQuestion].question.image.Location}
-            //   />
-            // </Card>
-            <img src={questions[currentQuestion].question.image.Location}></img>
+            <Box mb={1}>
+              <img
+                style={{ minHeight: "200px", objectFit: "contain" }}
+                src={questions[currentQuestion].question.image.Location}
+              ></img>
+            </Box>
           )}
 
           {/* Before submission Design for Quiz Question*/}
@@ -275,7 +283,7 @@ export const MyQuizScreen = () => {
                 display: "flex",
                 borderRadius: "5px",
                 mb: "16px",
-                width: "90%",
+                width: "100%",
               }}
             >
               <Box sx={{ display: "flex", flexGrow: 1 }}>
@@ -313,20 +321,27 @@ export const MyQuizScreen = () => {
             </Card>
           )}
 
-          {/* Before submission submit button webpage design */}
+          {/* Before submission submit button design */}
           {!submit && (
-            <Grid container display={{ xs: "none", md: "flex" }}>
-              <Grid item md={10}></Grid>
-              <Grid item md={2}>
+            <Grid container display="flex" justifyContent="center">
+              <Grid item xs={12} md={2}>
                 <Button
+                  fullWidth
                   sx={{
-                    backgroundColor: purplishBlue,
+                    backgroundColor: activeBlueButton,
                     fontFamily: fontType,
                     color: white,
                     fontSize: 14,
+                    px: 4,
+                    py: 1,
                     borderRadius: 3,
-                    ":hover": { backgroundColor: purplishBlueDark },
-                    ":disabled": { backgroundColor: purplishBlueLight },
+                    textTransform: "capitalize",
+                    ":hover": { backgroundColor: hoverBlueButton },
+                    ":disabled": {
+                      backgroundColor: disabledButton,
+                      color: disabledButtonText,
+                    },
+                    ":focus": { backgroundColor: pressedBlueButton}
                   }}
                   onClick={submitHandler}
                   disabled={chosenAnswer === ""}
@@ -337,105 +352,66 @@ export const MyQuizScreen = () => {
             </Grid>
           )}
 
-          {/* Before submission submit button phone design */}
-          {!submit && (
-            <Grid container display={{ xs: "flex", md: "none" }}>
-              <Button
-                sx={{
-                  backgroundColor: purplishBlue,
-                  fontFamily: fontType,
-                  color: white,
-                  fontSize: 14,
-                  width: "90%",
-                  borderRadius: 3,
-                  ":hover": { backgroundColor: purplishBlueDark },
-                  ":disabled": { backgroundColor: purplishBlueLight },
-                }}
-                onClick={submitHandler}
-                disabled={chosenAnswer === ""}
-              >
-                Submit
-              </Button>
-            </Grid>
-          )}
-
           {/* After submission buttons webpage design */}
           {submit && (
-            <Grid
-              container
-              display={{ xs: "none", md: "flex" }}
-              justifyContent="space-between"
-            >
-              <Grid item md={2}>
+            <Grid container display="flex" justifyContent="space-between">
+              <Grid item xs={12} md={2} mt={2}>
                 <Button
+                  fullWidth
+                  variant="outlined"
                   sx={{
-                    backgroundColor: purplishBlue,
-                    fontFamily: fontType,
-                    color: white,
+                    color: purplishBlueDark,
+                    textTransform: "capitalize",
+                    py: 1.5,
+                    borderRadius: 2,
                     fontSize: 14,
-                    borderRadius: 3,
-                    ":hover": { backgroundColor: purplishBlueDark },
-                    ":disabled": { backgroundColor: purplishBlueLight },
+                    fontWeight: 600,
+                    borderColor: activeBorderBlueButton,
+                    backgroundColor: white,
+                    ":hover": {
+                      borderColor: hoverBorderBlueButton,
+                    },
+                    ":focus": {
+                      bgcolor: pressedBorderBackgroundBlueButton,
+                      borderColor: pressedBorderBlueButton,
+                    },
+                    ":disabled": {
+                      bgcolor: disabledButton,
+                      color: disabledButtonText,
+                      borderColor: white,
+                    },
                   }}
                   onClick={prevHandler}
                   disabled={currentQuestion === 0}
+                  startIcon={<ArrowBackOutlinedIcon/>}
                 >
                   Previous Question
                 </Button>
               </Grid>
-              <Grid item md={7}></Grid>
-              <Grid item md={2} mr={6}>
+              <Grid item md={2} xs={12} mt={2}>
                 <Button
+                  fullWidth
                   sx={{
-                    backgroundColor: purplishBlue,
+                    backgroundColor: activeBlueButton,
                     fontFamily: fontType,
-                    color: white,
+                    textTransform: "capitalize",
+                    py: 1.5,
+                    borderRadius: 2,
                     fontSize: 14,
-                    borderRadius: 3,
-                    ":hover": { backgroundColor: purplishBlueDark },
+                    color: white,
+                    ":hover": { backgroundColor: hoverBlueButton },
+                    ":disabled": {
+                      backgroundColor: disabledButton,
+                      color: disabledButtonText,
+                    },
+                    ":focus": { backgroundColor: pressedBlueButton },
                   }}
+                  endIcon={<ArrowForwardOutlinedIcon/>}
                   onClick={nextHandler}
                 >
                   Next Question
                 </Button>
               </Grid>
-            </Grid>
-          )}
-
-          {/* After submission buttons phone design */}
-          {submit && (
-            <Grid container display={{ xs: "flex", md: "none" }}>
-              <Button
-                sx={{
-                  backgroundColor: purplishBlue,
-                  fontFamily: fontType,
-                  color: white,
-                  fontSize: 14,
-                  width: "90%",
-                  borderRadius: 3,
-                  ":hover": { backgroundColor: purplishBlueDark },
-                  ":disabled": { backgroundColor: purplishBlueLight },
-                  mb: 2,
-                }}
-                onClick={prevHandler}
-                disabled={currentQuestion === 0}
-              >
-                Previous Question
-              </Button>
-              <Button
-                sx={{
-                  backgroundColor: purplishBlue,
-                  fontFamily: fontType,
-                  color: white,
-                  fontSize: 14,
-                  width: "90%",
-                  borderRadius: 3,
-                  ":hover": { backgroundColor: purplishBlueDark },
-                }}
-                onClick={nextHandler}
-              >
-                Next Question
-              </Button>
             </Grid>
           )}
         </Box>

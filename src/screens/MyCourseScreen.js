@@ -149,7 +149,6 @@ function MyCourseScreen() {
         <Box pt={5} pb={10}>
           {breadcrumb}
 
-          {/* View Quiz button for webpage */}
           <Grid container display="flex" alignItems="center">
             <Grid item xs={12} md={7}>
               <Typography
@@ -200,6 +199,7 @@ function MyCourseScreen() {
                   py: 1.5,
                   mt: 1,
                   borderRadius: 2,
+                  textTransform: "capitalize",
                   fontSize: 12,
                   fontWeight: 600,
                   lineHeight: "140%",

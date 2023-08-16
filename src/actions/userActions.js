@@ -19,7 +19,7 @@ import {
   VIEW_PROFILE_SUCCESS,
   LOGOUT,
 } from "../constants/user";
-import { QUIZZES_VIEW_RESET } from "../constants/quiz";
+import { QUIZZES_VIEW_RESET, QUIZ_VIEW_RESET } from "../constants/quiz";
 import axios from "axios";
 import { COURSES_VIEW_RESET } from "../constants/course";
 
@@ -99,6 +99,7 @@ export const logout = () => async (dispatch) => {
     dispatch({ type: COURSES_VIEW_RESET });
     dispatch({ type: VIEW_PROFILE_RESET})
     dispatch({ type: QUIZZES_VIEW_RESET })
+    dispatch({ type: QUIZ_VIEW_RESET })
 
     dispatch({
       type: USER_LOGOUT_SUCCESS,
@@ -136,6 +137,7 @@ export const forceLogout = () => async (dispatch) => {
     dispatch({ type: COURSES_VIEW_RESET });
     dispatch({ type: VIEW_PROFILE_RESET})
     dispatch({ type: QUIZZES_VIEW_RESET })
+    dispatch({ type: QUIZ_VIEW_RESET })
 
     localStorage.removeItem("user");
   } catch (error) {

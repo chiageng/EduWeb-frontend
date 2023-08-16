@@ -28,6 +28,7 @@ import {
 } from "./reducers/courseReducer";
 import {
   quizCreateReducers,
+  quizDeleteReducers,
   quizEditReducers,
   quizQuestionCreateReducers,
   quizQuestionDeleteReducers,
@@ -78,6 +79,7 @@ const store = configureStore({
     quizQuestionEdit: quizQuestionEditReducers,
     quizQuestionDelete: quizQuestionDeleteReducers,
     quizSave: quizSaveReducers,
+    quizDelete: quizDeleteReducers,
     profileEdit: profileEditReducer,
     profileView: profileViewReducer,
     imageUpload: imageUploadReducers,

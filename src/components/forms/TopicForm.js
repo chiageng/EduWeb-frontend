@@ -8,12 +8,16 @@ import {
   purplishBluePale,
   purplishBlue,
   red,
+  activeRedButton,
+  pressedRedButton,
+  hoverRedButton,
 } from "../../design/color";
 import { fontType } from "../../design/font";
 import Progress from "../universal/Progress";
 import LoadingButton from "@mui/lab/LoadingButton";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Loader from "../universal/Loader";
 function TopicForm({
   setTitle,
@@ -108,7 +112,7 @@ function TopicForm({
                   <span>Upload Image</span>
                 </LoadingButton>
                 {preview && (
-                  <Button
+                  <LoadingButton
                     sx={{
                       ml: 2,
                       color: neural900,
@@ -120,11 +124,13 @@ function TopicForm({
                         backgroundColor: red,
                       },
                     }}
+                    endIcon={<DeleteOutlinedIcon/>}
                     onClick={handleImageRemove}
-                    disabled={imageLoading || imageDeleteLoading}
+                    loading={imageLoading || imageDeleteLoading}
+                    loadingPosition="end"
                   >
                     Remove Image
-                  </Button>
+                  </LoadingButton>
                 )}
               </label>
             </Grid>
@@ -152,23 +158,28 @@ function TopicForm({
                   <span>Upload Video</span>
                 </LoadingButton>
                 {videoFile && (
-                  <Button
+                  <LoadingButton
                     sx={{
                       ml: 2,
                       color: neural900,
                       fontSize: 14,
                       fontWeight: 300,
-                      backgroundColor: red,
+                      backgroundColor: activeRedButton,
                       color: white,
                       ":hover": {
-                        backgroundColor: red,
+                        backgroundColor: hoverRedButton,
                       },
+                      ":focus": {
+                        backgroundColor: pressedRedButton,
+                      }
                     }}
                     onClick={handleVideoRemove}
-                    disabled={videoLoading || videoDeleteLoading}
+                    loading={videoLoading || videoDeleteLoading}
+                    loadingPosition="end"
+                    endIcon={<DeleteOutlinedIcon/>}
                   >
                     Remove Video
-                  </Button>
+                  </LoadingButton>
                 )}
                 {uploading && <Progress progress={progress} />}
                 <Typography

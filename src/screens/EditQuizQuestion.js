@@ -100,6 +100,10 @@ function EditQuizQuestionScreen() {
     );
   };
 
+  const handleCancel = (e) => {
+    navigate(`/mycourses/${params.slug}/myquiz/${params.quizSlug}/instructor`)
+  }
+
   const handleImageRemove = () => {
     dispatch(deleteImage(image, setPreview, setImage));
   };
@@ -217,7 +221,7 @@ function EditQuizQuestionScreen() {
             fontWeight: 600,
             fontStyle: "normal",
             color: neural900,
-            mb: "32px",
+            mb: "16px",
           }}
         >
           Edit Quiz Question
@@ -257,6 +261,8 @@ function EditQuizQuestionScreen() {
           pending={pending}
           imageLoading={imageLoading}
           imageDeleteLoading={imageDeleteLoading}
+          handleCancel={handleCancel}
+          edit={true}
         />
       </Box>}
     </Container>

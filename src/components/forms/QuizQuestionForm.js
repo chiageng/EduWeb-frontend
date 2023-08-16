@@ -14,9 +14,24 @@ import {
   purplishBlueDark,
   purplishBlue,
   red,
+  hoverRedButton,
+  activeRedButton,
+  pressedRedButton,
+  hoverBlueButton,
+  pressedBlueButton,
+  hoverBorderBlueButton,
+  pressedBorderBackgroundBlueButton,
+  pressedBorderBlueButton,
+  activeBorderBlueButton,
+  disabledButton,
+  disabledButtonText,
 } from "../../design/color";
 import { fontType } from "../../design/font";
 import QuizQuestionHelper from "./QuizQuestionHelper";
+import LoadingButton from "@mui/lab/LoadingButton";
+import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
+import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 function QuizQuestionForm({
   question,
@@ -46,32 +61,42 @@ function QuizQuestionForm({
   handleImage4,
   handleImage4Remove,
   preview1,
-  preview2, 
+  preview2,
   preview3,
   preview4,
   preview,
   pending,
   imageLoading,
   imageDeleteLoading,
+  handleCancel,
+  edit,
 }) {
   const clickHandler = () => {};
 
   return (
     <Container>
-      <Box pt={5} pb={10}>
-        <Typography
-          variant="h3"
-          fontFamily="Poppins"
-          sx={{
-            fontSize: 32,
-            fontWeight: 600,
-            fontStyle: "normal",
-            color: neural900,
-            mb: "32px",
-          }}
-        >
-          1.1 First quiz of the chapter
-        </Typography>
+      <Box pt={1} pb={10}>
+
+        {edit && <Grid container>
+          <Grid item xs={12} md={2} my={2}>
+            <Button
+              fullWidth
+              sx={{
+                backgroundColor: activeRedButton,
+                fontFamily: fontType,
+                color: white,
+                fontSize: 14,
+                borderRadius: 3,
+                p: 1,
+                ":hover": { backgroundColor: hoverRedButton },
+                ":active": { backgroundColor: pressedRedButton },
+              }}
+              onClick={handleDelete}
+            >
+              Delete Question
+            </Button>
+          </Grid>
+        </Grid>}
 
         <Grid item xs={12}>
           <label htmlFor="contained-button-file">
@@ -82,27 +107,39 @@ function QuizQuestionForm({
               hidden
               onChange={handleImage}
             />
-            <Button variant="contained" component="span" disabled={imageLoading || imageDeleteLoading}>
-              {imageLoading ? "Uploading..." : imageDeleteLoading ? "Deleting..." : "Upload Image"}
-            </Button>
+
+            <LoadingButton
+              variant="contained"
+              component="span"
+              loading={imageLoading || imageDeleteLoading}
+              loadingPosition="end"
+              endIcon={<ImageOutlinedIcon />}
+            >
+              <span>Upload Image</span>
+            </LoadingButton>
             {preview && (
-              <Button
+              <LoadingButton
                 sx={{
                   ml: 2,
                   color: neural900,
                   fontSize: 14,
                   fontWeight: 300,
-                  backgroundColor: red,
+                  backgroundColor: activeRedButton,
                   color: white,
                   ":hover": {
-                    backgroundColor: red,
+                    backgroundColor: hoverRedButton,
+                  },
+                  ":focus": {
+                    backgroundColor: pressedRedButton,
                   },
                 }}
                 onClick={handleImageRemove}
-                disabled={imageLoading || imageDeleteLoading}
+                loading={imageLoading || imageDeleteLoading}
+                loadingPosition="end"
+                endIcon={<DeleteOutlinedIcon />}
               >
-                Remove
-              </Button>
+                <span>Remove</span>
+              </LoadingButton>
             )}
           </label>
         </Grid>
@@ -126,7 +163,7 @@ function QuizQuestionForm({
         >
           Question
         </Typography>
-        <Box width="90%" sx={{ backgroundColor: white }} mb={2}>
+        <Box width="100%" sx={{ backgroundColor: white }} mb={2}>
           <TextField
             inputProps={{
               style: {
@@ -187,7 +224,7 @@ function QuizQuestionForm({
         >
           Explanation
         </Typography>
-        <Box width="90%" sx={{ backgroundColor: white }} mb={2}>
+        <Box width="100%" sx={{ backgroundColor: white }} mb={2}>
           <TextField
             inputProps={{
               style: {
@@ -207,79 +244,52 @@ function QuizQuestionForm({
           />
         </Box>
 
-        {/* Button for webpage */}
-        <Grid
-          container
-          display={{ xs: "none", md: "flex" }}
-          justifyContent="space-between"
-        >
-          <Grid item></Grid>
-          <Grid item mr={6}>
-            <Grid container>
-              <Grid item mr={2} mb={2}>
-                <Button
-                  sx={{
-                    backgroundColor: red,
-                    fontFamily: fontType,
-                    color: white,
-                    fontSize: 14,
-                    borderRadius: 3,
-                    p: 1,
-                    ":hover": { backgroundColor: red },
-                  }}
-                  onClick={handleDelete}
-                >
-                  Delete Question
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  sx={{
-                    backgroundColor: purplishBlue,
-                    fontFamily: fontType,
-                    color: white,
-                    fontSize: 14,
-                    borderRadius: 3,
-                    p: 1,
-                    ":hover": { backgroundColor: purplishBlueDark },
-                  }}
-                  onClick={handleSubmit}
-                >
-                  Save Question
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        {/* Button for phone */}
-        <Grid container display={{ xs: "flex", md: "none" }}>
-          <Grid item mr={1}>
+        {/* Button */}
+        <Grid container display="flex" justifyContent="center">
+          <Grid item xs={12} md={2} mt={1}>
             <Button
+              fullWidth
+              variant="outlined"
               sx={{
-                backgroundColor: red,
-                fontFamily: fontType,
-                color: white,
+                color: purplishBlueDark,
+                textTransform: "capitalize",
+                py: 1.5,
+                borderRadius: 2,
                 fontSize: 14,
-                borderRadius: 3,
-                p: 1,
-                ":hover": { backgroundColor: red },
+                fontWeight: 600,
+                borderColor: activeBorderBlueButton,
+                backgroundColor: white,
+                ":hover": {
+                  borderColor: hoverBorderBlueButton,
+                },
+                ":focus": {
+                  bgcolor: pressedBorderBackgroundBlueButton,
+                  borderColor: pressedBorderBlueButton,
+                },
+                ":disabled": {
+                  bgcolor: disabledButton,
+                  color: disabledButtonText,
+                  borderColor: white,
+                },
               }}
-              onClick={handleDelete}
+              onClick={handleCancel}
             >
-              Delete Question
+              Cancel
             </Button>
           </Grid>
-          <Grid item>
+          <Grid item xs={false} md={0.25}></Grid>
+          <Grid item xs={12} md={2} mt={1}>
             <Button
+              fullWidth
               sx={{
                 backgroundColor: purplishBlue,
                 fontFamily: fontType,
                 color: white,
                 fontSize: 14,
-                borderRadius: 3,
-                p: 1,
-                ":hover": { backgroundColor: purplishBlueDark },
+                borderRadius: 2,
+                py: 1.5,
+                ":hover": { backgroundColor: hoverBlueButton },
+                ":focus": { backgroundColor: pressedBlueButton },
               }}
               onClick={handleSubmit}
             >

@@ -53,3 +53,6 @@ export const pressedRedButton = red;
 export const activeLightBlueButton = skyBlueLight;
 export const hoverLightBlueButton = skyBluePale;
 export const pressedLightBlueButton = skyBlue;
+
+export const disabledButton = neural100;
+export const disabledButtonText = neural500
