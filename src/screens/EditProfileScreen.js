@@ -6,6 +6,7 @@ import ProfileSettings from "../components/profile/ProfileSettings";
 import ProfileForm from "../components/forms/ProfileForm";
 import { editProfile, viewProfile } from "../actions/userActions";
 import { EDIT_PROFILE_RESET, VIEW_PROFILE_RESET } from "../constants/user";
+import { deleteImage, uploadImage } from "../actions/uploadActions";
 
 function MyProfileScreen() {
   const [name, setName] = useState("");
@@ -19,6 +20,9 @@ function MyProfileScreen() {
   const [postalCode, setPostalCode] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
+  const [image, setImage] = useState("");
+  const [preview, setPreview] = useState("")
+  const [background, setBackground] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,20 +34,7 @@ function MyProfileScreen() {
   const profileEdit = useSelector(state => state.profileEdit);
   const { success } = profileEdit;
 
-  const onClick = (e) => {
-    console.log({
-      name,
-      examTitle,
-      gradeYear,
-      school,
-      gender,
-      phoneNumber,
-      address1,
-      address2,
-      postalCode,
-      state,
-      country,
-    });
+  const handleSaveProfile = (e) => {
     dispatch(
       editProfile({
         name,
@@ -57,9 +48,31 @@ function MyProfileScreen() {
         postalCode,
         state,
         country,
+        image,
+        background,
       })
     );
   };
+
+  const handleEditPhoto = (e) => {
+    let file = e.target.files[0];
+    // setPreview(window.URL.createObjectURL(file));
+    dispatch(uploadImage(file, setPreview, setImage));
+  }
+
+  const handleEditBackground = (e) => {
+    let file = e.target.files[0];
+    // setPreview(window.URL.createObjectURL(file));
+    dispatch(uploadImage(file, setPreview, setBackground));
+  }
+
+  const removeBackground = (e) => {
+    dispatch(deleteImage(background, setPreview, setBackground));
+  }
+
+  const handleCancel= (e) => {
+    navigate('/myprofile')
+  }
 
   useEffect(() => {
     if (!user) {
@@ -67,16 +80,18 @@ function MyProfileScreen() {
     }
     if (user) {
       setName(user.name)
-      setExamTitle(user.exam_title);
-      setGradeYear(user.grade_year);
-      setGender(user.gender);
-      setPhoneNumber(user.phone_number);
-      setAddress1(user.address1);
-      setAddress2(user.address2);
-      setState(user.state);
-      setCountry(user.country);
-      setPostalCode(user.postal_code);
-      setSchool(user.school);
+      user.exam_title ? setExamTitle(user.exam_title) : setExamTitle("");
+      user.grade_year ? setGradeYear(user.grade_year) : setGradeYear("");
+      user.gender ? setGender(user.gender) : setGender("");
+      user.phone_number ? setPhoneNumber(user.phone_number) : setPhoneNumber("");
+      user.address1 ? setAddress1(user.address1) : setAddress1("");
+      user.address2 ? setAddress2(user.address2) : setAddress2("");
+      user.state ? setState(user.state) : setState("");
+      user.country ? setCountry(user.country) : setCountry("");
+      user.postal_code ? setPostalCode(user.postal_code) : setPostalCode("");
+      user.school ? setSchool(user.school) : setSchool("");
+      user.image ? setImage(user.image) : setImage("");
+      user.background? setBackground(user.background) : setBackground("");
     }
     if (success) {
       navigate(`/myprofile`)
@@ -96,7 +111,7 @@ function MyProfileScreen() {
             </Grid>
             <Grid item md={8}>
               <ProfileForm
-                onClick={onClick}
+                handleSaveProfile={handleSaveProfile}
                 name={name}
                 examTitle={examTitle}
                 gradeYear={gradeYear}
@@ -119,6 +134,12 @@ function MyProfileScreen() {
                 setPostalCode={setPostalCode}
                 setState={setState}
                 setCountry={setCountry}
+                handleEditPhoto={handleEditPhoto}
+                image={image && image.Location}
+                handleCancel={handleCancel}
+                handleEditBackground={handleEditBackground}
+                background={background && background.Location}
+                removeBackground={removeBackground}
               />
             </Grid>
           </Grid>
@@ -130,7 +151,7 @@ function MyProfileScreen() {
             </Grid>
             <Grid item xs={12}>
               <ProfileForm
-                onClick={onClick}
+                handleSaveProfile={handleSaveProfile}
                 name={name}
                 examTitle={examTitle}
                 gradeYear={gradeYear}
@@ -153,6 +174,11 @@ function MyProfileScreen() {
                 setPostalCode={setPostalCode}
                 setState={setState}
                 setCountry={setCountry}
+                handleEditPhoto={handleEditPhoto}
+                image={image && image.Location}
+                background={background && background.Location}
+                handleEditBackground={handleEditBackground}
+                removeBackground={removeBackground}
               />
             </Grid>
           </Grid>

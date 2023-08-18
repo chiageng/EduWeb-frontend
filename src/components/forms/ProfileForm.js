@@ -10,6 +10,7 @@ import {
   MenuItem,
   Select,
   Button,
+  FormControl,
 } from "@mui/material";
 import {
   neural500,
@@ -18,10 +19,19 @@ import {
   purplishBlueDark,
   purplishBluePale,
   purplishBlue,
+  activeBlueButton,
+  hoverBlueButton,
+  pressedBlueButton,
+  activeBorderBlueButton,
+  hoverBorderBlueButton,
+  pressedBorderBackgroundBlueButton,
+  pressedBorderBlueButton,
+  neural300,
 } from "../../design/color";
 import { fontType } from "../../design/font";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { useNavigate } from "react-router-dom";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import Badge from "@mui/material/Badge";
 
 function ProfileForm({
   name,
@@ -35,7 +45,7 @@ function ProfileForm({
   postalCode,
   state,
   country,
-  onClick,
+  handleSaveProfile,
   setName,
   setExamTitle,
   setGradeYear,
@@ -47,47 +57,193 @@ function ProfileForm({
   setPostalCode,
   setState,
   setCountry,
+  handleEditPhoto,
+  image,
+  handleCancel,
+  handleEditBackground,
+  background,
+  removeBackground,
 }) {
-  const navigate = useNavigate();
-
   return (
     <Box mt={2}>
-      <img
-        src="/images/userprofile.jpg"
-        style={{ height: "100px", width: "100%" }}
-      />
-      <Grid container direction="column" ml={2} mt={-8} mb={2}>
+      <Box width="100%" height="100px">
+        {background && (
+          <Badge
+            badgeContent={"X"}
+            color="error"
+            sx={{ width: "100%", ":hover": { cursor: "pointer" } }}
+            onClick={removeBackground}
+          >
+            <img src={background} style={{ height: "100px", width: "100%", objectFit: "fill" }} />
+          </Badge>
+        )}
+
+        {!background && (
+          <img
+            src={"/images/userprofile.jpg"}
+            style={{ height: "100%", width: "100%", objectFit: "fill" }}
+          />
+        )}
+      </Box>
+
+      <Grid container display="flex" justifyContent="end" mt={-7} pr={1}>
         <Grid item>
-          <Avatar sx={{ height: "100px", width: "100px" }} />
+          <label htmlFor="contained-button-file-background">
+            <input
+              accept="image/*"
+              id="contained-button-file-background"
+              type="file"
+              hidden
+              onChange={handleEditBackground}
+            />
+
+            <Button
+              component="span"
+              variant="outlined"
+              fullWidth
+              sx={{
+                color: purplishBlueDark,
+                py: 1,
+                borderRadius: 2,
+                textTransform: "capitalize",
+                fontSize: 12,
+                fontWeight: 600,
+                borderColor: activeBorderBlueButton,
+                backgroundColor: white,
+                ":hover": {
+                  borderColor: hoverBorderBlueButton,
+                  backgroundColor: white,
+                },
+                ":focus": {
+                  bgcolor: pressedBorderBackgroundBlueButton,
+                  borderColor: pressedBorderBlueButton,
+                },
+              }}
+              endIcon={<ModeEditOutlineOutlinedIcon />}
+            >
+              <span>Edit</span>
+            </Button>
+          </label>
+        </Grid>
+      </Grid>
+
+      {/* Avatar for webpage display */}
+      <Grid
+        container
+        direction="column"
+        ml={2}
+        mt={-4}
+        mb={5}
+        display={{ xs: "none", md: "block" }}
+      >
+        <Grid>
+          <Avatar
+            sx={{ height: "100px", width: "100px" }}
+            src={image && image}
+          />
         </Grid>
         <Grid item>
-          <Grid
-            container
-            display="flex"
-            sx={{
-              textDecoration: "none",
-              ":hover": {
-                cursor: "pointer",
-              },
-              width: "100%",
-            }}
-            onClick={() => navigate("/myprofile/edit")}
-          >
-            <Grid item>
-              <EditOutlinedIcon sx={{ fontSize: 14, color: neural500 }} />
+          <label htmlFor="contained-button-file">
+            <input
+              accept="image/*"
+              id="contained-button-file"
+              type="file"
+              hidden
+              onChange={handleEditPhoto}
+            />
+            <Grid
+              container
+              component="span"
+              display="flex"
+              sx={{
+                textDecoration: "none",
+                ":hover": {
+                  cursor: "pointer",
+                },
+                width: "100px",
+                position: "absolute",
+              }}
+              ml={1}
+            >
+              <Grid item>
+                <EditOutlinedIcon sx={{ fontSize: 14, color: neural500 }} />
+              </Grid>
+              <Grid item>
+                <Typography
+                  fontFamily={fontType}
+                  fontWeight={400}
+                  color={neural500}
+                  fontSize="14px"
+                  mt={1}
+                  textAlign="center"
+                >
+                  Edit Photo
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography
-                fontFamily={fontType}
-                fontWeight={400}
-                color={neural500}
-                fontSize="14px"
-                mt={1}
-              >
-                Edit Photo
-              </Typography>
+          </label>
+        </Grid>
+      </Grid>
+
+      {/* Avatar for phone display */}
+      <Grid
+        container
+        direction="column"
+        mt={-6}
+        mb={5}
+        display={{ xs: "flex", md: "none" }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid>
+          <Avatar
+            sx={{ height: "100px", width: "100px" }}
+            src={image && image}
+          />
+        </Grid>
+        <Grid item>
+          <label htmlFor="contained-button-file">
+            <input
+              accept="image/*"
+              id="contained-button-file"
+              type="file"
+              hidden
+              onChange={handleEditPhoto}
+            />
+            <Grid
+              container
+              display="flex"
+              component="span"
+              sx={{
+                textDecoration: "none",
+                ":hover": {
+                  cursor: "pointer",
+                },
+                ":focus": {
+                  backgroundColor: "transparent",
+                },
+                width: "100px",
+                position: "absolute",
+              }}
+              mt={0}
+              ml={-5.5}
+            >
+              <Grid item>
+                <EditOutlinedIcon sx={{ fontSize: 14, color: neural500 }} />
+              </Grid>
+              <Grid item>
+                <Typography
+                  fontFamily={fontType}
+                  fontWeight={400}
+                  color={neural500}
+                  fontSize="14px"
+                  mt={1}
+                >
+                  Edit Photo
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
+          </label>
         </Grid>
       </Grid>
 
@@ -163,7 +319,7 @@ function ProfileForm({
                     },
                   }}
                   value={examTitle}
-                  onChange={e => setExamTitle(e.target.value)}
+                  onChange={(e) => setExamTitle(e.target.value)}
                   required
                   id="CourseTitle"
                   name="courseTitle"
@@ -183,14 +339,19 @@ function ProfileForm({
                 >
                   Grade Year
                 </Typography>
+
                 <Select
+                  fullWidth
                   id="GradeYear"
                   defaultValue=""
                   value={gradeYear}
-                  onChange={e => setGradeYear(e.target.value)}
-                  autoWidth
+                  onChange={(e) => setGradeYear(e.target.value)}
                   size="small"
-                  sx={{ minWidth: "200px", backgroundColor: purplishBluePale, fontSize: 14 }}
+                  sx={{
+                    minWidth: "200px",
+                    backgroundColor: purplishBluePale,
+                    fontSize: 14,
+                  }}
                 >
                   <MenuItem value="-">-</MenuItem>
                   <MenuItem value="Standard 1">Standard 1</MenuItem>
@@ -228,7 +389,7 @@ function ProfileForm({
                     },
                   }}
                   value={school}
-                  onChange={e => setSchool(e.target.value)}
+                  onChange={(e) => setSchool(e.target.value)}
                   required
                   id="School"
                   name="School"
@@ -273,15 +434,15 @@ function ProfileForm({
                   Gender
                 </Typography>
                 <Select
+                  fullWidth
                   id="gender"
-                  defaultValue="-"
+                  defaultValue=""
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
-                  autoWidth
                   size="small"
-                  sx={{ minWidth: "200px", backgroundColor: purplishBluePale, fontSize: 14 }}
+                  sx={{ backgroundColor: purplishBluePale, fontSize: 14 }}
                 >
-                  <MenuItem value="-">-</MenuItem>
+                  <MenuItem value="">-</MenuItem>
                   <MenuItem value="Male">Male</MenuItem>
                   <MenuItem value="Female">Female</MenuItem>
                 </Select>
@@ -476,19 +637,49 @@ function ProfileForm({
 
             {/* Button */}
             <Grid container justifyContent="center" display="flex">
-              <Grid item>
+              <Grid item xs={12} md={2} mt={1.5}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  sx={{
+                    color: purplishBlueDark,
+                    py: 1,
+                    borderRadius: 2,
+                    textTransform: "capitalize",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    borderColor: activeBorderBlueButton,
+                    backgroundColor: white,
+                    ":hover": {
+                      borderColor: hoverBorderBlueButton,
+                    },
+                    ":focus": {
+                      bgcolor: pressedBorderBackgroundBlueButton,
+                      borderColor: pressedBorderBlueButton,
+                    },
+                  }}
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item md={0.5} xs={false} mt={1}></Grid>
+              <Grid item xs={12} md={3} mt={1.5}>
                 <Button
                   type="submit"
                   fullWidth
-                  onClick={onClick}
+                  onClick={handleSaveProfile}
                   variant="contained"
                   sx={{
-                    backgroundColor: purplishBlue,
+                    backgroundColor: activeBlueButton,
                     fontFamily: fontType,
                     fontWeight: 400,
-                    borderRadius: 5,
-                    px: 2,
+                    fontSize: 12,
+                    borderRadius: 2,
                     py: 1,
+                    textTransform: "capitalize",
+                    ":hover": { backgroundColor: hoverBlueButton },
+                    ":focus": { backgroundColor: pressedBlueButton },
                   }}
                 >
                   Update Profile

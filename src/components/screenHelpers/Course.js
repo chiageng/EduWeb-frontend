@@ -30,7 +30,7 @@ function Course({ course, staff, progress }) {
   const navigate = useNavigate()
 
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ mx: "auto" }}>
       <CardMedia
         sx={{ height: 200 }}
         image={course.image ? course.image.Location : "/images/Maths.jpg"}

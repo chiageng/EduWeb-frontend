@@ -161,6 +161,8 @@ export const editProfile =
     postalCode,
     state,
     country,
+    image,
+    background,
   }) =>
   async (dispatch) => {
     try {
@@ -187,6 +189,8 @@ export const editProfile =
           postalCode,
           state,
           country,
+          image,
+          background,
         },
         config
       );

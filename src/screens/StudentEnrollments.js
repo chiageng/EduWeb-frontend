@@ -22,20 +22,27 @@ import {
   FormControl,
   FormHelperText,
   Divider,
+  Avatar,
 } from "@mui/material";
 import {
+  activeBorderBlueButton,
+  green,
   hotPink,
   hotPinkPale,
+  hoverBorderBlueButton,
   neural100,
   neural300,
   neural500,
   neural900,
   orangeLight,
+  pressedBorderBackgroundBlueButton,
+  pressedBorderBlueButton,
   purplishBlue,
   purplishBlueDark,
   purplishBlueLight,
   purplishBlueMedium,
   purplishBluePale,
+  red,
   white,
 } from "../design/color";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,14 +59,18 @@ import { fontType } from "../design/font";
 import Loader from "../components/universal/Loader";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const columns = [
   { id: "name", label: "Student", minWidth: 170 },
-  { id: "status", label: "Status", minWidth: 100 },
+  { id: "status", label: "Status", minWidth: 100, align: "center" },
   {
     id: "progress",
     label: "Progress",
-    minWidth: 200 
+    minWidth: 200,
+    align: "center",
   },
   {
     id: "action",
@@ -89,59 +100,145 @@ export default function StudentEnrollments() {
     dispatch(removeStudentsEnrollment(params.slug, user));
   };
 
-  function createData(name, enrollment, user) {
-    const enrollmentOutput = enrollment ? "Enrolled" : "Requested";
-    const actionOutput = enrollment ? (
-      // <Button
-      //   sx={{
-      //     backgroundColor: white,
-      //     fontFamily: fontType,
-      //     color: "error",
-      //     fontSize: 12,
-      //     variant: "outlined",
-      //     px: 1,
-      //     py: 1,
-      //     fontWeight: 600,
-      //     width: "100%",
-      //     borderRadius: 3,
-      //     textDecoration: "none",
-      //     ":hover": { backgroundColor: hotPink },
-      //   }}
-      //   disabled={removeLoading}
-      //   onClick={() => removeEnrollment(user)}
-      // >
-      //   Remove Enrollment
-      // </Button>
-      <Button variant="outlined" sx={{":outlined": {borderColor: purplishBlueDark}}}>
-      Error
-    </Button>
+  function createData(user, enrollment) {
+    const status = enrollment ? (
+      <TableCell align="center" sx={{ backgroundColor: green }}>
+        <Typography
+          sx={{
+            textDecoration: "none",
+            fontType: fontType,
+            fontWeight: 400,
+            fontSize: 16,
+          }}
+          color={neural900}
+        >
+          Enrolled
+        </Typography>
+      </TableCell>
     ) : (
-      <Button
-        sx={{
-          backgroundColor: purplishBlue,
-          fontFamily: fontType,
-          color: white,
-          fontSize: 12,
-          px: 1,
-          py: 1,
-          fontWeight: 600,
-          width: "100%",
-          borderRadius: 3,
-          textDecoration: "none",
-          ":hover": { backgroundColor: purplishBlueMedium },
-          ":focus": {  backgroundColor: purplishBlueDark }
-        }}
-        onClick={() => handleEnrollment(user)}
-      >
-        Accept Enrollment
-      </Button>
+      <TableCell align="center" sx={{ backgroundColor: red }}>
+        <Typography
+          sx={{
+            textDecoration: "none",
+            fontType: fontType,
+            fontWeight: 400,
+            fontSize: 16,
+          }}
+          color={neural900}
+        >
+          Requested
+        </Typography>
+      </TableCell>
+    );
+
+    const nameOutput = (
+      <TableCell>
+        <Grid container display="flex">
+          <Grid item>
+            <Avatar
+              sx={{ width: 32, height: 32 }}
+              src={user.image && user.image.Location}
+            ></Avatar>
+          </Grid>
+          <Grid item mt={0.6} ml={1}>
+            {" "}
+            <Typography
+              sx={{
+                textDecoration: "none",
+                fontType: fontType,
+                fontWeight: 400,
+                fontSize: 16,
+                textTransform: "capitalize",
+              }}
+              color={neural900}
+            >
+              {user.name}
+            </Typography>
+          </Grid>
+        </Grid>
+      </TableCell>
+    );
+    const actionOutput = enrollment ? (
+      <TableCell>
+        <Button
+          variant="outlined"
+          fullWidth
+          sx={{
+            color: purplishBlueDark,
+            borderRadius: 2,
+            textTransform: "capitalize",
+            fontSize: 12,
+            fontWeight: 600,
+            borderColor: activeBorderBlueButton,
+            backgroundColor: white,
+            ":hover": {
+              borderColor: hoverBorderBlueButton,
+            },
+            ":focus": {
+              bgcolor: pressedBorderBackgroundBlueButton,
+              borderColor: pressedBorderBlueButton,
+            },
+          }}
+          endIcon={<DeleteOutlineOutlinedIcon />}
+          onClick={() => removeEnrollment(user._id)}
+        >
+          Remove Enrollment
+        </Button>
+      </TableCell>
+    ) : (
+      <TableCell>
+        <Button
+          sx={{
+            backgroundColor: purplishBlue,
+            fontFamily: fontType,
+            color: white,
+            fontSize: 12,
+            borderRadius: 2,
+            fontWeight: 600,
+            width: "100%",
+            borderRadius: 3,
+            textDecoration: "none",
+            textTransform: "capitalize",
+            ":hover": { backgroundColor: purplishBlueMedium },
+            ":focus": { backgroundColor: purplishBlueDark },
+          }}
+          endIcon={<CheckCircleOutlinedIcon />}
+          onClick={() => handleEnrollment(user._id)}
+        >
+          Accept Enrollment
+        </Button>
+      </TableCell>
+    );
+    const progress = (
+      <TableCell>
+        <Box display="flex" alignItems="center">
+          <Box width="100%" mr={1}>
+            <LinearProgress
+              variant="determinate"
+              value={50}
+              sx={{
+                backgroundColor: neural100,
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: green,
+                },
+                height: 24,
+                borderRadius: 3,
+              }}
+            />
+          </Box>
+          <Typography
+            variant="body2"
+            color={neural500}
+            fontWeight={600}
+          >50%</Typography>
+        </Box>
+      </TableCell>
     );
     return {
-      name,
-      enrollment: enrollmentOutput,
+      name: nameOutput,
+      status,
       action: actionOutput,
-      size: 1000,
-      density: 1000,
+      progress,
     };
   }
 
@@ -174,9 +271,7 @@ export default function StudentEnrollments() {
 
   const rows =
     enrollment &&
-    enrollment.map((item) =>
-      createData(item.user.name, item.enrollment.enroll, item.user._id)
-    );
+    enrollment.map((item) => createData(item.user, item.enrollment.enroll));
 
   const breadcrumb = (
     <Breadcrumbs
@@ -308,8 +403,10 @@ export default function StudentEnrollments() {
               stickyHeader
               aria-label="sticky table"
               sx={{
-                "& .MuiTableCell-root": {
-                  border: `0.5px solid ${neural100}`,
+                "& .MuiTableCell-body": {
+                  // border: ` 1px solid ${neural100}`,
+                  p: 2,
+                  borderBottom: "none",
                 },
               }}
             >
@@ -324,7 +421,7 @@ export default function StudentEnrollments() {
                         sx={{
                           fontWeight: 600,
                           backgroundColor: white,
-                          color: neural300
+                          color: neural300,
                         }}
                       >
                         {column.label}
@@ -347,13 +444,7 @@ export default function StudentEnrollments() {
                         >
                           {columns.map((column) => {
                             const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
-                            );
+                            return <>{value}</>;
                           })}
                         </TableRow>
                       );

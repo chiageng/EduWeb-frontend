@@ -88,7 +88,7 @@ function MyCoursesScreen() {
             (
               <Grid container spacing={3}>
                 {courses.map((course) => (
-                  <Grid item xs={12} md={3} key={course.course._id}>
+                  <Grid item xs={12} sm={4} md={3} key={course.course._id}>
                     <Course
                       course={course.course}
                       staff={user.user.is_staff}

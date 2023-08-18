@@ -2,6 +2,8 @@ import {
   COURSE_CREATE_FAIL,
   COURSE_CREATE_REQUEST,
   COURSE_CREATE_SUCCESS,
+  COURSE_CREATE_RESET,
+
 
   COURSE_EDIT_FAIL,
   COURSE_EDIT_REQUEST,
@@ -90,6 +92,9 @@ export const courseCreateReducers = (state = {}, action) => {
 
     case COURSE_CREATE_FAIL:
       return { loading: false, error: action.payload };
+    
+    case COURSE_CREATE_RESET:
+      return { };
 
     default:
       return state;

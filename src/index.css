@@ -8,3 +8,7 @@ main {
    /* background: white !important; */
   min-height: 500px;
 }
+
+body {
+  padding-right: 0px !important;
+}

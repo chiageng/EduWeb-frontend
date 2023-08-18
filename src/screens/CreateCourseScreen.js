@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCourse } from "../actions/courseActions";
 import { useNavigate } from "react-router-dom";
 import { CourseForm } from "../components/forms/CourseForm";
-import { COURSES_VIEW_RESET, TOPIC_CREATE_RESET } from "../constants/course";
+import { COURSES_VIEW_RESET, COURSE_CREATE_RESET, TOPIC_CREATE_RESET } from "../constants/course";
 import Message from "../components/universal/Message";
 import { deleteImage, uploadImage } from "../actions/uploadActions";
 import Loader from "../components/universal/Loader";
@@ -51,6 +51,7 @@ function CreateCourseScreen() {
   useEffect(() => {
     if (success) {
       dispatch({ type: COURSES_VIEW_RESET });
+      dispatch( { type: COURSE_CREATE_RESET })
       navigate("/mycourses");
     }
   }, [courseCreate]);

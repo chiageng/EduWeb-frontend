@@ -17,8 +17,10 @@ import myTheme from "./Theme";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../actions/userActions";
 import { useDispatch } from "react-redux";
+import { fontType } from "../design/font";
 
 function ResponsiveAppBar({ user }) {
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [login, setLogin] = useState(false);
@@ -70,11 +72,10 @@ function ResponsiveAppBar({ user }) {
               }}
               sx={{
                 display: { xs: "none", md: "flex" },
-                fontFamily: "Poppins",
+                fontFamily: fontType,
                 fontWeight: 900,
                 fontSize: 20,
                 fontStyle: "normal",
-                lineHeight: "125%",
                 color: purplishBlue,
                 textDecoration: "none",
                 ":hover": { cursor: "pointer" },
@@ -95,11 +96,9 @@ function ResponsiveAppBar({ user }) {
                 mr: 2,
                 display: { xs: "flex", md: "none" },
                 flexGrow: 1,
-                fontFamily: "Poppins",
+                fontFamily: fontType,
                 fontWeight: 900,
                 fontSize: 20,
-                fontStyle: "normal",
-                lineHeight: "125%",
                 color: purplishBlue,
                 textDecoration: "none",
               }}
@@ -157,7 +156,7 @@ function ResponsiveAppBar({ user }) {
                       navigate(`/courses`);
                     }}
                   >
-                    <Typography textAlign="center">Courses</Typography>
+                    <Typography textAlign="center" sx={{ textTransform: "capitalize"}} >Courses</Typography>
                   </MenuItem>
                   <MenuItem
                     key="/login"
@@ -166,7 +165,7 @@ function ResponsiveAppBar({ user }) {
                       navigate(`/login`);
                     }}
                   >
-                    <Typography textAlign="center">Log in / Sign up</Typography>
+                    <Typography textAlign="center" sx={{ textTransform: "capitalize"}}>Log in / Sign up</Typography>
                   </MenuItem>
                 </Menu>
               </Box>
@@ -223,6 +222,7 @@ function ResponsiveAppBar({ user }) {
                         ":visited": {
                           color: "black",
                         },
+                        textTransform: "capitalize",
                       }}
                     >
                       Dashboard
@@ -239,6 +239,7 @@ function ResponsiveAppBar({ user }) {
                         ":visited": {
                           color: "black",
                         },
+                        textTransform: "capitalize",
                       }}
                     >
                       Course
@@ -255,6 +256,7 @@ function ResponsiveAppBar({ user }) {
                         ":visited": {
                           color: "black",
                         },
+                        textTransform: "capitalize",
                       }}
                     >
                       My Course
@@ -271,6 +273,7 @@ function ResponsiveAppBar({ user }) {
                         ":visited": {
                           color: "black",
                         },
+                        textTransform: "capitalize",
                       }}
                     >
                       Profile
@@ -299,12 +302,11 @@ function ResponsiveAppBar({ user }) {
                     navigate(`/courses`);
                   }}
                   sx={{
-                    my: "24px",
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: "140%",
+                    fontWeight: 400,
+                    textTransform: "capitalize",
                   }}
                 >
                   Courses
@@ -313,12 +315,11 @@ function ResponsiveAppBar({ user }) {
                   key="/aboutus"
                   onClick={handleCloseNavMenu}
                   sx={{
-                    my: "24px",
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: "140%",
+                    fontWeight: 400,
+                    textTransform: "capitalize",
                   }}
                 >
                   About Us
@@ -328,11 +329,10 @@ function ResponsiveAppBar({ user }) {
                   onClick={handleCloseNavMenu}
                   variant="outlined"
                   sx={{
-                    my: "24px",
                     ml: 1.5,
                     color: purplishBlueDark,
                     px: 4, 
-                    py: 1.25,
+                    py: 1,
                     borderRadius: 2,
                     display: "block",
                     fontSize: 12,
@@ -346,6 +346,7 @@ function ResponsiveAppBar({ user }) {
                       bgcolor: pressedBorderBackgroundBlueButton,
                       borderColor: pressedBorderBlueButton,
                     },
+                    textTransform: "capitalize",
                   }}
                 >
                   Available for IOS & Android
@@ -358,10 +359,9 @@ function ResponsiveAppBar({ user }) {
                   }}
                   sx={{
                     ml: 2,
-                    my: "24px",
                     color: white,
                     px: 4, 
-                    py: 1.25,
+                    py: 1,
                     borderRadius: 2,
                     display: "block",
                     fontSize: 12,
@@ -372,7 +372,8 @@ function ResponsiveAppBar({ user }) {
                     },
                     ":focus": {
                       backgroundColor: pressedBlueButton,
-                    }
+                    },
+                    textTransform: "capitalize",
                   }}
                 >
                   Log in / Sign up
@@ -396,12 +397,11 @@ function ResponsiveAppBar({ user }) {
                     navigate(`/`);
                   }}
                   sx={{
-                    my: "24px",
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: "140%",
+                    fontWeight: 400,
+                    textTransform: "capitalize",
                   }}
                 >
                   Dashboard
@@ -413,12 +413,11 @@ function ResponsiveAppBar({ user }) {
                     navigate(`/courses`);
                   }}
                   sx={{
-                    my: "24px",
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 600,
-                    lineHeight: "140%",
+                    fontWeight: 400,
+                    textTransform: "capitalize",
                   }}
                 >
                   Courses
@@ -430,13 +429,13 @@ function ResponsiveAppBar({ user }) {
                     navigate(`/mycourses`);
                   }}
                   sx={{
-                    my: "24px",
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 600,
+                    fontWeight: 400,
                     lineHeight: "140%",
                     textDecoration: "none",
+                    textTransform: "capitalize",
                   }}
                 >
                   My Course
@@ -449,13 +448,13 @@ function ResponsiveAppBar({ user }) {
                     navigate(`/myprofile`);
                   }}
                   sx={{
-                    my: "24px",
                     mr: 2,
                     color: neural900,
                     display: "block",
                     fontSize: 12,
-                    fontWeight: 600,
                     lineHeight: "140%",
+                    fontWeight: 400,
+                    textTransform: "capitalize",
                   }}
                 >
                   Profile
@@ -463,7 +462,7 @@ function ResponsiveAppBar({ user }) {
 
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="" />
+                    <Avatar alt="Remy Sharp" src={user.user.image && user.user.image.Location} />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -483,7 +482,7 @@ function ResponsiveAppBar({ user }) {
                   onClose={handleCloseUserMenu}
                 >
                   <MenuItem key="/logout" onClick={handleLogout}>
-                    <Typography textAlign="center">Logout</Typography>
+                    <Typography textAlign="center" sx={{ textTransform: "capitalize", }}>Logout</Typography>
                   </MenuItem>
                 </Menu>
               </Box>

@@ -11,7 +11,14 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
+  activeBlueButton,
+  activeBorderBlueButton,
+  hoverBlueButton,
+  hoverBorderBlueButton,
   neural900,
+  pressedBlueButton,
+  pressedBorderBackgroundBlueButton,
+  pressedBorderBlueButton,
   purplishBlue,
   purplishBlueDark,
   purplishBluePale,
@@ -85,8 +92,9 @@ export default function RegisterScreen() {
               sm={4}
               md={6}
               sx={{
-                backgroundImage: "url(https://source.unsplash.com/random)",
-                backgroundRepeat: "no-repeat",
+                // backgroundImage: "url(https://source.unsplash.com/random)",
+                // backgroundRepeat: "no-repeat",
+                backgroundImage: "url(images/loginPhoto2.jpg)",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -202,26 +210,40 @@ export default function RegisterScreen() {
                     onClick={handleSubmit}
                     sx={{
                       mt: 3,
-                      backgroundColor: purplishBlue,
+                      backgroundColor: activeBlueButton,
                       fontFamily: fontType,
+                      fontSize: 12,
                       fontWeight: 600,
+                      textTransform: "capitalize",
+                      py: 1.5,
+                      ":hover": { backgroundColor: hoverBlueButton },
+                      ":focus": { backgroundColor: pressedBlueButton },
                     }}
                   >
                     Sign Up
                   </Button>
                   <Button
-                    type="submit"
+                    variant="outlined"
                     fullWidth
-                    variant="contained"
-                    href="/mycourses"
                     sx={{
+                      color: purplishBlueDark,
+                      textTransform: "capitalize",
+                      py: 1.5,
                       mt: 1,
-                      mb: 2,
-                      backgroundColor: white,
-                      color: neural900,
-                      fontFamily: fontType,
+                      borderRadius: 2,
+                      fontSize: 12,
                       fontWeight: 600,
+                      borderColor: activeBorderBlueButton,
+                      backgroundColor: white,
+                      ":hover": {
+                        borderColor: hoverBorderBlueButton,
+                      },
+                      ":focus": {
+                        bgcolor: pressedBorderBackgroundBlueButton,
+                        borderColor: pressedBorderBlueButton,
+                      },
                     }}
+                    onClick={() => navigate("/")}
                   >
                     Cancel
                   </Button>

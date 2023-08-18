@@ -13,6 +13,11 @@ function MyProfileScreen() {
 
   const { loading, user, error } = profileView;
 
+  const handleEditButton = (e) => {
+    e.preventDefault();
+    navigate('/myprofile/edit');
+  }
+
   useEffect(() => {
     if (!user) {
       dispatch(viewProfile());
@@ -21,11 +26,12 @@ function MyProfileScreen() {
 
   return (
     <>
-      <img
-        src="/images/userprofile.jpg"
-        style={{ height: "100%", width: "100%" }}
-      />
       {user && (
+        <>
+        <img
+        src={user.background ? user.background.Location : "/images/userprofile.jpg"}
+        style={{  width: "100%",  height: "100px"}}
+      />
         <Container>
           <Box pb={10}>
             {/* Display for webpage */}
@@ -37,6 +43,8 @@ function MyProfileScreen() {
                   school={user.school}
                   state={user.state}
                   country={user.country}
+                  handleEditButton={handleEditButton}
+                  image={user.image && user.image.Location}
                 />
               </Grid>
               <Grid item md={7} ml={4}>
@@ -53,6 +61,8 @@ function MyProfileScreen() {
                   school={user.school}
                   state={user.state}
                   country={user.country}
+                  handleEditButton={handleEditButton}
+                  image={user.image && user.image.Location}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -61,6 +71,7 @@ function MyProfileScreen() {
             </Grid>
           </Box>
         </Container>
+        </>
       )}
     </>
   );

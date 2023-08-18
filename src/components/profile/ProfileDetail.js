@@ -14,17 +14,14 @@ import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
-import { useNavigate } from "react-router-dom";
 
-function ProfileDetail({name, gradeYear, state, country, school}) {
-  const navigate = useNavigate();
-  console.log(name);
+function ProfileDetail({name, gradeYear, state, country, school, handleEditButton, image}) {
 
   return (
     <>
       <Grid container direction="column" alignItems="center" mb={2}>
         <Grid item>
-          <Avatar sx={{ height: "100px", width: "100px" }} />
+          <Avatar sx={{ height: "100px", width: "100px" }} src={image && image}/>
         </Grid>
         <Grid item>
           {" "}
@@ -49,7 +46,7 @@ function ProfileDetail({name, gradeYear, state, country, school}) {
               },
               width: "100%",
             }}
-            onClick={() => navigate('/myprofile/edit')}
+            onClick={handleEditButton}
           >
             <Grid item>
               <EditOutlinedIcon sx={{ fontSize: 14, color: neural500 }} />
