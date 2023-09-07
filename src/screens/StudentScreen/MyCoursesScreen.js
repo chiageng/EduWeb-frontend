@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import Course from "../components/screenHelpers/Course";
+import Course from "../../components/screenHelpers/Course";
 // import { courses } from "../Courses";
 import { Grid, Box, Typography, Container, Button } from "@mui/material";
-import { activeOrangeButton, hoverOrangeButton, neural500, neural900, orangeLight, pressedOrangeButton } from "../design/color";
+import { activeOrangeButton, hoverOrangeButton, neural500, neural900, orangeLight, pressedOrangeButton } from "../../design/color";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useDispatch, useSelector } from "react-redux";
-import { userViewCourses, viewCourses } from "../actions/courseActions";
-import { fontType } from "../design/font";
+import { userViewCourses, viewCourses } from "../../actions/courseActions";
+import { fontType } from "../../design/font";
 import { useNavigate } from "react-router-dom";
-import Loader from "../components/universal/Loader";
-import Message from "../components/universal/Message";
+import Loader from "../../components/universal/Loader";
+import Message from "../../components/universal/Message";
 
 function MyCoursesScreen() {
   const dispatch = useDispatch();

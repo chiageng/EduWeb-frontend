@@ -5,21 +5,21 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { Container, Box, Typography } from "@mui/material";
-import { neural900 } from "../design/color";
+import { neural900 } from "../../design/color";
 import {
   deleteQuizQuestion,
   editQuizQuestion,
   viewQuizQuestion,
-} from "../actions/quizAction";
+} from "../../actions/quizAction";
 import {
   QUIZ_QUESTION_DELETE_RESET,
   QUIZ_QUESTION_EDIT_RESET,
   QUIZ_QUESTION_VIEW_RESET,
   QUIZ_VIEW_RESET,
-} from "../constants/quiz";
-import QuizQuestionForm from "../components/forms/QuizQuestionForm";
-import Loader from "../components/universal/Loader";
-import { deleteImage, uploadImage } from "../actions/uploadActions";
+} from "../../constants/quiz";
+import QuizQuestionForm from "../../components/forms/QuizQuestionForm";
+import Loader from "../../components/universal/Loader";
+import { deleteImage, uploadImage } from "../../actions/uploadActions";
 
 function EditQuizQuestionScreen() {
   const [question, setQuestion] = useState("");

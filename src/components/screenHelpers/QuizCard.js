@@ -170,8 +170,8 @@ export default function QuizCard({ quiz, is_staff, score, done, published }) {
       >
         <Box width="100%">
           <CardContent py={1}>
-            <Grid container display="flex" justifyContent="space-between">
-              <Grid item>
+            <Grid container display="flex" alignItems="center">
+              <Grid item xs={11.5}>
                 <Typography
                   component="div"
                   variant="h5"
@@ -187,6 +187,7 @@ export default function QuizCard({ quiz, is_staff, score, done, published }) {
               </Grid>
 
               <Grid
+                xs={0.5}
                 item
                 mt={1}
                 sx={{

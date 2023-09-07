@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { Container, Box, Typography } from "@mui/material";
-import { neural900 } from "../design/color";
-import { createTopic } from "../actions/courseActions";
-import { COURSE_VIEW_RESET, TOPIC_CREATE_RESET } from "../constants/course";
-import Loader from "../components/universal/Loader";
-import TopicForm from "../components/forms/TopicForm";
-import { deleteImage, deleteVideo, uploadImage, uploadVideo } from "../actions/uploadActions";
+import { neural900 } from "../../design/color";
+import { createTopic } from "../../actions/courseActions";
+import { COURSE_VIEW_RESET, TOPIC_CREATE_RESET } from "../../constants/course";
+import Loader from "../../components/universal/Loader";
+import TopicForm from "../../components/forms/TopicForm";
+import { deleteImage, deleteVideo, uploadImage, uploadVideo } from "../../actions/uploadActions";
 
 function CreateTopicScreen() {
   const [title, setTitle] = useState("");

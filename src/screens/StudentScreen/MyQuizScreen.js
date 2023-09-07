@@ -30,19 +30,19 @@ import {
   pressedBorderBlueButton,
   activeBlueButton,
   pressedBlueButton,
-} from "../design/color";
+} from "../../design/color";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
-import QuizQuestion from "../components/screenHelpers/QuizQuestion";
-import { fontType } from "../design/font";
-import SimpleBackdrop from "../components/universal/SimpleBackdrop";
+import QuizQuestion from "../../components/screenHelpers/QuizQuestion";
+import { fontType } from "../../design/font";
+import SimpleBackdrop from "../../components/universal/SimpleBackdrop";
 import { useDispatch, useSelector } from "react-redux";
-import { userSaveQuiz, userViewQuiz } from "../actions/quizAction";
+import { userSaveQuiz, userViewQuiz } from "../../actions/quizAction";
 import {
   QUIZZES_VIEW_RESET,
   QUIZ_SAVE_RESET,
   QUIZ_VIEW_RESET,
-} from "../constants/quiz";
+} from "../../constants/quiz";
 
 export const MyQuizScreen = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);

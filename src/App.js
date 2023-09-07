@@ -3,30 +3,31 @@ import "./App.css";
 import Footer from "./footer/Footer";
 import Header from "./navbar/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomeScreen from "./screens/HomeScreen";
-import MyCoursesScreen from "./screens/MyCoursesScreen";
-import MyCourseScreen from "./screens/MyCourseScreen";
-import VideoScreen from "./screens/VideoScreen";
+import HomeScreen from "./screens/StudentScreen/HomeScreen";
+import MyCoursesScreen from "./screens/StudentScreen/MyCoursesScreen";
+import MyCourseScreen from "./screens/StudentScreen/MyCourseScreen";
+import VideoScreen from "./screens/StudentScreen/VideoScreen";
 import "../node_modules/video-react/dist/video-react.css";
-import CoursesScreen from "./screens/CoursesScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import MyQuizzesScreen from "./screens/MyQuizzesScreen";
-import { MyQuizScreen } from "./screens/MyQuizScreen";
-import ShoppingCartScreen from "./screens/ShoppingCartScreen";
-import MyProfileScreen from "./screens/MyProfileScreen";
-import CreateCourseScreen from "./screens/CreateCourseScreen";
-import CreateTopicScreen from "./screens/CreateTopicScreen";
-import EditCourseScreen from "./screens/EditCourseScreen";
-import CreateQuizScreen from "./screens/CreateQuizScreen";
-import EditTopicScreen from "./screens/EditTopicScreen";
-import CourseScreen from "./screens/CourseScreen";
-import InstructorQuizScreen from "./screens/InstructorQuizScreen";
-import CreateQuizQuestionScreen from "./screens/CreateQuizQuestion";
-import EditQuizQuestionScreen from "./screens/EditQuizQuestion";
-import EditQuizScreen from "./screens/EditQuizScreen";
-import EditProfileScreen from "./screens/EditProfileScreen";
-import StudentEnrollments from "./screens/StudentEnrollments";
+import CoursesScreen from "./screens/StudentScreen/CoursesScreen";
+import LoginScreen from "./screens/StudentScreen/LoginScreen";
+import RegisterScreen from "./screens/StudentScreen/RegisterScreen";
+import MyQuizzesScreen from "./screens/StudentScreen/MyQuizzesScreen";
+import { MyQuizScreen } from "./screens/StudentScreen/MyQuizScreen";
+import ShoppingCartScreen from "./screens/StudentScreen/ShoppingCartScreen";
+import MyProfileScreen from "./screens/StudentScreen/MyProfileScreen";
+import CreateCourseScreen from "./screens/StudentScreen/CreateCourseScreen";
+import CreateTopicScreen from "./screens/StudentScreen/CreateTopicScreen";
+import EditCourseScreen from "./screens/StudentScreen/EditCourseScreen";
+import CreateQuizScreen from "./screens/StudentScreen/CreateQuizScreen";
+import EditTopicScreen from "./screens/StudentScreen/EditTopicScreen";
+import CourseScreen from "./screens/StudentScreen/CourseScreen";
+import InstructorQuizScreen from "./screens/StudentScreen/InstructorQuizScreen";
+import CreateQuizQuestionScreen from "./screens/StudentScreen/CreateQuizQuestion";
+import EditQuizQuestionScreen from "./screens/StudentScreen/EditQuizQuestion";
+import EditQuizScreen from "./screens/StudentScreen/EditQuizScreen";
+import EditProfileScreen from "./screens/StudentScreen/EditProfileScreen";
+import StudentEnrollments from "./screens/StudentScreen/StudentEnrollments";
+import AdminLoginScreen from "./screens/AdminScreen/AdminLoginScreen";
 
 
 function App() {
@@ -107,6 +108,7 @@ function App() {
             <Route path="/shoppingcart" element={<ShoppingCartScreen />}></Route>
             <Route path="/login" element={<LoginScreen />}></Route>
             <Route path="/signup" element={<RegisterScreen />}></Route>
+            <Route path="/admin/login" element={<AdminLoginScreen />}></Route>
         </Routes>
       </main>
       <Footer />

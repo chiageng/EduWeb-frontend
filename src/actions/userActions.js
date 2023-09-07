@@ -82,6 +82,41 @@ export const loginUser =
     }
   };
 
+export const loginAdminUser =
+  ({ email, password }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: USER_LOGOUT_RESET });
+
+      dispatch({
+        type: USER_LOGIN_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/api/admin/login",
+        { email: email, password: password },
+        config
+      );
+
+      dispatch({
+        type: USER_LOGIN_SUCCESS,
+        payload: data,
+      });
+
+      localStorage.setItem("user", JSON.stringify(data));
+    } catch (error) {
+      dispatch({
+        type: USER_LOGIN_FAIL,
+        payload: error.response.data,
+      });
+    }
+  };
+
 export const logout = () => async (dispatch) => {
   try {
     dispatch({
@@ -97,9 +132,9 @@ export const logout = () => async (dispatch) => {
 
     dispatch({ type: LOGOUT });
     dispatch({ type: COURSES_VIEW_RESET });
-    dispatch({ type: VIEW_PROFILE_RESET})
-    dispatch({ type: QUIZZES_VIEW_RESET })
-    dispatch({ type: QUIZ_VIEW_RESET })
+    dispatch({ type: VIEW_PROFILE_RESET });
+    dispatch({ type: QUIZZES_VIEW_RESET });
+    dispatch({ type: QUIZ_VIEW_RESET });
 
     dispatch({
       type: USER_LOGOUT_SUCCESS,
@@ -135,9 +170,9 @@ export const forceLogout = () => async (dispatch) => {
 
     dispatch({ type: LOGOUT });
     dispatch({ type: COURSES_VIEW_RESET });
-    dispatch({ type: VIEW_PROFILE_RESET})
-    dispatch({ type: QUIZZES_VIEW_RESET })
-    dispatch({ type: QUIZ_VIEW_RESET })
+    dispatch({ type: VIEW_PROFILE_RESET });
+    dispatch({ type: QUIZZES_VIEW_RESET });
+    dispatch({ type: QUIZ_VIEW_RESET });
 
     localStorage.removeItem("user");
   } catch (error) {

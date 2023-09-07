@@ -11,12 +11,12 @@ import {
 } from "@mui/material";
 import {
   neural900,
-} from "../design/color";
-import { editTopic, viewTopic } from "../actions/courseActions";
-import { TOPIC_EDIT_RESET, TOPIC_VIEW_RESET } from "../constants/course";
-import Loader from "../components/universal/Loader";
-import TopicForm from "../components/forms/TopicForm";
-import { deleteImage, deleteVideo, uploadImage, uploadVideo } from "../actions/uploadActions";
+} from "../../design/color";
+import { editTopic, viewTopic } from "../../actions/courseActions";
+import { TOPIC_EDIT_RESET, TOPIC_VIEW_RESET } from "../../constants/course";
+import Loader from "../../components/universal/Loader";
+import TopicForm from "../../components/forms/TopicForm";
+import { deleteImage, deleteVideo, uploadImage, uploadVideo } from "../../actions/uploadActions";
 
 function EditTopicScreen() {
   const [title, setTitle] = useState("");

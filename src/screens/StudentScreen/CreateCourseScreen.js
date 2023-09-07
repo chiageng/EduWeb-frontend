@@ -18,29 +18,29 @@ import {
   purplishBluePale,
   purplishBlue,
   red,
-} from "../design/color";
-import { fontType } from "../design/font";
+} from "../../design/color";
+import { fontType } from "../../design/font";
 import Resizer from "react-image-file-resizer";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { createCourse, editCourse } from "../actions/courseActions";
-import { useNavigate, useParams } from "react-router-dom";
-import { viewCourse } from "../actions/courseActions";
-import { CourseForm } from "../components/forms/CourseForm";
-import { COURSE_EDIT_RESET } from "../constants/course";
-import { deleteImage, uploadImage } from "../actions/uploadActions";
+import { createCourse } from "../../actions/courseActions";
+import { useNavigate } from "react-router-dom";
+import { CourseForm } from "../../components/forms/CourseForm";
+import { COURSES_VIEW_RESET, COURSE_CREATE_RESET, TOPIC_CREATE_RESET } from "../../constants/course";
+import Message from "../../components/universal/Message";
+import { deleteImage, uploadImage } from "../../actions/uploadActions";
+import Loader from "../../components/universal/Loader";
 
-function EditCourseScreen() {
+function CreateCourseScreen() {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState();
   const [price, setPrice] = useState("");
   const [preview, setPreview] = useState("");
 
   const dispatch = useDispatch();
-  const params = useParams();
-  
-  const courseEdit = useSelector(state => state.courseEdit);
-  const { success } = courseEdit;
+  const courseCreate = useSelector((state) => state.courseCreate);
+  const { loading, success, error } = courseCreate;
+  const navigate = useNavigate();
 
   const imageUpload = useSelector(state => state.imageUpload);
   const { loading: imageLoading, image:data, error:imageError} = imageUpload;
@@ -48,26 +48,13 @@ function EditCourseScreen() {
   const imageDelete = useSelector(state => state.imageDelete);
   const {loading: imageDeleteLoading, success:deleteImageSuccess, error: deleteImageError} = imageDelete;
 
-  const courseView = useSelector((state) => state.courseView);
-  const { loading, course: courseExist, error: viewError } = courseView;
-
-  const navigate = useNavigate();
-
   useEffect(() => {
     if (success) {
-      dispatch({type: COURSE_EDIT_RESET})
-      navigate(`/mycourses/`);
+      dispatch({ type: COURSES_VIEW_RESET });
+      dispatch( { type: COURSE_CREATE_RESET })
+      navigate("/mycourses");
     }
-    if (!courseExist) {
-      dispatch(viewCourse(params.slug));
-    }
-    if (courseExist) {
-      setTitle(courseExist.title);
-      setPrice(courseExist.price);
-      setImage(courseExist.image);
-      setPreview(courseExist.image && courseExist.image.Location);
-    }
-  }, [courseEdit, params, courseExist]);
+  }, [courseCreate]);
 
   // const handleImageRemove = async () => {
   //   try {
@@ -80,7 +67,7 @@ function EditCourseScreen() {
   // };
 
   // const handleImage = (e) => {
-  //   setLoading(true);
+  //   // setLoading(true);
   //   let file = e.target.files[0];
   //   setPreview(window.URL.createObjectURL(file));
 
@@ -93,7 +80,7 @@ function EditCourseScreen() {
 
   //       // set image in the state
   //       setImage(data);
-  //       setLoading(false);
+  //       // setLoading(false);
   //     } catch (error) {}
   //   });
   // };
@@ -108,43 +95,48 @@ function EditCourseScreen() {
     dispatch(uploadImage(file, setPreview, setImage));
   }
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(editCourse({ slug: params.slug, title, price, image }));
+    dispatch(createCourse({ title, price, image }));
   };
 
   return (
-    <Container>
-      <Box pt={5} pb={10}>
-        <Typography
-          variant="h3"
-          fontFamily="Poppins"
-          sx={{
-            fontSize: 32,
-            fontWeight: 600,
-            fontStyle: "normal",
-            color: neural900,
-            mb: "32px",
-          }}
-        >
-          Edit Course
-        </Typography>
-        <CourseForm
-          title={title}
-          price={price}
-          setTitle={setTitle}
-          setPrice={setPrice}
-          preview={preview}
-          handleImage={handleImage}
-          handleImageRemove={handleImageRemove}
-          handleSubmit={handleSubmit}
-          loading={loading}
-          imageLoading={imageLoading}
-          imageDeleteLoading={imageDeleteLoading}
-        />
-      </Box>
-    </Container>
+    <>
+      {error && <Message type="error">{error}</Message>}
+      {loading && <Loader/>}
+      {!loading && <Container>
+        <Box pt={5} pb={10}>
+          <Typography
+            variant="h3"
+            fontFamily="Poppins"
+            sx={{
+              fontSize: 32,
+              fontWeight: 600,
+              fontStyle: "normal",
+              color: neural900,
+              mb: "32px",
+            }}
+          >
+            Create Course
+          </Typography>
+          <CourseForm
+            title={title}
+            price={price}
+            setTitle={setTitle}
+            setPrice={setPrice}
+            preview={preview}
+            handleImage={handleImage}
+            handleImageRemove={handleImageRemove}
+            handleSubmit={handleSubmit}
+            loading={loading}
+            imageLoading={imageLoading}
+            imageDeleteLoading={imageDeleteLoading}
+          />
+        </Box>
+      </Container>}
+    </>
   );
 }
 
-export default EditCourseScreen;
+export default CreateCourseScreen;

@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material/styles';
-import {  white } from "../design/color";
+import {  purplishBlue, purplishBlueDark, white } from "../design/color";
 
-const myTheme = createTheme({
+export const myTheme = createTheme({
   palette: {
     primary: {
       main: white,
@@ -10,4 +10,12 @@ const myTheme = createTheme({
   },
 });
 
-export default myTheme;
+export const adminTheme = createTheme({
+  palette: {
+    primary: {
+      main: purplishBlueDark,
+      fontFamily: "Poppins"
+    },
+  },
+});
+

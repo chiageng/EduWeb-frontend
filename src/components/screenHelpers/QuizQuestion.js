@@ -50,6 +50,11 @@ export default function QuizQuestion({
                     >
                       <CardContent>
                         <Grid container display="flex" direction="column">
+                        <Grid item>
+                            {selection.image && (
+                              <img style={{ maxWidth:"100%" , objectFit: "contain"}} src={selection.image.Location}></img>
+                            )}
+                          </Grid>
                           <Grid item>
                             <FormControlLabel
                               value="disabled"
@@ -85,11 +90,7 @@ export default function QuizQuestion({
                               }
                             ></FormControlLabel>
                           </Grid>
-                          <Grid item ml={5}>
-                            {selection.image && (
-                              <img style={{ maxWidth:"100%" , objectFit: "contain"}} src={selection.image.Location}></img>
-                            )}
-                          </Grid>
+                          
                         </Grid>
                       </CardContent>
                     </Card>
@@ -134,6 +135,11 @@ export default function QuizQuestion({
                   >
                     <CardContent>
                       <Grid container display="flex" direction="column">
+                      <Grid item>
+                          {selection.image && (
+                            <img style={{ maxWidth:"100%" , objectFit: "contain"}} src={selection.image.Location}></img>
+                          )}
+                        </Grid>
                         <Grid item>
                           <FormControlLabel
                             value={selection.value}
@@ -157,11 +163,7 @@ export default function QuizQuestion({
                             }
                           ></FormControlLabel>
                         </Grid>
-                        <Grid item>
-                          {selection.image && (
-                            <img style={{ maxWidth:"100%" , objectFit: "contain"}} src={selection.image.Location}></img>
-                          )}
-                        </Grid>
+                       
                       </Grid>
                     </CardContent>
                   </Card>

@@ -18,14 +18,14 @@ import {
   pressedRedButton,
   disabledButton,
   disabledButtonText,
-} from "../design/color";
-import { fontType } from "../design/font";
+} from "../../design/color";
+import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteQuiz, viewQuiz } from "../actions/quizAction";
-import QuizQuestionCard from "../components/screenHelpers/QuizQuestionCard";
+import { deleteQuiz, viewQuiz } from "../../actions/quizAction";
+import QuizQuestionCard from "../../components/screenHelpers/QuizQuestionCard";
 import axios from "axios";
-import Loader from "../components/universal/Loader";
-import { QUIZZES_VIEW_RESET, QUIZ_DELETE_RESET } from "../constants/quiz";
+import Loader from "../../components/universal/Loader";
+import { QUIZZES_VIEW_RESET, QUIZ_DELETE_RESET } from "../../constants/quiz";
 
 function InstructorQuizzesScreen() {
   const [toggle, setToggle] = useState(false);

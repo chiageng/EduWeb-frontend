@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { Container, Box, Typography, Button,Grid } from "@mui/material";
-import { neural900, red, white, } from "../design/color";
-import { createQuizQuestion } from "../actions/quizAction";
+import { neural900, red, white, } from "../../design/color";
+import { createQuizQuestion } from "../../actions/quizAction";
 import {
   QUIZZES_VIEW_RESET,
   QUIZ_QUESTION_CREATE_RESET,
   QUIZ_VIEW_RESET,
-} from "../constants/quiz";
-import QuizQuestionForm from "../components/forms/QuizQuestionForm";
-import { deleteImage, uploadImage } from "../actions/uploadActions";
-import Loader from "../components/universal/Loader";
+} from "../../constants/quiz";
+import QuizQuestionForm from "../../components/forms/QuizQuestionForm";
+import { deleteImage, uploadImage } from "../../actions/uploadActions";
+import Loader from "../../components/universal/Loader";
 
 function CreateQuizQuestionScreen() {
   const [question, setQuestion] = useState("");

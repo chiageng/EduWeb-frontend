@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import VideoPlayer from "../components/screenHelpers/VideoPlayer";
+import VideoPlayer from "../../components/screenHelpers/VideoPlayer";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -18,16 +18,16 @@ import {
   neural700,
   neural900,
   white,
-} from "../design/color";
-import PlayList from "../components/screenHelpers/PlayList";
-import Forum from "../components/screenHelpers/Forum";
-import { fontType } from "../design/font";
-import { orangeLight } from "../design/color";
+} from "../../design/color";
+import PlayList from "../../components/screenHelpers/PlayList";
+import Forum from "../../components/screenHelpers/Forum";
+import { fontType } from "../../design/font";
+import { orangeLight } from "../../design/color";
 import OutlinedFlagSharpIcon from "@mui/icons-material/OutlinedFlagSharp";
-import PhonePlayList from "../components/screenHelpers/PhonePlayList";
+import PhonePlayList from "../../components/screenHelpers/PhonePlayList";
 import { useDispatch, useSelector } from "react-redux";
-import { userWatchVideo, watchVideo } from "../actions/courseActions";
-import Loader from "../components/universal/Loader";
+import { userWatchVideo, watchVideo } from "../../actions/courseActions";
+import Loader from "../../components/universal/Loader";
 import {
   createComment,
   downvoteComment,
@@ -35,11 +35,11 @@ import {
   upvoteComment,
   userUpdateForum,
   viewForum,
-} from "../actions/forumActions";
-import { COMMENT_CREATE_RESET, COMMENT_VOTE_RESET } from "../constants/forum";
-import QuizList from "../components/screenHelpers/QuizList";
-import PhoneQuizList from "../components/screenHelpers/PhoneQuizList";
-import { viewQuizzes, viewUserQuizzes } from "../actions/quizAction";
+} from "../../actions/forumActions";
+import { COMMENT_CREATE_RESET, COMMENT_VOTE_RESET } from "../../constants/forum";
+import QuizList from "../../components/screenHelpers/QuizList";
+import PhoneQuizList from "../../components/screenHelpers/PhoneQuizList";
+import { viewQuizzes, viewUserQuizzes } from "../../actions/quizAction";
 import moment from "moment";
 
 function VideoScreen() {

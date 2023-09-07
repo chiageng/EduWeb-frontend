@@ -4,8 +4,8 @@ import {
   Box,
 } from "@mui/material";
 import React from "react";
-import CartHelper from "../components/screenHelpers/CartHelper";
-import CheckoutHelper from "../components/screenHelpers/CheckoutHelper";
+import CartHelper from "../../components/screenHelpers/CartHelper";
+import CheckoutHelper from "../../components/screenHelpers/CheckoutHelper";
 
 function ShoppingCartScreen() {
   return (

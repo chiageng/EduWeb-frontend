@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Grid, Box, Container } from "@mui/material";
-import ProfileSettings from "../components/profile/ProfileSettings";
-import ProfileForm from "../components/forms/ProfileForm";
-import { editProfile, viewProfile } from "../actions/userActions";
-import { EDIT_PROFILE_RESET, VIEW_PROFILE_RESET } from "../constants/user";
-import { deleteImage, uploadImage } from "../actions/uploadActions";
+import ProfileSettings from "../../components/profile/ProfileSettings";
+import ProfileForm from "../../components/forms/ProfileForm";
+import { editProfile, viewProfile } from "../../actions/userActions";
+import { EDIT_PROFILE_RESET, VIEW_PROFILE_RESET } from "../../constants/user";
+import { deleteImage, uploadImage } from "../../actions/uploadActions";
 
 function MyProfileScreen() {
   const [name, setName] = useState("");

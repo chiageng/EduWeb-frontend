@@ -25,12 +25,12 @@ import {
   activeOrangeButton,
   hoverOrangeButton,
   pressedOrangeButton,
-} from "../design/color";
-import { fontType } from "../design/font";
+} from "../../design/color";
+import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { viewCourse } from "../actions/courseActions";
-import Topic from "../components/screenHelpers/Topic";
-import Loader from "../components/universal/Loader";
+import { viewCourse } from "../../actions/courseActions";
+import Topic from "../../components/screenHelpers/Topic";
+import Loader from "../../components/universal/Loader";
 import axios from "axios";
 import SearchIcon from "@mui/icons-material/Search";
 import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";

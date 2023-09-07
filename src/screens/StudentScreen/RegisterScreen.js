@@ -23,13 +23,13 @@ import {
   purplishBlueDark,
   purplishBluePale,
   white,
-} from "../design/color";
-import { fontType } from "../design/font";
+} from "../../design/color";
+import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, registerUser } from "../actions/userActions";
-import Message from "../components/universal/Message";
+import { loginUser, registerUser } from "../../actions/userActions";
+import Message from "../../components/universal/Message";
 import { useNavigate } from "react-router-dom";
-import Loader from "../components/universal/Loader";
+import Loader from "../../components/universal/Loader";
 
 function Copyright(props) {
   return (

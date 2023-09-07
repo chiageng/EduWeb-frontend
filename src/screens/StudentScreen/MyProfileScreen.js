@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Grid, Box, Container } from "@mui/material";
-import ProfileDetail from "../components/profile/ProfileDetail";
-import ProfileDisplay from "../components/profile/ProfileDisplay";
-import { viewProfile } from "../actions/userActions";
+import ProfileDetail from "../../components/profile/ProfileDetail";
+import ProfileDisplay from "../../components/profile/ProfileDisplay";
+import { viewProfile } from "../../actions/userActions";
 
 function MyProfileScreen() {
   const dispatch = useDispatch();

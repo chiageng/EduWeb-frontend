@@ -9,23 +9,20 @@ import {
 } from "@mui/material";
 import {
   neural900,
-} from "../design/color";
-import QuizForm from "../components/forms/QuizForm";
-import {  editQuiz, viewQuiz } from "../actions/quizAction";
-import { QUIZZES_VIEW_RESET, QUIZ_EDIT_RESET } from "../constants/quiz";
+} from "../../design/color";
+import QuizForm from "../../components/forms/QuizForm";
+import { createQuiz } from "../../actions/quizAction";
+import { QUIZZES_VIEW_RESET, QUIZ_CREATE_RESET } from "../../constants/quiz";
 
-function EditQuizScreen() {
+function CreateQuizScreen() {
   const [title, setTitle] = useState("");
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
 
-  const quizEdit = useSelector(state => state.quizEdit);
-  const{ loading, success, error } = quizEdit;
-
-  const quizView = useSelector(state => state.quizView);
-  const { quiz, loading:viewLoading, course } = quizView;
+  const quizCreate = useSelector(state => state.quizCreate);
+  const{ loading, success, error } = quizCreate;
 
   const navigate = useNavigate();
 
@@ -33,24 +30,16 @@ function EditQuizScreen() {
 
   const handleSubmit  = (e) => {
     e.preventDefault();
-    dispatch(editQuiz(params.slug, params.quizSlug, title));
+    dispatch(createQuiz(params.slug, title));
   }
   
   useEffect(() => {
     if (success) {
       dispatch({type: QUIZZES_VIEW_RESET})
-      dispatch({type: QUIZ_EDIT_RESET})
+      dispatch({type: QUIZ_CREATE_RESET})
       navigate(`/mycourses/${params.slug}/myquiz`)
     }
-
-    if (!quiz || params.quizSlug !== quiz.slug) {
-      dispatch(viewQuiz(params.slug, params.quizSlug))
-    }
-
-    if (quiz) {
-      setTitle(quiz.title);
-    }
-  }, [success, course, quiz, params])
+  }, [success])
 
   return (
     <Container>
@@ -66,7 +55,7 @@ function EditQuizScreen() {
               mb: "32px",
             }}
           >
-            Edit Quiz
+            Create Quiz
           </Typography>
           <QuizForm
             setTitle={setTitle}
@@ -78,4 +67,4 @@ function EditQuizScreen() {
   );
 }
 
-export default EditQuizScreen;
+export default CreateQuizScreen;

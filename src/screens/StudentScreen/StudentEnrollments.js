@@ -44,7 +44,7 @@ import {
   purplishBluePale,
   red,
   white,
-} from "../design/color";
+} from "../../design/color";
 import { useDispatch, useSelector } from "react-redux";
 import {
   approveStudentsEnrollment,
@@ -52,16 +52,16 @@ import {
   removeStudentsEnrollment,
   updateStudentsEnrollment,
   viewCourse,
-} from "../actions/courseActions";
+} from "../../actions/courseActions";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { fontType } from "../design/font";
-import Loader from "../components/universal/Loader";
+import { fontType } from "../../design/font";
+import Loader from "../../components/universal/Loader";
 import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import LinearProgress from "@mui/material/LinearProgress";
+import { nanoid } from "@reduxjs/toolkit";
 
 const columns = [
   { id: "name", label: "Student", minWidth: 170 },
@@ -102,7 +102,7 @@ export default function StudentEnrollments() {
 
   function createData(user, enrollment) {
     const status = enrollment ? (
-      <TableCell align="center" sx={{ backgroundColor: green }}>
+      <TableCell align="center" key={nanoid()} sx={{ backgroundColor: green }}>
         <Typography
           sx={{
             textDecoration: "none",
@@ -116,7 +116,7 @@ export default function StudentEnrollments() {
         </Typography>
       </TableCell>
     ) : (
-      <TableCell align="center" sx={{ backgroundColor: red }}>
+      <TableCell align="center" key={nanoid()} sx={{ backgroundColor: red }}>
         <Typography
           sx={{
             textDecoration: "none",
@@ -132,7 +132,7 @@ export default function StudentEnrollments() {
     );
 
     const nameOutput = (
-      <TableCell>
+      <TableCell key={nanoid()}>
         <Grid container display="flex">
           <Grid item>
             <Avatar
@@ -159,7 +159,7 @@ export default function StudentEnrollments() {
       </TableCell>
     );
     const actionOutput = enrollment ? (
-      <TableCell>
+      <TableCell key={nanoid()}>
         <Button
           variant="outlined"
           fullWidth
@@ -186,7 +186,7 @@ export default function StudentEnrollments() {
         </Button>
       </TableCell>
     ) : (
-      <TableCell>
+      <TableCell key={nanoid()}>
         <Button
           sx={{
             backgroundColor: purplishBlue,
@@ -413,9 +413,8 @@ export default function StudentEnrollments() {
               <TableHead sx={{ fontWeight: 500 }}>
                 <TableRow>
                   {columns.map((column) => (
-                    <>
                       <TableCell
-                        key={column.id}
+                        key={column.label}
                         align="center"
                         style={{ minWidth: column.minWidth }}
                         sx={{
@@ -426,7 +425,6 @@ export default function StudentEnrollments() {
                       >
                         {column.label}
                       </TableCell>
-                    </>
                   ))}
                 </TableRow>
               </TableHead>
@@ -440,11 +438,11 @@ export default function StudentEnrollments() {
                           hover
                           role="checkbox"
                           tabIndex={-1}
-                          key={row.name}
+                          key={nanoid()}
                         >
                           {columns.map((column) => {
                             const value = row[column.id];
-                            return <>{value}</>;
+                            return <React.Fragment key={nanoid()}>{value}</React.Fragment>;
                           })}
                         </TableRow>
                       );

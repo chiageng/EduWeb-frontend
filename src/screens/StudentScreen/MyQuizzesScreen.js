@@ -17,12 +17,12 @@ import {
   hoverOrangeButton,
   pressedOrangeButton,
   activeOrangeButton,
-} from "../design/color";
-import QuizCard from "../components/screenHelpers/QuizCard";
-import { fontType } from "../design/font";
+} from "../../design/color";
+import QuizCard from "../../components/screenHelpers/QuizCard";
+import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { viewQuizzes, viewUserQuizzes } from "../actions/quizAction";
-import Loader from "../components/universal/Loader";
+import { viewQuizzes, viewUserQuizzes } from "../../actions/quizAction";
+import Loader from "../../components/universal/Loader";
 import SearchIcon from "@mui/icons-material/Search";
 import TopicOutlinedIcon from '@mui/icons-material/TopicOutlined';
 

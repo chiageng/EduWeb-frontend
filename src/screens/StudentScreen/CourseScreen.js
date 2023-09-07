@@ -8,12 +8,12 @@ import {
   enrollCourse,
   viewPriceCourse,
   viewReviews,
-} from "../actions/courseActions";
-import CourseDescription from "../components/screenHelpers/CourseDescription";
-import AddToCart from "../components/screenHelpers/AddToCart";
-import Review from "../components/universal/Review";
+} from "../../actions/courseActions";
+import CourseDescription from "../../components/screenHelpers/CourseDescription";
+import AddToCart from "../../components/screenHelpers/AddToCart";
+import Review from "../../components/universal/Review";
 import { useNavigate, useParams } from "react-router-dom";
-import Loader from "../components/universal/Loader";
+import Loader from "../../components/universal/Loader";
 
 function CourseScreen() {
   const [open, setOpen] = useState(false);

@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { activeBlueButton, activeBorderBlueButton, hoverBlueButton, hoverBorderBlueButton, neural900, orange, pressedBlueButton, pressedBorderBackgroundBlueButton, pressedBorderBlueButton, purplishBlue, purplishBlueDark, white } from "../design/color";
 import { ThemeProvider } from "@mui/material/styles";
-import myTheme from "./Theme";
+import { myTheme } from "./Theme";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../actions/userActions";
 import { useDispatch } from "react-redux";

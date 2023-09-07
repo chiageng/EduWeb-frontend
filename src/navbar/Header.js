@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/universal/Message';
 import axios from 'axios';
 import { forceLogout } from '../actions/userActions';
+import AdminAppBar from './AdminAppBar';
 
 function Header() {
   const currentUrl = window.location.pathname;
@@ -55,8 +56,10 @@ function Header() {
     }
   )
 
-  if (currentUrl == '/login' || currentUrl == '/signup') {
+  if (currentUrl == '/login' || currentUrl == '/signup' || currentUrl == '/admin/login' || currentUrl == 'admin/signup') {
     output =(<></>)
+  } else if (currentUrl.includes("admin")) {
+    output = (<AdminAppBar user={user}></AdminAppBar>)
   }
 
   return (
