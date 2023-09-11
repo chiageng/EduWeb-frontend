@@ -40,6 +40,7 @@ import {
 } from "./reducers/quizReducer";
 import { imageDeleteReducers, imageUploadReducers, videoDeleteReducers, videoUploadReducers } from "./reducers/uploadReducer";
 import { commentCreateReducers, commentVoteReducers, forumViewReducers } from "./reducers/forumReducer";
+import { LeftBarReducers } from "./reducers/navigationReducer";
 
 const userInfoFromStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user")) !== null
@@ -94,6 +95,7 @@ const store = configureStore({
     reviewCreate: reviewCreateReducers,
     reviewsView: reviewsViewReducers,
     commentVote: commentVoteReducers,
+    leftBar: LeftBarReducers
   },
   preloadedState: initialState,
   middleware: middleware,

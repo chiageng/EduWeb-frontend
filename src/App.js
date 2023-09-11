@@ -15,9 +15,9 @@ import MyQuizzesScreen from "./screens/StudentScreen/MyQuizzesScreen";
 import { MyQuizScreen } from "./screens/StudentScreen/MyQuizScreen";
 import ShoppingCartScreen from "./screens/StudentScreen/ShoppingCartScreen";
 import MyProfileScreen from "./screens/StudentScreen/MyProfileScreen";
-import CreateCourseScreen from "./screens/StudentScreen/CreateCourseScreen";
+import CreateCourseScreen from "./screens/AdminScreen/CreateCourseScreen";
 import CreateTopicScreen from "./screens/StudentScreen/CreateTopicScreen";
-import EditCourseScreen from "./screens/StudentScreen/EditCourseScreen";
+import EditCourseScreen from "./screens/AdminScreen/EditCourseScreen";
 import CreateQuizScreen from "./screens/StudentScreen/CreateQuizScreen";
 import EditTopicScreen from "./screens/StudentScreen/EditTopicScreen";
 import CourseScreen from "./screens/StudentScreen/CourseScreen";
@@ -28,7 +28,9 @@ import EditQuizScreen from "./screens/StudentScreen/EditQuizScreen";
 import EditProfileScreen from "./screens/StudentScreen/EditProfileScreen";
 import StudentEnrollments from "./screens/StudentScreen/StudentEnrollments";
 import AdminLoginScreen from "./screens/AdminScreen/AdminLoginScreen";
-
+import AdminDashboard from "./screens/AdminScreen/AdminDashboard";
+import AdminCourses from "./screens/AdminScreen/AdminCourses";
+import { Main } from "./navbar/AdminAppBar";
 
 function App() {
   return (
@@ -39,7 +41,7 @@ function App() {
             <Route path="/" element={<HomeScreen />}></Route>
             <Route path="/courses" element={<CoursesScreen />}></Route>
             <Route path="/mycourses" element={<MyCoursesScreen />}></Route>
-            <Route path="/createcourse" element={<CreateCourseScreen />}></Route>
+            <Route path="/admin/createcourse" element={<CreateCourseScreen />}></Route>
             <Route
               path="/mycourses/:slug"
               element={<MyCourseScreen></MyCourseScreen>}
@@ -54,7 +56,7 @@ function App() {
             ></Route>
             
             <Route
-              path="/mycourses/:slug/edit"
+              path="/admin/courses/:slug/edit"
               element={<EditCourseScreen></EditCourseScreen>}
             ></Route>
             <Route
@@ -109,6 +111,8 @@ function App() {
             <Route path="/login" element={<LoginScreen />}></Route>
             <Route path="/signup" element={<RegisterScreen />}></Route>
             <Route path="/admin/login" element={<AdminLoginScreen />}></Route>
+            <Route path="/admin" element={<AdminDashboard/>}></Route>
+            <Route path="/admin/courses" element={<AdminCourses/>}></Route>
         </Routes>
       </main>
       <Footer />

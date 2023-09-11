@@ -6,6 +6,7 @@ import Message from '../components/universal/Message';
 import axios from 'axios';
 import { forceLogout } from '../actions/userActions';
 import AdminAppBar from './AdminAppBar';
+import { Box } from '@mui/material';
 
 function Header() {
   const currentUrl = window.location.pathname;

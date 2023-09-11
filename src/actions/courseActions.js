@@ -71,7 +71,7 @@ import {
 import axios from "axios";
 
 export const createCourse =
-  ({ title, price, image }) =>
+  ({ title, category, description, level, image }) =>
   async (dispatch) => {
     try {
       dispatch({
@@ -85,7 +85,7 @@ export const createCourse =
       };
       const { data } = await axios.post(
         "/api/course/createcourse",
-        { title, price, image },
+        { title, category, description, level, image },
         config
       );
 
@@ -256,7 +256,7 @@ export const createTopic = (slug, title, video, image) => async (dispatch) => {
 };
 
 export const editCourse =
-  ({ slug, title, price, image }) =>
+  ({ slug, title, description, category, level, image }) =>
   async (dispatch) => {
     try {
       dispatch({
@@ -270,7 +270,7 @@ export const editCourse =
       };
       const { data } = await axios.put(
         `/api/course/${slug}/editcourse`,
-        { title, price, image },
+        { title, description, category, level, image },
         config
       );
 

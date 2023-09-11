@@ -12,11 +12,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
@@ -43,14 +43,15 @@ import { ThemeProvider } from "@mui/material/styles";
 import { adminTheme } from "./Theme";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../actions/userActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fontType } from "../design/font";
-import { Grid, InputAdornment, Paper, TextField } from "@mui/material";
+import { Box, Grid, InputAdornment, Paper, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import LeftBar from "./LeftBar";
+import AdminHelper from "./AdminHelper";
+import { toggleLeftBar } from "../actions/universalAction";
 
 let drawerWidth = 240;
-const closeDrawerWidth = 50;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -71,10 +72,7 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 10px)`,
   },
-  // width: drawerWidth,
-  // [theme.breakpoints.up("sm")]: {
-  //   width: drawerWidth,
-  // },
+
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -95,8 +93,26 @@ const AppBar = styled(MuiAppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(true && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth -3 ,
+    width: `calc(100% - ${drawerWidth - 4}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const PhoneBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop,
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(true && {
+    marginLeft: "60px",
+    width: `calc(100% - ${60}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -121,11 +137,35 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+export const Div = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    backgroundColor: purplishBluePale,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    [theme.breakpoints.up("xs")] : {marginLeft: "55px"},
+    [theme.breakpoints.up("sm")] : {marginLeft: `${drawerWidth - 8}px`},
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      [theme.breakpoints.up("xs")] : {marginLeft: "55px"},
+      [theme.breakpoints.up("sm")] : {marginLeft: "0px"},
+    }),
+  }),
+);
+
 function AdminAppBar({ user }) {
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [login, setLogin] = useState(false);
-  const [open, setOpen] = useState(true);
+  // const [open, setOpen] = useState(true);
+
+  const leftBar = useSelector(state => state.leftBar);
+  const { open } = leftBar
 
   const navigate = useNavigate();
 
@@ -135,33 +175,29 @@ function AdminAppBar({ user }) {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   const toggleDrawer = () => {
     if (open) {
-      setOpen(false);
+      // setOpen(false);
+      dispatch(toggleLeftBar(false));
       drawerWidth = 70;
     } else {
-      setOpen(true);
+      // setOpen(true);
+      dispatch(toggleLeftBar(true));
       drawerWidth = 240;
     }
   };
 
   const handleLogout = () => {
     handleCloseUserMenu();
-    handleCloseNavMenu();
     dispatch(logout());
     navigate("./login");
   };
 
   const handleLogin = () => {
-    handleCloseNavMenu();
     handleCloseUserMenu();
     setLogin(true);
   };
@@ -183,6 +219,28 @@ function AdminAppBar({ user }) {
     </Typography>
   );
 
+  let smallLogo = (
+    <Paper
+      width="30px"
+      sx={{ backgroundColor: purplishBlueLight, my: 3, mx: 2 }}
+    >
+      <Typography
+        fontFamily="Poppins"
+        sx={{
+          fontSize: 24,
+          fontWeight: 800,
+          fontStyle: "normal",
+          color: purplishBlue,
+          fontType: fontType,
+          ml: 1.5,
+          backgroundColor: purplishBlueLight,
+        }}
+      >
+        E
+      </Typography>
+    </Paper>
+  );
+
   if (open) {
     logo = (
       <Typography
@@ -202,7 +260,10 @@ function AdminAppBar({ user }) {
     );
   } else {
     logo = (
-      <Paper width="30px" sx={{ backgroundColor: purplishBlueLight, my: 3, mx: 2, }}>
+      <Paper
+        width="30px"
+        sx={{ backgroundColor: purplishBlueLight, my: 3, mx: 2 }}
+      >
         <Typography
           fontFamily="Poppins"
           sx={{
@@ -223,100 +284,44 @@ function AdminAppBar({ user }) {
 
   return (
     <ThemeProvider theme={adminTheme}>
-      <AppBar position="sticky" open={open}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            {/* When login, Navigation bar for webpage*/}
-            {user && (
-              <Grid
-                container
-                sx={{
-                  display: {xs: "none", sm: "flex"},
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Grid item xs={8}>
-                  <Grid container display="flex">
-                    <Grid item>
-                      <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        sx={{ mr: 2 }}
-                        onClick={toggleDrawer}
-                      >
-                        <MenuIcon />
-                      </IconButton>
-                    </Grid>
-                    <Grid item mt={0.5}>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        margin="none"
-                        value=""
-                        placeholder="Search for anything"
-                        onChange={() => {}}
-                        name="search"
-                        id="search"
-                        InputProps={{
-                          style: {
-                            backgroundColor: white,
-                          },
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <SearchIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                      />{" "}
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item>
-                  {" "}
-                  <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar
-                        alt="Remy Sharp"
-                        src={user.user.image && user.user.image.Location}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: "45px" }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                  >
-                    <MenuItem key="/logout" onClick={handleLogout}>
-                      <Typography
-                        textAlign="center"
-                        sx={{ textTransform: "capitalize" }}
-                      >
-                        Logout
-                      </Typography>
-                    </MenuItem>
-                  </Menu>
-                </Grid>
-              </Grid>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
-      <LeftBar logo={logo} open={open} Drawer={Drawer}/>
-      
+      {/* Top bar for webpage */}
+      <Box display={{ xs: "none", sm: "flex" }}>
+        <AdminHelper
+          open={open}
+          anchorElUser={anchorElUser}
+          AppBar={AppBar}
+          handleOpenUserMenu={handleOpenUserMenu}
+          handleCloseUserMenu={handleCloseUserMenu}
+          user={user}
+          toggleDrawer={toggleDrawer}
+          searchBar={true}
+        />
+      </Box>
+
+      {/* Top bar for phone */}
+      <Box display={{ xs: "flex", sm: "none" }}>
+        <AdminHelper
+          open={open}
+          anchorElUser={anchorElUser}
+          AppBar={PhoneBar}
+          handleOpenUserMenu={handleOpenUserMenu}
+          handleCloseUserMenu={handleCloseUserMenu}
+          user={user}
+          toggleDrawer={toggleDrawer}
+          searchBar={false}
+        />
+      </Box>
+
+      {/* Left Bar for webpage */}
+      <Box display={{ xs: "none", sm: "flex" }}>
+        <LeftBar logo={logo} open={open} Drawer={Drawer} />
+      </Box>
+
+      {/* Left Bar for phone */}
+      <Box display={{ xs: "flex", sm: "none" }}>
+        <LeftBar logo={smallLogo} open={false} Drawer={Drawer} />
+      </Box>
+
     </ThemeProvider>
   );
 }
