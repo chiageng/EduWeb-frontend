@@ -13,6 +13,7 @@ import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import Typography from "@mui/material/Typography";
 import { neural900 } from "../design/color";
 import AccordionHelper from "./AccordionHelper";
+import { useSelector } from "react-redux";
 
 function LeftBar({ logo, open, Drawer }) {
   const [expanded, setExpanded] = React.useState("panel1");
@@ -20,6 +21,7 @@ function LeftBar({ logo, open, Drawer }) {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+
 
   return (
     

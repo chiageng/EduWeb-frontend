@@ -21,9 +21,9 @@ import EditCourseScreen from "./screens/AdminScreen/EditCourseScreen";
 import CreateQuizScreen from "./screens/StudentScreen/CreateQuizScreen";
 import EditTopicScreen from "./screens/AdminScreen/EditTopicScreen";
 import CourseScreen from "./screens/StudentScreen/CourseScreen";
-import InstructorQuizScreen from "./screens/StudentScreen/InstructorQuizScreen";
+import AdminQuizScreen from "./screens/AdminScreen/AdminQuizScreen";
 import CreateQuizQuestionScreen from "./screens/StudentScreen/CreateQuizQuestion";
-import EditQuizQuestionScreen from "./screens/StudentScreen/EditQuizQuestion";
+import EditQuizQuestionScreen from "./screens/AdminScreen/EditQuizQuestion";
 import EditQuizScreen from "./screens/StudentScreen/EditQuizScreen";
 import EditProfileScreen from "./screens/StudentScreen/EditProfileScreen";
 import StudentEnrollments from "./screens/StudentScreen/StudentEnrollments";
@@ -57,8 +57,6 @@ function App() {
             element={<CourseScreen></CourseScreen>}
           ></Route>
 
-          
-
           <Route
             path="/mycourses/:slug/myquiz"
             element={<MyQuizzesScreen></MyQuizzesScreen>}
@@ -75,18 +73,12 @@ function App() {
             path="/mycourses/:slug/myquiz/:quizSlug"
             element={<MyQuizScreen></MyQuizScreen>}
           ></Route>
-          <Route
-            path="/mycourses/:slug/myquiz/:quizSlug/instructor"
-            element={<InstructorQuizScreen></InstructorQuizScreen>}
-          ></Route>
+
           <Route
             path="/mycourses/:slug/myquiz/:quizSlug/instructor/create"
             element={<CreateQuizQuestionScreen></CreateQuizQuestionScreen>}
           ></Route>
-          <Route
-            path="/mycourses/:slug/myquiz/:quizSlug/instructor/:questionId/edit"
-            element={<EditQuizQuestionScreen></EditQuizQuestionScreen>}
-          ></Route>
+
           <Route
             path="/myprofile"
             element={<MyProfileScreen></MyProfileScreen>}
@@ -128,6 +120,14 @@ function App() {
           <Route
             path="/admin/courses/:slug/edittopic/:topic_id"
             element={<EditTopicScreen />}
+          ></Route>
+          <Route
+            path="/admin/courses/:slug/quiz/:quizSlug/"
+            element={<AdminQuizScreen />}
+          ></Route>
+          <Route
+            path="/admin/courses/:slug/quiz/:quizSlug/:questionId"
+            element={<EditQuizQuestionScreen></EditQuizQuestionScreen>}
           ></Route>
         </Routes>
       </main>

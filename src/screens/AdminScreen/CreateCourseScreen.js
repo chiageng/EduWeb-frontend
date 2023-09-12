@@ -70,7 +70,7 @@ function CreateCourseScreen() {
       dispatch({ type: COURSE_CREATE_RESET });
       navigate("/admin/courses");
     }
-  }, [courseCreate]);
+  }, [courseCreate, open]);
 
   const handleImageRemove = () => {
     dispatch(deleteImage(image, setPreview, setImage));

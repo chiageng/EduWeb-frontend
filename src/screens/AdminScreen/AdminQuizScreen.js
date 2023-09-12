@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Box, Typography, Container, Grid, Button } from "@mui/material";
+import { Box, Typography, Container, Grid, Button, InputAdornment, TextField } from "@mui/material";
 import {
   neural500,
   neural900,
@@ -18,6 +18,7 @@ import {
   pressedRedButton,
   disabledButton,
   disabledButtonText,
+  neural700,
 } from "../../design/color";
 import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,8 +27,16 @@ import QuizQuestionCard from "../../components/screenHelpers/QuizQuestionCard";
 import axios from "axios";
 import Loader from "../../components/universal/Loader";
 import { QUIZZES_VIEW_RESET, QUIZ_DELETE_RESET } from "../../constants/quiz";
+import { Div } from "../../navbar/AdminAppBar";
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import SearchIcon from "@mui/icons-material/Search";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import QuizQuestion from "../../components/screenHelpers/QuizQuestion";
+import QuizDisplayQuestion from "../../components/screenHelpers/QuizDisplayQuestion";
 
-function InstructorQuizzesScreen() {
+
+
+function AdminQuizScreen() {
   const [toggle, setToggle] = useState(false);
 
   const params = useParams();
@@ -43,6 +52,9 @@ function InstructorQuizzesScreen() {
 
   const quizDelete = useSelector(state => state.quizDelete);
   const { success:deleteSuccess } = quizDelete;
+
+  const leftBar = useSelector((state) => state.leftBar);
+  const { open } = leftBar;
 
   const handleAddQuestion = () => {
     navigate(
@@ -81,15 +93,15 @@ function InstructorQuizzesScreen() {
     dispatch(deleteQuiz({ slug: params.slug, quizSlug: params.quizSlug }))
   };
 
-  const handleEdit = () => {
-    navigate(`/mycourses/${params.slug}/myquiz/${params.quizSlug}/edit`);
+  const handleEdit = (questionId) => {
+    navigate(`/admin/courses/${params.slug}/quiz/${params.quizSlug}/${questionId}`);
   };
 
   useEffect(() => {
     if (!quiz || params.quizSlug !== quiz.slug) {
       dispatch(viewQuiz(params.slug, params.quizSlug));
     }
-  }, [course, quiz, params]);
+  }, [course, quiz, params, open]);
 
   useEffect(() => {
     dispatch(viewQuiz(params.slug, params.quizSlug));
@@ -111,7 +123,7 @@ function InstructorQuizzesScreen() {
     >
       <Typography
         as={Link}
-        to="/mycourses"
+        to="/admin"
         sx={{
           textDecoration: "none",
           ":hover": { textDecoration: "underline" },
@@ -119,51 +131,119 @@ function InstructorQuizzesScreen() {
         key="1"
         color={neural500}
       >
-        My Course
+        Home
       </Typography>
       <Typography
-        style={{ textDecoration: "none" }}
-        underline="none"
+        as={Link}
+        to="/admin/courses"
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
         key="1"
         color={neural500}
-        as={Link}
-        to={`/mycourses/${params.slug}/myquiz`}
       >
-        My Quizzes
+        Courses
       </Typography>
       <Typography
-        style={{ textDecoration: "none" }}
-        underline="none"
+        as={Link}
+        to={`/admin/courses/${course && course.slug}`}
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        {course && course.title}
+      </Typography>
+      <Typography
+        as={Link}
+        to={`/admin/courses/${course && course.slug}/quiz`}
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
         key="1"
         color={neural500}
       >
         {quiz && quiz.title}
       </Typography>
+      <Typography
+        style={{ textDecoration: "none" }}
+        underline="none"
+        key="1"
+        color={neural500}
+      >
+        Edit Quiz
+      </Typography>
     </Breadcrumbs>
   );
+
   return (
-    <Container>
-      {loading && <Loader />}
+    <>
+      {loading && <Div><Loader /></Div>}
       {!loading && (
-        <Box pt={5} pb={10}>
+        <>
+        <Div style={{ backgroundColor: white }}>
           {breadcrumb}
-          <Typography
-            variant="h3"
-            fontFamily="Poppins"
-            sx={{
-              fontSize: 32,
-              fontWeight: 600,
-              fontStyle: "normal",
-              color: neural900,
-              mb: "16px",
-            }}
-          >
-            {course && course.title} - {quiz && quiz.title}{" "}
-            {user.user.is_staff && "(Instructor View)"}
-          </Typography>
+          <Grid container display="flex" alignItems="center" justifyContent="space-between">
+              <Grid item xs={12} md={7}>
+                <Typography
+                  variant="h3"
+                  fontFamily="Poppins"
+                  sx={{
+                    fontSize: 24,
+                    fontWeight: 600,
+                    fontStyle: "normal",
+                    color: neural900,
+                    mb: "18px",
+                  }}
+                >
+                  Edit Quiz
+                </Typography>
+                <Typography
+                  variant="h3"
+                  fontFamily="Poppins"
+                  sx={{
+                    fontSize: 16,
+                    fontWeight: 600,
+                    fontStyle: "normal",
+                    color: neural700,
+                  }}
+                >
+                  {quiz && quiz.title }
+                </Typography>
+              </Grid>
+             
+
+              <Grid item xs={12} md={1.5}>
+                <Button
+                  endIcon={<AddOutlinedIcon/>}
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    backgroundColor: activeBlueButton,
+                    fontFamily: fontType,
+                    fontWeight: 400,
+                    fontSize: 12,
+                    borderRadius: 2,
+
+                    py: 1.5,
+                    textTransform: "capitalize",
+                    ":hover": { backgroundColor: hoverBlueButton },
+                    ":focus": { backgroundColor: pressedBlueButton },
+                  }}
+                  onClick={handleAddQuestion}
+                >
+                  Add Question
+                </Button>
+              </Grid>
+            </Grid>
 
           {/* Buttons */}
-          {user && user.user.is_staff && (
+          {/* {user && user.user.is_staff && (
             <Grid container display="flex" width="100%">
               <Grid item mr={2}>
                 <Button
@@ -273,20 +353,25 @@ function InstructorQuizzesScreen() {
                 </Button>
               </Grid>
             </Grid>
-          )}
+          )} */}
+          </Div>
+          
+          <Div>
 
           <Grid container spacing={2} mt={1}>
             {questions &&
               questions.map((item) => (
-                <Grid key={item.question._id} item xs={12} md={4}>
-                  <QuizQuestionCard question={item.question} />
+                <Grid key={item.question._id} item xs={12} >
+                  <QuizDisplayQuestion questions={questions} currentQuestion={questions.indexOf(item)} admin={true} handleEdit={handleEdit}/>
+                  <QuizQuestion question={item.question} selections={item.choice} chosenAnswer={item.question.answer} correctAnswer={item.question.answer}/>
                 </Grid>
               ))}
           </Grid>
-        </Box>
+          </Div>
+        </>
       )}
-    </Container>
+    </>
   );
 }
 
-export default InstructorQuizzesScreen;
+export default AdminQuizScreen;

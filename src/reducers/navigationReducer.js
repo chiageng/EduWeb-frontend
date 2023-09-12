@@ -11,6 +11,6 @@ export const LeftBarReducers = (state = {}, action) => {
       return { open: false };
 
     default:
-      return { open: true };
+      return state;
   }
 };

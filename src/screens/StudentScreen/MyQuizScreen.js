@@ -43,6 +43,7 @@ import {
   QUIZ_SAVE_RESET,
   QUIZ_VIEW_RESET,
 } from "../../constants/quiz";
+import QuizDisplayQuestion from "../../components/screenHelpers/QuizDisplayQuestion";
 
 export const MyQuizScreen = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -221,42 +222,9 @@ export const MyQuizScreen = () => {
           >
             {quiz && quiz.title}
           </Typography>
-          <Typography
-            variant="h3"
-            fontFamily={fontType}
-            sx={{
-              fontSize: 14,
-              fontWeight: 400,
-              fontStyle: "normal",
-              color: neural500,
-              mb: "8px",
-            }}
-          >
-            Question {currentQuestion + 1} / {questions && questions.length}
-          </Typography>
-          <Typography
-            variant="h3"
-            fontFamily={fontType}
-            sx={{
-              fontSize: 24,
-              fontWeight: 600,
-              fontStyle: "normal",
-              color: neural900,
-              mb: "32px",
-            }}
-          >
-            {questions[currentQuestion].question.question}
-          </Typography>
 
-          {/* If got image */}
-          {questions[currentQuestion].question.image && (
-            <Box mb={1}>
-              <img
-                style={{ minHeight: "200px", objectFit: "contain" }}
-                src={questions[currentQuestion].question.image.Location}
-              ></img>
-            </Box>
-          )}
+
+          <QuizDisplayQuestion questions={questions} currentQuestion={currentQuestion} />
 
           {/* Before submission Design for Quiz Question*/}
           {!submit && (

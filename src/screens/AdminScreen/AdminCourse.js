@@ -121,7 +121,7 @@ function AdminCourseScreen() {
     if ((user && !course) || course.slug !== params.slug) {
       dispatch(viewCourse(params.slug));
     }
-  }, [params, userLogin, user, topicDelete, open]);
+  }, [params, userLogin, user, topicDelete]);
 
   useEffect(() => {
     if (success) {

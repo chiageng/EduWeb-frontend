@@ -21,6 +21,9 @@ function Header() {
   const userLogin = useSelector(state => state.userLogin);
   const { user, loading, error } = userLogin;
 
+  const leftBar = useSelector(state => state.leftBar);
+  const { open } = leftBar;
+
 
   let output = <ResponsiveAppBar user={user}/>
 
@@ -29,6 +32,13 @@ function Header() {
       navigate('./login')
     }
   }, [userLogin, userLogout])
+
+  // if not staff, not able to navigate staff page
+  useEffect(() => {
+    if (currentUrl.includes("admin") && !user.user.is_instructor && !user.user.is_staff && !user.user.superuser) {
+      navigate("/")
+    }
+  }, [currentUrl, open])
 
 
   // check token expired and logout automatically when token expired

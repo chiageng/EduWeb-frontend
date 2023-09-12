@@ -32,7 +32,7 @@ function AdminCourses() {
     if (user && !courses && user.user.is_staff) {
       dispatch(viewCourses());
     }
-  }, [user, courses, open]);
+  }, [user, courses]);
 
   const handleButton = () => {
     navigate("/createcourse");

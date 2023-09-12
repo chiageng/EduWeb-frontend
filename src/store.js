@@ -48,8 +48,16 @@ const userInfoFromStorage = localStorage.getItem("user")
     : null
   : null;
 
+const leftBarInfoFromStorage = localStorage.getItem("leftbar")
+  ? JSON.parse(localStorage.getItem("leftbar")) !== null
+    ? JSON.parse(localStorage.getItem("leftbar"))
+    : null
+  : null;
+
+
 export const initialState = {
   userLogin: { user: userInfoFromStorage },
+  leftBar : { open: leftBarInfoFromStorage }
 };
 
 const middleware = [thunk];

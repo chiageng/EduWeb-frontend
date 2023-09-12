@@ -77,7 +77,7 @@ function EditTopicScreen() {
       setPreview(topic.image && topic.image.Location)
       setVideoFile(topic.video && topic.video.ETag)
     }
-  }, [topicEdit, topic]);
+  }, [topicEdit, topic, open]);
 
   const handleImageRemove = () => {
     dispatch(deleteImage(image, setPreview, setImage));

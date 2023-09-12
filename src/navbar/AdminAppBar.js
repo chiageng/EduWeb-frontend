@@ -183,13 +183,25 @@ function AdminAppBar({ user }) {
     if (open) {
       // setOpen(false);
       dispatch(toggleLeftBar(false));
+      localStorage.setItem("leftbar", JSON.stringify(false));
       drawerWidth = 70;
     } else {
       // setOpen(true);
       dispatch(toggleLeftBar(true));
+      localStorage.setItem("leftbar", JSON.stringify(true));
       drawerWidth = 240;
     }
   };
+
+  useEffect(() => {
+    if (open) {
+      drawerWidth = 240;
+      dispatch(toggleLeftBar(true));
+    } else {
+      drawerWidth = 70;
+      dispatch(toggleLeftBar(false));
+    }
+  }, [open])
 
   const handleLogout = () => {
     handleCloseUserMenu();
