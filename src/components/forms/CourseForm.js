@@ -223,6 +223,8 @@ export const CourseForm = ({
                       ml: 2,
                       color: neural900,
                       fontSize: 12,
+                      px: 4,
+                      py: 1,
                       borderRadius: 2,
                       fontWeight: 300,
                       backgroundColor: red,

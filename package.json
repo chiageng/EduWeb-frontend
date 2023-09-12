@@ -28,6 +28,7 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
+    "unslugify": "^1.0.4",
     "video-react": "^0.16.0",
     "web-vitals": "^2.1.4"
   },

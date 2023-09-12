@@ -8,15 +8,20 @@ import {
   Container,
   Box,
   Typography,
+  Breadcrumbs,
 } from "@mui/material";
 import {
-  neural900,
+  neural900, neural500, white,
 } from "../../design/color";
 import { editTopic, viewTopic } from "../../actions/courseActions";
 import { TOPIC_EDIT_RESET, TOPIC_VIEW_RESET } from "../../constants/course";
 import Loader from "../../components/universal/Loader";
 import TopicForm from "../../components/forms/TopicForm";
 import { deleteImage, deleteVideo, uploadImage, uploadVideo } from "../../actions/uploadActions";
+import { Div } from "../../navbar/AdminAppBar";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Link } from "react-router-dom";
+import unslugify from "unslugify"
 
 function EditTopicScreen() {
   const [title, setTitle] = useState("");
@@ -49,6 +54,9 @@ function EditTopicScreen() {
   const videoDelete = useSelector(state => state.videoDelete);
   const {loading: videoDeleteLoading, success:deleteVideoSuccess, error: deleteVideoError} = videoDelete;
 
+  const leftBar = useSelector((state) => state.leftBar);
+  const { open } = leftBar;
+
   const navigate = useNavigate();
 
   const params = useParams();
@@ -57,9 +65,9 @@ function EditTopicScreen() {
     if (success) {
       dispatch({ type: TOPIC_EDIT_RESET });
       dispatch({ type: TOPIC_VIEW_RESET });
-      navigate(`/mycourses/${params.slug}`);
+      navigate(`/admin/courses/${params.slug}`);
     }
-    if (!topic) {
+    if (!topic || topic._id != params.topic_id) {
       dispatch(viewTopic({slug: params.slug, lesson_id: params.topic_id}))
     }
     if (topic) {
@@ -70,79 +78,6 @@ function EditTopicScreen() {
       setVideoFile(topic.video && topic.video.ETag)
     }
   }, [topicEdit, topic]);
-
-  // const handleImageRemove = async () => {
-  //   try {
-  //     const res = await axios.post("/api/course/remove-image", { image });
-  //     setImage();
-  //     setPreview("");
-  //   } catch (error) {
-  //     console.log("Error when delete image");
-  //   }
-  // };
-
-  // const handleImage = (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   let file = e.target.files[0];
-  //   setPreview(window.URL.createObjectURL(file));
-
-  //   // resize image before send to s3
-  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-  //     try {
-  //       let { data } = await axios.post("/api/course/upload-image", {
-  //         image: uri,
-  //       });
-
-  //       // set image in the state
-  //       setImage(data);
-  //       setLoading(false);
-  //     } catch (error) {}
-  //   });
-  // };
-
-  // const handleVideo = async (e) => {
-  //   try {
-  //     e.preventDefault();
-  //     setUploading(true);
-  //     setProgress(0);
-  //     const file = e.target.files[0];
-
-  //     const videoData = new FormData();
-  //     videoData.append("video", file);
-
-  //     // save progress bar and send video as form data to backend
-  //     const { data } = await axios.post("/api/course/video-upload", videoData, {
-  //       onUploadProgress: (e) => {
-  //         setProgress(Math.round((100 * e.loaded) / e.total));
-  //       },
-  //     });
-
-  //     // once response is received
-  //     setVideo(data);
-  //     setVideoFile(file.name);
-  //     setUploading(false);
-  //   } catch (err) {
-  //     console.log(err);
-  //     setUploading(false);
-  //   }
-  // };
-
-  // const handleVideoRemove = async (e) => {
-  //   try {
-  //     e.preventDefault();
-  //     setUploading(true);
-  //     console.log(video);
-  //     const { data } = await axios.post("/api/course/remove-video", { video });
-
-  //     setVideo();
-  //     setProgress(0);
-  //     setUploading(false);
-  //     setVideoFile("");
-  //   } catch {
-  //     setUploading(false);
-  //   }
-  // };
 
   const handleImageRemove = () => {
     dispatch(deleteImage(image, setPreview, setImage));
@@ -175,11 +110,70 @@ function EditTopicScreen() {
     setVideoFile("");
   };
 
+  const handleCancel = () => {
+    navigate(`/admin/courses/${params.slug}`)
+  }
+
+  const breadcrumb = (
+    <Breadcrumbs
+      separator={<NavigateNextIcon fontSize="small" />}
+      aria-label="breadcrumb"
+      mb={3}
+    >
+      <Typography
+        as={Link}
+        to="/admin"
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        Home
+      </Typography>
+      <Typography
+        as={Link}
+        to="/admin/courses"
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        Courses
+      </Typography>
+      <Typography
+        as={Link}
+        to={`/admin/courses/${params.slug}`}
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        {unslugify(params.slug)}
+      </Typography>
+      <Typography
+        style={{ textDecoration: "none" }}
+        underline="none"
+        key="1"
+        color={neural500}
+      >
+        Update Topic
+      </Typography>
+    </Breadcrumbs>
+  );
+
   return (
-    <Container>
-      {(loading || editLoading) && <Loader />}
-      {(!loading && !editLoading) && (
-        <Box pt={5} pb={10}>
+    <>
+      {loading && <Div><Loader /></Div>}
+      {!loading && (
+        <>
+        <Div style ={{ backgroundColor: white}}>
+          {breadcrumb}
           <Typography
             variant="h3"
             fontFamily="Poppins"
@@ -188,11 +182,13 @@ function EditTopicScreen() {
               fontWeight: 600,
               fontStyle: "normal",
               color: neural900,
-              mb: "32px",
             }}
           >
-            Edit Topic
+            Update Topic
           </Typography>
+          </Div>
+
+          <Div>
           <TopicForm
             setTitle={setTitle}
             title={title}
@@ -206,16 +202,19 @@ function EditTopicScreen() {
             videoFile={videoFile}
             handleVideoRemove={handleVideoRemove}
             handleSubmit={handleSubmit}
-            image={image}
             video={video}
-            videoLoading={videoLoading}
-            videoDeleteLoading={videoDeleteLoading}
+            image={image}
             imageLoading={imageLoading}
             imageDeleteLoading={imageDeleteLoading}
+            videoLoading={videoLoading}
+            videoDeleteLoading={videoDeleteLoading}
+            handleCancel={handleCancel}
+            update={true}
           />
-        </Box>
+          </Div>
+        </>
       )}
-    </Container>
+    </>
   );
 }
 

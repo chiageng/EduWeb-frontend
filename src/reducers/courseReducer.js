@@ -79,6 +79,7 @@ import {
   VIEW_REVIEWS_REQUEST,
   VIEW_REVIEWS_SUCCESS,
   VIEW_REVIEWS_RESET,
+  TOPIC_DELETE_RESET,
 
 } from "../constants/course";
 
@@ -207,6 +208,9 @@ export const topicDeleteReducers = (state = {}, action) => {
     case TOPIC_DELETE_FAIL:
       return { loading: false, error: action.payload };
 
+    case TOPIC_DELETE_RESET:
+      return { }
+      
     default:
       return state;
   }

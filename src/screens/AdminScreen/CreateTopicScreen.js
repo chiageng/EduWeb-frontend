@@ -4,13 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
-import { Container, Box, Typography } from "@mui/material";
-import { neural900 } from "../../design/color";
+import { Container, Box, Typography, Breadcrumbs } from "@mui/material";
+import { neural900, white, neural500 } from "../../design/color";
 import { createTopic } from "../../actions/courseActions";
 import { COURSE_VIEW_RESET, TOPIC_CREATE_RESET } from "../../constants/course";
 import Loader from "../../components/universal/Loader";
 import TopicForm from "../../components/forms/TopicForm";
 import { deleteImage, deleteVideo, uploadImage, uploadVideo } from "../../actions/uploadActions";
+import { Div } from "../../navbar/AdminAppBar";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Link } from "react-router-dom";
+import unslugify from "unslugify"
 
 function CreateTopicScreen() {
   const [title, setTitle] = useState("");
@@ -40,6 +44,9 @@ function CreateTopicScreen() {
   const videoDelete = useSelector(state => state.videoDelete);
   const {loading: videoDeleteLoading, success:deleteVideoSuccess, error: deleteVideoError} = videoDelete;
 
+  const leftBar = useSelector((state) => state.leftBar);
+  const { open } = leftBar;
+
   const navigate = useNavigate();
 
   const params = useParams();
@@ -48,38 +55,9 @@ function CreateTopicScreen() {
     if (success) {
       dispatch({ type: TOPIC_CREATE_RESET });
       dispatch({ type: COURSE_VIEW_RESET })
-      navigate(`/mycourses/${params.slug}`);
+      navigate(`/admin/courses/${params.slug}`);
     }
-  }, [topicCreate]);
-
-  // const handleImageRemove = async () => {
-  //   try {
-  //     const res = await axios.post("/api/course/remove-image", { image });
-  //     setImage();
-  //     setPreview("");
-  //   } catch (error) {
-  //   }
-  // };
-
-  // const handleImage = (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   let file = e.target.files[0];
-  //   setPreview(window.URL.createObjectURL(file));
-
-  //   // resize image before send to s3
-  //   Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-  //     try {
-  //       let { data } = await axios.post("/api/course/upload-image", {
-  //         image: uri,
-  //       });
-
-  //       // set image in the state
-  //       setImage(data);
-  //       setLoading(false);
-  //     } catch (error) {}
-  //   });
-  // };
+  }, [topicCreate, open]);
 
   const handleImageRemove = () => {
     dispatch(deleteImage(image, setPreview, setImage));
@@ -102,47 +80,6 @@ function CreateTopicScreen() {
     dispatch(deleteVideo(video, setProgress, setVideo, setVideoFile, setUploading))
   }
 
-  // const handleVideo = async (e) => {
-  //   try {
-  //     e.preventDefault();
-  //     setUploading(true);
-  //     setProgress(0);
-  //     const file = e.target.files[0];
-
-  //     const videoData = new FormData();
-  //     videoData.append("video", file);
-
-  //     // save progress bar and send video as form data to backend
-  //     const { data } = await axios.post("/api/course/video-upload", videoData, {
-  //       onUploadProgress: (e) => {
-  //         setProgress(Math.round((100 * e.loaded) / e.total));
-  //       },
-  //     });
-
-  //     // once response is received
-  //     setVideo(data);
-  //     setVideoFile(file.name);
-  //     setUploading(false);
-  //   } catch (err) {
-  //     setUploading(false);
-  //   }
-  // };
-
-  // const handleVideoRemove = async (e) => {
-  //   try {
-  //     e.preventDefault();
-  //     setUploading(true);
-  //     const { data } = await axios.post("/api/course/remove-video", { video });
-
-  //     setVideo();
-  //     setProgress(0);
-  //     setUploading(false);
-  //     setVideoFile("");
-  //   } catch {
-  //     setUploading(false);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(createTopic(params.slug, title, video, image));
@@ -153,11 +90,70 @@ function CreateTopicScreen() {
     setVideoFile("");
   };
 
+  const handleCancel = () => {
+    navigate(`/admin/courses/${params.slug}`)
+  }
+
+  const breadcrumb = (
+    <Breadcrumbs
+      separator={<NavigateNextIcon fontSize="small" />}
+      aria-label="breadcrumb"
+      mb={3}
+    >
+      <Typography
+        as={Link}
+        to="/admin"
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        Home
+      </Typography>
+      <Typography
+        as={Link}
+        to="/admin/courses"
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        Courses
+      </Typography>
+      <Typography
+        as={Link}
+        to={`/admin/courses/${params.slug}`}
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        {unslugify(params.slug)}
+      </Typography>
+      <Typography
+        style={{ textDecoration: "none" }}
+        underline="none"
+        key="1"
+        color={neural500}
+      >
+        Create Topic
+      </Typography>
+    </Breadcrumbs>
+  );
+
   return (
-    <Container>
-      {loading && <Loader />}
+    <>
+      {loading && <Div><Loader /></Div>}
       {!loading && (
-        <Box pt={5} pb={10}>
+        <>
+        <Div style ={{ backgroundColor: white}}>
+          {breadcrumb}
           <Typography
             variant="h3"
             fontFamily="Poppins"
@@ -166,11 +162,13 @@ function CreateTopicScreen() {
               fontWeight: 600,
               fontStyle: "normal",
               color: neural900,
-              mb: "32px",
             }}
           >
             Create Topic
           </Typography>
+          </Div>
+
+          <Div>
           <TopicForm
             setTitle={setTitle}
             title={title}
@@ -190,10 +188,12 @@ function CreateTopicScreen() {
             imageDeleteLoading={imageDeleteLoading}
             videoLoading={videoLoading}
             videoDeleteLoading={videoDeleteLoading}
+            handleCancel={handleCancel}
           />
-        </Box>
+          </Div>
+        </>
       )}
-    </Container>
+    </>
   );
 }
 

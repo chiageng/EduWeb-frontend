@@ -8,8 +8,8 @@ import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
 import { viewCourse, viewCourses } from "../../actions/courseActions";
 import { Div } from "../../navbar/AdminAppBar";
-import AdminCourse from "../../components/adminScreenHelpers/AdminCourse";
 import Loader from "../../components/universal/Loader";
+import AdminCourseCard from "../../components/adminScreenHelpers/AdminCourseCard";
 
 function AdminCourses() {
   const params = useParams();
@@ -77,11 +77,10 @@ function AdminCourses() {
               variant="h3"
               fontFamily={fontType}
               sx={{
-                fontSize: 32,
+                fontSize: 24,
                 fontWeight: 600,
                 fontStyle: "normal",
                 color: neural900,
-                mb: "16px",
               }}
             >
               My Courses
@@ -92,7 +91,7 @@ function AdminCourses() {
               <Grid container spacing={3}>
                 {courses.map((course) => (
                   <Grid item xs={12} sm={4} md={3} key={course.course._id}>
-                    <AdminCourse course={course.course}></AdminCourse>
+                    <AdminCourseCard course={course.course}></AdminCourseCard>
                   </Grid>
                 ))}
               </Grid>

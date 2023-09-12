@@ -36,7 +36,7 @@ import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite
 import { fontType } from "../../design/font";
 import { Divider, Grid } from "@mui/material";
 
-function AdminCourse({ course }) {
+function AdminCourseCard({ course }) {
   const colors = [purplishBlue, hotPink, skyBlue];
   const useColor = colors[course._id % 3];
   const navigate = useNavigate();
@@ -221,7 +221,7 @@ function AdminCourse({ course }) {
           </Grid>
           <Grid item mr={1} mt={1}
           sx={{ ":hover": { cursor: "pointer" } }}
-          onClick={() => navigate(`/admin/courses/${course.slug}/quiz`)}
+          onClick={() => navigate(`/admin/courses/${course.slug}/quizzes`)}
           >
             <Tooltip title="View Quiz">
               <QuizOutlinedIcon style={{ color: orange }} />
@@ -287,4 +287,4 @@ function AdminCourse({ course }) {
   );
 }
 
-export default AdminCourse;
+export default AdminCourseCard;
