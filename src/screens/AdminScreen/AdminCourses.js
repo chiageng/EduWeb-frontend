@@ -6,10 +6,12 @@ import { Grid, Typography } from "@mui/material";
 import { neural500, neural900, white } from "../../design/color";
 import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { viewCourse, viewCourses } from "../../actions/courseActions";
+import { deleteCourse, viewCourse, viewCourses } from "../../actions/courseActions";
 import { Div } from "../../navbar/AdminAppBar";
 import Loader from "../../components/universal/Loader";
 import AdminCourseCard from "../../components/adminScreenHelpers/AdminCourseCard";
+import { COURSES_VIEW_RESET, COURSE_DELETE_RESET } from "../../constants/course";
+import Message from "../../components/universal/Message";
 
 function AdminCourses() {
   const params = useParams();
@@ -21,6 +23,9 @@ function AdminCourses() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
+
+  const courseDelete = useSelector(state => state.courseDelete);
+  const { success, error:deleteError} = courseDelete;
 
   const leftBar = useSelector((state) => state.leftBar);
   const { open } = leftBar;
@@ -37,6 +42,24 @@ function AdminCourses() {
   const handleButton = () => {
     navigate("/createcourse");
   };
+
+  const handleDelete = (isPublished, slug) => {
+    if (isPublished) {
+      window.alert("You are not allowed to delete a published course")
+    } else {
+      let confirm = window.confirm("Are you sure you want to delete this course?")
+      if (confirm) {
+        dispatch(deleteCourse({slug}))
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (success) {
+      dispatch({ type : COURSES_VIEW_RESET})
+      dispatch({ type : COURSE_DELETE_RESET});
+    }
+  }, [success])
 
   const breadcrumb = (
     <Breadcrumbs
@@ -69,6 +92,7 @@ function AdminCourses() {
   return (
     <>
       {loading && <Div><Loader /></Div>}
+      {!loading && error && <Message type="error">{error}</Message>}
       {!loading && (
         <>
           <Div style={{ backgroundColor: white }}>
@@ -91,7 +115,7 @@ function AdminCourses() {
               <Grid container spacing={3}>
                 {courses.map((course) => (
                   <Grid item xs={12} sm={4} md={3} key={course.course._id}>
-                    <AdminCourseCard course={course.course}></AdminCourseCard>
+                    <AdminCourseCard course={course.course} handleDelete={handleDelete}></AdminCourseCard>
                   </Grid>
                 ))}
               </Grid>

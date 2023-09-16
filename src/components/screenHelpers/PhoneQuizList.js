@@ -24,7 +24,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Loader from "../universal/Loader";
 
-export default function PhoneQuizList({ instructor, isStaff, quizzes, loading, }) {
+export default function PhoneQuizList({ instructor, isStaff, quizzes, loading, admin}) {
   const [state, setState] = useState(false);
 
   const toggleDrawer = (open) => () => {
@@ -38,9 +38,9 @@ export default function PhoneQuizList({ instructor, isStaff, quizzes, loading, }
     <ListItem sx={{ py: "8px" }} key={item.quiz._id}>
       <Button
         onClick={() =>
-          isStaff
+          admin
             ? navigate(
-                `/mycourses/${params.slug}/myquiz/${item.quiz.slug}/instructor`
+                `/admin/courses/${params.slug}/quiz/${item.quiz.slug}`
               )
             : navigate(`/mycourses/${params.slug}/myquiz/${item.quiz.slug}`)
         }

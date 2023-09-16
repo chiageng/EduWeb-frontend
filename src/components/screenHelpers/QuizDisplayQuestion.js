@@ -49,7 +49,7 @@ function QuizDisplayQuestion({ currentQuestion, questions, admin, handleEdit, ha
               <Grid item sx={{
                 ":hover": { cursor: "pointer" },
               }}
-              onClick={handleDelete}>
+              onClick={() => handleDelete(questions[currentQuestion].question._id)}>
                  <Tooltip title="Delete Question">
                 <DeleteOutlineOutlinedIcon fontSize="small" style={{ color: red }} />
               </Tooltip>
@@ -63,7 +63,7 @@ function QuizDisplayQuestion({ currentQuestion, questions, admin, handleEdit, ha
         variant="h3"
         fontFamily={fontType}
         sx={{
-          fontSize: 24,
+          fontSize: 16,
           fontWeight: 600,
           fontStyle: "normal",
           color: neural900,

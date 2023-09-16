@@ -22,6 +22,7 @@ import { Div } from "../../navbar/AdminAppBar";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
 import unslugify from "unslugify"
+import Message from "../../components/universal/Message";
 
 function EditTopicScreen() {
   const [title, setTitle] = useState("");
@@ -40,7 +41,7 @@ function EditTopicScreen() {
   const { loading, topic } = topicView;
 
   const topicEdit = useSelector(state => state.topicEdit)
-  const {loading: editLoading, success} = topicEdit
+  const {loading: editLoading, success, error} = topicEdit
 
   const imageUpload = useSelector(state => state.imageUpload);
   const { loading: imageLoading, image:data, error:imageError} = imageUpload;
@@ -170,6 +171,7 @@ function EditTopicScreen() {
   return (
     <>
       {loading && <Div><Loader /></Div>}
+      {!loading && error && <Message type="error">{error}</Message>}
       {!loading && (
         <>
         <Div style ={{ backgroundColor: white}}>

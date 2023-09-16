@@ -79,29 +79,6 @@ function QuizQuestionForm({
   return (
     <>
       <>
-        {edit && (
-          <Grid container>
-            <Grid item xs={12} md={2} my={2}>
-              <Button
-                fullWidth
-                sx={{
-                  backgroundColor: activeRedButton,
-                  fontFamily: fontType,
-                  color: white,
-                  fontSize: 14,
-                  borderRadius: 3,
-                  p: 1,
-                  ":hover": { backgroundColor: hoverRedButton },
-                  ":active": { backgroundColor: pressedRedButton },
-                }}
-                onClick={handleDelete}
-              >
-                Delete Question
-              </Button>
-            </Grid>
-          </Grid>
-        )}
-
         <Card>
           <Grid container spacing={3} m={1} width="95%">
             <Grid item xs={12} mb={2}>

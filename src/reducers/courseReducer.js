@@ -4,6 +4,10 @@ import {
   COURSE_CREATE_SUCCESS,
   COURSE_CREATE_RESET,
 
+  COURSE_DELETE_FAIL,
+  COURSE_DELETE_REQUEST,
+  COURSE_DELETE_SUCCESS,
+  COURSE_DELETE_RESET,
 
   COURSE_EDIT_FAIL,
   COURSE_EDIT_REQUEST,
@@ -192,6 +196,25 @@ export const courseEditReducers = (state = {}, action) => {
     case COURSE_EDIT_RESET:
       return {}
 
+    default:
+      return state;
+  }
+};
+
+export const courseDeleteReducers = (state = {}, action) => {
+  switch (action.type) {
+    case COURSE_DELETE_REQUEST:
+      return { loading: true };
+
+    case COURSE_DELETE_SUCCESS:
+      return { loading: false, success: true };
+
+    case COURSE_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+
+    case COURSE_DELETE_RESET:
+      return { }
+      
     default:
       return state;
   }

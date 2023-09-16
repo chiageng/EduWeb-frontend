@@ -49,7 +49,7 @@ function TopicForm({
   update,
   handleCancel,
 }) {
-  const pending = !video || !image;
+  const pending = !video || !image || !title;
 
   return (
     <Grid container>
@@ -92,17 +92,16 @@ function TopicForm({
             )}
 
             <Grid item xs={12} mt={-2}>
-              <label htmlFor="contained-button-image">
-                <Grid container display="flex">
-                  <Grid item mt={1}>
-                    <input
-                      accept="image/*"
-                      id="contained-button-image"
-                      type="file"
-                      hidden
-                      onChange={handleImage}
-                    />
-
+              <Grid container display="flex">
+                <Grid item mt={1}>
+                  <input
+                    accept="image/*"
+                    id="contained-button-image"
+                    type="file"
+                    hidden
+                    onChange={handleImage}
+                  />
+                  <label htmlFor="contained-button-image">
                     <LoadingButton
                       variant="contained"
                       component="span"
@@ -124,54 +123,54 @@ function TopicForm({
                     >
                       <span>Upload Image</span>
                     </LoadingButton>
-                  </Grid>
-                  <Grid item xs={false} sm={0.25}>
-                  </Grid>
-
-                  <Grid item mt={1}>
-                    {preview && (
-                      <LoadingButton
-                        sx={{
-                          color: neural900,
-                          fontSize: 12,
-                          px: 4,
-                          py: 1,
-                          borderRadius: 2,
-                          fontWeight: 300,
-                          width: "180px",
-                          backgroundColor: red,
-                          textTransform: "capitalize",
-                          color: white,
-                          ":hover": {
-                            backgroundColor: hoverRedButton,
-                          },
-                          ":focus": { backgroundColor: pressedRedButton },
-                        }}
-                        endIcon={<DeleteOutlinedIcon />}
-                        onClick={handleImageRemove}
-                        loading={imageLoading || imageDeleteLoading}
-                        loadingPosition="end"
-                      >
-                        Remove Image
-                      </LoadingButton>
-                    )}
-                  </Grid>
+                  </label>
                 </Grid>
-              </label>
+
+                <Grid item xs={false} sm={0.25}></Grid>
+
+                <Grid item mt={1}>
+                  {preview && (
+                    <LoadingButton
+                      sx={{
+                        color: neural900,
+                        fontSize: 12,
+                        px: 4,
+                        py: 1,
+                        borderRadius: 2,
+                        fontWeight: 300,
+                        width: "180px",
+                        backgroundColor: red,
+                        textTransform: "capitalize",
+                        color: white,
+                        ":hover": {
+                          backgroundColor: hoverRedButton,
+                        },
+                        ":focus": { backgroundColor: pressedRedButton },
+                      }}
+                      endIcon={<DeleteOutlinedIcon />}
+                      onClick={handleImageRemove}
+                      loading={imageLoading || imageDeleteLoading}
+                      loadingPosition="end"
+                    >
+                      Remove Image
+                    </LoadingButton>
+                  )}
+                </Grid>
+              </Grid>
             </Grid>
 
             <Grid item xs={12}>
-              <label htmlFor="contained-button-video">
-                <Grid container display="flex">
-                  <Grid item mt={1}>
-                    <input
-                      accept="video/*"
-                      id="contained-button-video"
-                      type="file"
-                      hidden
-                      onChange={handleVideo}
-                      disabled={uploading}
-                    />
+              <Grid container display="flex">
+                <Grid item mt={1}>
+                  <input
+                    accept="video/*"
+                    id="contained-button-video"
+                    type="file"
+                    hidden
+                    onChange={handleVideo}
+                    disabled={uploading}
+                  />
+                  <label htmlFor="contained-button-video">
                     <LoadingButton
                       variant="contained"
                       component="span"
@@ -193,55 +192,54 @@ function TopicForm({
                     >
                       <span>Upload Video</span>
                     </LoadingButton>
-                  </Grid>
-
-                  <Grid item xs={false} sm={0.25}>
-                  </Grid>
-
-                  <Grid item mt={1}>
-                    {videoFile && (
-                      <LoadingButton
-                        sx={{
-                          color: neural900,
-                          fontSize: 12,
-                          px: 4,
-                          py: 1,
-                          borderRadius: 2,
-                          fontWeight: 300,
-                          width: "180px",
-                          backgroundColor: red,
-                          textTransform: "capitalize",
-                          color: white,
-                          ":hover": {
-                            backgroundColor: hoverRedButton,
-                          },
-                          ":focus": { backgroundColor: pressedRedButton },
-                        }}
-                        onClick={handleVideoRemove}
-                        loading={videoLoading || videoDeleteLoading}
-                        loadingPosition="end"
-                        endIcon={<DeleteOutlinedIcon />}
-                      >
-                        Remove Video
-                      </LoadingButton>
-                    )}
-                  </Grid>
+                  </label>
                 </Grid>
 
-                {uploading && <Progress progress={progress} />}
-                <Typography
-                  sx={{
-                    fontFamily: fontType,
-                    fontWeight: 400,
-                    fontSize: 12,
-                    ml: 1,
-                    mt: 1,
-                    color: neural900,
-                  }}
-                >
-                  {videoFile}
-                </Typography>
-              </label>
+                <Grid item xs={false} sm={0.25}></Grid>
+
+                <Grid item mt={1}>
+                  {videoFile && (
+                    <LoadingButton
+                      sx={{
+                        color: neural900,
+                        fontSize: 12,
+                        px: 4,
+                        py: 1,
+                        borderRadius: 2,
+                        fontWeight: 300,
+                        width: "180px",
+                        backgroundColor: red,
+                        textTransform: "capitalize",
+                        color: white,
+                        ":hover": {
+                          backgroundColor: hoverRedButton,
+                        },
+                        ":focus": { backgroundColor: pressedRedButton },
+                      }}
+                      onClick={handleVideoRemove}
+                      loading={videoLoading || videoDeleteLoading}
+                      loadingPosition="end"
+                      endIcon={<DeleteOutlinedIcon />}
+                    >
+                      Remove Video
+                    </LoadingButton>
+                  )}
+                </Grid>
+              </Grid>
+
+              {uploading && <Progress progress={progress} />}
+              <Typography
+                sx={{
+                  fontFamily: fontType,
+                  fontWeight: 400,
+                  fontSize: 12,
+                  ml: 1,
+                  mt: 1,
+                  color: neural900,
+                }}
+              >
+                {videoFile}
+              </Typography>
             </Grid>
 
             {/* Button */}
@@ -290,6 +288,7 @@ function TopicForm({
                     ":hover": { backgroundColor: hoverBlueButton },
                     ":focus": { backgroundColor: pressedBlueButton },
                   }}
+                  disabled={pending}
                 >
                   {update ? "Update Topic" : "Create Topic"}
                 </Button>

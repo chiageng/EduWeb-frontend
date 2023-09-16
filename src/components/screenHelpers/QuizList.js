@@ -16,7 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Loader from "../universal/Loader";
 
-function QuizList({ instructor, quizzes, isStaff, loading }) {
+function QuizList({ instructor, quizzes, isStaff, loading, admin }) {
   const navigate = useNavigate();
   const params = useParams();
 
@@ -27,9 +27,9 @@ function QuizList({ instructor, quizzes, isStaff, loading }) {
       <CardContent sx={{ py: "8px" }} key={item.quiz._id}>
         <Button
           onClick={() =>
-            isStaff
+            admin
               ? navigate(
-                  `/mycourses/${params.slug}/myquiz/${item.quiz.slug}/instructor`
+                  `/admin/courses/${params.slug}/quiz/${item.quiz.slug}`
                 )
               : navigate(`/mycourses/${params.slug}/myquiz/${item.quiz.slug}`)
           }

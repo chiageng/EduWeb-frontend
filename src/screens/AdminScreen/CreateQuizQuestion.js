@@ -1,47 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
-import { Container, Box, Typography, Grid, Button } from "@mui/material";
+import { Container, Box, Typography, Button,Grid, Breadcrumbs } from "@mui/material";
+import { neural900, red, white,purplishBlueDark, activeBorderBlueButton, hoverBorderBlueButton, pressedBorderBackgroundBlueButton, pressedBorderBlueButton, neural700, neural500 } from "../../design/color";
+import { createQuizQuestion } from "../../actions/quizAction";
 import {
-  neural900,
-  white,
-  neural500,
-  neural700,
-  activeBlueButton,
-  hoverBlueButton,
-  pressedBlueButton,
-  activeBorderBlueButton,
-  hoverBorderBlueButton,
-  pressedBorderBackgroundBlueButton,
-  pressedBorderBlueButton,
-  purplishBlueDark,
-} from "../../design/color";
-import { fontType } from "../../design/font";
-import {
-  deleteQuizQuestion,
-  editQuizQuestion,
-  viewQuizQuestion,
-} from "../../actions/quizAction";
-import {
-  QUIZ_QUESTION_DELETE_RESET,
-  QUIZ_QUESTION_EDIT_RESET,
-  QUIZ_QUESTION_VIEW_RESET,
+  QUIZZES_VIEW_RESET,
+  QUIZ_QUESTION_CREATE_RESET,
   QUIZ_VIEW_RESET,
 } from "../../constants/quiz";
 import QuizQuestionForm from "../../components/forms/QuizQuestionForm";
-import Loader from "../../components/universal/Loader";
 import { deleteImage, uploadImage } from "../../actions/uploadActions";
+import Loader from "../../components/universal/Loader";
 import { Div } from "../../navbar/AdminAppBar";
-import { Link } from "react-router-dom";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import unslugify from "unslugify";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 
-function EditQuizQuestionScreen() {
+function CreateQuizQuestionScreen() {
   const [question, setQuestion] = useState("");
   const [choice1, setChoice1] = useState("");
   const [choice2, setChoice2] = useState("");
@@ -51,7 +29,7 @@ function EditQuizQuestionScreen() {
   const [explanation, setExplanation] = useState("");
   const [preview, setPreview] = useState("");
   const [image, setImage] = useState("");
-  const [pending, setPending] = useState(false);
+  const [pending, setPending] = useState(false)
   const [preview1, setPreview1] = useState("");
   const [image1, setImage1] = useState("");
   const [preview2, setPreview2] = useState("");
@@ -65,32 +43,17 @@ function EditQuizQuestionScreen() {
   const userLogin = useSelector((state) => state.userLogin);
   const { user } = userLogin;
 
-  const quizQuestionView = useSelector((state) => state.quizQuestionView);
-  const {
-    loading,
-    question: originalQuestion,
-    choices,
-    error,
-  } = quizQuestionView;
+  const quizQuestionCreate = useSelector((state) => state.quizQuestionCreate);
+  const { loading, success, error } = quizQuestionCreate;
 
-  const quizQuestionEdit = useSelector((state) => state.quizQuestionEdit);
-  const { loading: editLoading, success } = quizQuestionEdit;
+  const imageUpload = useSelector(state => state.imageUpload);
+  const { loading: imageLoading, image:data, error:imageError} = imageUpload;
 
-  const quizQuestionDelete = useSelector((state) => state.quizQuestionDelete);
-  const { success: deleteSuccess } = quizQuestionDelete;
+  const imageDelete = useSelector(state => state.imageDelete);
+  const {loading: imageDeleteLoading, success:deleteImageSuccess, error: deleteImageError} = imageDelete;
 
-  const imageUpload = useSelector((state) => state.imageUpload);
-  const { loading: imageLoading, image: data, error: imageError } = imageUpload;
-
-  const imageDelete = useSelector((state) => state.imageDelete);
-  const {
-    loading: imageDeleteLoading,
-    success: deleteImageSuccess,
-    error: deleteImageError,
-  } = imageDelete;
-
-  const leftBar = useSelector((state) => state.leftBar);
-  const { open } = leftBar;
+  const leftBar = useSelector(state => state.leftBar);
+  const { open } = leftBar
 
   const navigate = useNavigate();
 
@@ -104,35 +67,21 @@ function EditQuizQuestionScreen() {
       { text: choice4, value: "d", image: image4 },
     ];
     dispatch(
-      editQuizQuestion({
+      createQuizQuestion({
         slug: params.slug,
         quizSlug: params.quizSlug,
         choices,
         answer,
         question,
         explanation,
-        questionId: params.questionId,
         image,
       })
     );
   };
 
-  const handleDelete = (e) => {
-    let confirm = window.confirm("Are you sure to delete this question?");
-    if (confirm) {
-      dispatch(
-        deleteQuizQuestion({
-          slug: params.slug,
-          quizSlug: params.quizSlug,
-          questionId: params.questionId,
-        })
-      );
-    }
-  };
-
   const handleCancel = (e) => {
-    navigate(`/admin/courses/${params.slug}/quiz/${params.quizSlug}`);
-  };
+    navigate(`/admin/courses/${params.slug}/quiz/${params.quizSlug}`)
+  }
 
   const handleImageRemove = () => {
     dispatch(deleteImage(image, setPreview, setImage));
@@ -186,54 +135,13 @@ function EditQuizQuestionScreen() {
 
   useEffect(() => {
     if (success) {
-      navigate(`/admin/courses/${params.slug}/quiz/${params.quizSlug}`);
-      dispatch({ type: QUIZ_QUESTION_EDIT_RESET });
       dispatch({ type: QUIZ_VIEW_RESET });
-      dispatch({ type: QUIZ_QUESTION_VIEW_RESET });
-    }
-
-    if (deleteSuccess) {
-      navigate(`/admin/courses/${params.slug}/quiz/${params.quizSlug}`);
-      dispatch({ type: QUIZ_VIEW_RESET });
-      dispatch({ type: QUIZ_QUESTION_VIEW_RESET });
-      dispatch({ type: QUIZ_QUESTION_DELETE_RESET });
-    }
-    if (!originalQuestion || originalQuestion._id != params.questionId) {
-      dispatch(
-        viewQuizQuestion(params.slug, params.quizSlug, params.questionId)
+      dispatch({ type: QUIZ_QUESTION_CREATE_RESET });
+      navigate(
+        `/admin/courses/${params.slug}/quiz/${params.quizSlug}`
       );
     }
-
-    if (originalQuestion) {
-      setQuestion(originalQuestion.question);
-      setAnswer(originalQuestion.answer);
-      setExplanation(originalQuestion.explanation);
-      for (let i = 0; i < choices.length; i++) {
-        if (choices[i].value === "a") {
-          setChoice1(choices[i].text);
-          setPreview1(choices[i].image && choices[i].image.Location);
-          setImage1(choices[i].image);
-        }
-        if (choices[i].value === "b") {
-          setChoice2(choices[i].text);
-          setPreview2(choices[i].image && choices[i].image.Location);
-          setImage2(choices[i].image);
-        }
-        if (choices[i].value === "c") {
-          setChoice3(choices[i].text);
-          setPreview3(choices[i].image && choices[i].image.Location);
-          setImage3(choices[i].image);
-        }
-        if (choices[i].value === "d") {
-          setChoice4(choices[i].text);
-          setPreview4(choices[i].image && choices[i].image.Location);
-          setImage4(choices[i].image);
-        }
-      }
-      setImage(originalQuestion.image && originalQuestion.image);
-      setPreview(originalQuestion.image && originalQuestion.image.Location);
-    }
-  }, [originalQuestion, params, success, deleteSuccess, open]);
+  }, [success]);
 
   const breadcrumb = (
     <Breadcrumbs
@@ -307,19 +215,19 @@ function EditQuizQuestionScreen() {
         key="1"
         color={neural500}
       >
-        Edit Quiz Question
+        Create Quiz Question
       </Typography>
     </Breadcrumbs>
   );
 
   return (
     <>
-      {(loading || editLoading) && (
+      {(loading) && (
         <Div>
           <Loader />
         </Div>
       )}
-      {!loading && !editLoading && (
+      {!loading && (
         <>
           <Div style={{ backgroundColor: white }}>
             {breadcrumb}
@@ -341,7 +249,7 @@ function EditQuizQuestionScreen() {
                     mb: "18px",
                   }}
                 >
-                  Edit Quiz Question
+                  Create Quiz Question
                 </Typography>
                 <Typography
                   variant="h3"
@@ -357,32 +265,6 @@ function EditQuizQuestionScreen() {
                 </Typography>
               </Grid>
 
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  fullWidth
-                  sx={{
-                    color: purplishBlueDark,
-                    py: 1,
-                    borderRadius: 2,
-                    textTransform: "capitalize",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    borderColor: activeBorderBlueButton,
-                    backgroundColor: white,
-                    ":hover": {
-                      borderColor: hoverBorderBlueButton,
-                    },
-                    ":focus": {
-                      bgcolor: pressedBorderBackgroundBlueButton,
-                      borderColor: pressedBorderBlueButton,
-                    },
-                  }}
-                  onClick={handleDelete}
-                >
-                  Delete Question
-                </Button>
-              </Grid>
             </Grid>
           </Div>
 
@@ -422,7 +304,6 @@ function EditQuizQuestionScreen() {
               imageLoading={imageLoading}
               imageDeleteLoading={imageDeleteLoading}
               handleCancel={handleCancel}
-              edit={true}
             />
           </Div>
         </>
@@ -431,4 +312,4 @@ function EditQuizQuestionScreen() {
   );
 }
 
-export default EditQuizQuestionScreen;
+export default CreateQuizQuestionScreen;

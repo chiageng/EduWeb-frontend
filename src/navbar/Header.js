@@ -35,7 +35,7 @@ function Header() {
 
   // if not staff, not able to navigate staff page
   useEffect(() => {
-    if (currentUrl.includes("admin") && !user.user.is_instructor && !user.user.is_staff && !user.user.superuser) {
+    if (currentUrl.includes("admin") && user && !user.user.is_instructor && !user.user.is_staff && !user.user.superuser) {
       navigate("/")
     }
   }, [currentUrl, open])

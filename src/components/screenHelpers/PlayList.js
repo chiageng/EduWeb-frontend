@@ -13,13 +13,19 @@ import {
 import { fontType } from "../../design/font";
 import { useNavigate, useParams } from "react-router-dom";
 
-function PlayList({ lessons, title, instructor }) {
+function PlayList({ lessons, title, instructor, admin }) {
   const navigate = useNavigate();
   const params = useParams();
+  let navigationHeader = `/mycourses`
+
+  if (admin) {
+    navigationHeader = `/admin/courses`
+  }
+
   const output = lessons && lessons.map((lesson) => (
     <CardContent sx={{ py: "8px" }} key={lesson._id}>
       <Button
-        onClick={() => navigate(`/mycourses/${params.slug}/${lesson.slug}`)}
+        onClick={() => navigate(`${navigationHeader}/${params.slug}/${lesson.slug}`)}
         style={{ textAlign: "left" }}
         sx={{
           p: 0,

@@ -32,7 +32,7 @@ import {
 } from "../../design/color";
 import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { viewCourse } from "../../actions/courseActions";
+import { deleteTopic, viewCourse } from "../../actions/courseActions";
 import Topic from "../../components/screenHelpers/Topic";
 import Loader from "../../components/universal/Loader";
 import axios from "axios";
@@ -41,7 +41,9 @@ import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import { Div } from "../../navbar/AdminAppBar";
 import AdminTopic from "../../components/adminScreenHelpers/AdminTopic";
 import unslugify from "unslugify";
-import { COURSE_VIEW_RESET, TOPIC_DELETE_RESET } from "../../constants/course";
+import { COURSES_VIEW_RESET, COURSE_VIEW_RESET, TOPIC_DELETE_RESET } from "../../constants/course";
+import ExpandMenu from "../../components/universal/ExpandMenu";
+import Message from "../../components/universal/Message";
 
 function AdminCourseScreen() {
   const params = useParams();
@@ -66,9 +68,17 @@ function AdminCourseScreen() {
   
   const [filteredLessons, setFilteredLessons] = useState(lessons)
 
+  const options = [
+    { title: "View Quiz", action: () => navigate(`/admin/courses/${params.slug}/quiz`) },
+    {
+      title: "Student Enrollment",
+      action: () => navigate(`/admin/courses/${params.slug}/enrollemnt`),
+    },
+  ];
+
   // handle button for create topic for instructor
-  const handleButton = () => {
-    navigate(`./createtopic`);
+  const handleUpload = () => {
+    navigate(`/admin/courses/${params.slug}/createtopic`);
   };
 
   // handle edit course button
@@ -86,6 +96,22 @@ function AdminCourseScreen() {
 
     setFilteredLessons(updatedList);
   }
+
+  const handleView = (topicSlug) => {
+    navigate(`/admin/courses/${params.slug}/${topicSlug}`)
+  }
+
+  const handleEditTopic = (topic_id) => {
+    navigate(`/admin/courses/${params.slug}/edittopic/${topic_id}`);
+  };
+
+  const handleDeleteTopic = (topic_id) => {
+    const confirm = window.confirm("Are you sure want to delete?");
+    if (!confirm) {
+      return;
+    }
+    dispatch(deleteTopic({ slug: params.slug, lesson_id: topic_id }));
+  };
 
   const handlePublished = async () => {
     if (course && course.published == false) {
@@ -121,17 +147,18 @@ function AdminCourseScreen() {
     if ((user && !course) || course.slug !== params.slug) {
       dispatch(viewCourse(params.slug));
     }
-  }, [params, userLogin, user, topicDelete]);
+  }, [params, userLogin, user, topicDelete, course]);
 
   useEffect(() => {
     if (success) {
       dispatch({ type: TOPIC_DELETE_RESET})
       dispatch({ type: COURSE_VIEW_RESET })
     }
-  })
+  }, [success])
 
   useEffect(() => {
-    dispatch(viewCourse(params.slug));
+    dispatch({ type: COURSE_VIEW_RESET })
+    dispatch({ type: COURSES_VIEW_RESET})
   }, [toggle]);
 
   const breadcrumb = (
@@ -178,13 +205,14 @@ function AdminCourseScreen() {
   return (
     <>
       {(loading || topicLoading) && <Div><Loader /></Div>}
+      {!loading && error && <Message type="error">{error}</Message>}
       {!loading && !topicLoading && (
         <>
         <Div style={{ backgroundColor: white }}>
           {breadcrumb}
 
           <Grid container display="flex" alignItems="center">
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={5.5}>
               <Typography
                 variant="h3"
                 fontFamily="Poppins"
@@ -233,9 +261,9 @@ function AdminCourseScreen() {
                 }}
               />
             </Grid>
-            <Grid item xs={false} md={0.25}></Grid>
+            <Grid item xs={false} md={0.15}></Grid>
 
-            <Grid item xs={12} md={1.5}>
+            <Grid item xs={12} md={1.5} mt={1}>
             <Button
                   endIcon={<FileUploadOutlinedIcon/>}
                   type="submit"
@@ -253,124 +281,57 @@ function AdminCourseScreen() {
                     ":hover": { backgroundColor: hoverBlueButton },
                     ":focus": { backgroundColor: pressedBlueButton },
                   }}
-                  onClick={handleButton}
+                  onClick={handleUpload}
                 >
                   Upload Video
                 </Button>
 
             </Grid>
-          </Grid>
 
-          {/* Button if is instructor */}
-          {user && user.user.is_staff && (
-            <Grid container display="flex" mt={2}>
-              <Grid item mr={2}>
-                <Button
+            <Grid item xs={false} md={0.15}></Grid>
+
+            <Grid item xs={12} md={1.25} mt={1}>
+            <Button
+                  variant="outlined"
+                  fullWidth
                   sx={{
-                    backgroundColor: activeOrangeButton,
-                    fontFamily: fontType,
-                    color: neural900,
-                    fontSize: 14,
-                    mb: 2,
-                    px: 2,
-                    py: 1,
+                    color: purplishBlueDark,
+                    py: 1.5,
+                    borderRadius: 2,
+                    textTransform: "capitalize",
+                    fontSize: 12,
                     fontWeight: 600,
-                    width: "100%",
-                    borderRadius: 3,
-                    textDecoration: "none",
-                    ":hover": { backgroundColor: hoverOrangeButton },
-                    ":focus": { backgroundColor: pressedOrangeButton},
-                  }}
-                  onClick={handleButton}
-                >
-                  Create Topic
-                </Button>
-              </Grid>
-              <Grid item mr={2}>
-                <Button
-                  sx={{
-                    backgroundColor: activeOrangeButton,
-                    fontFamily: fontType,
-                    color: neural900,
-                    fontSize: 14,
-                    mb: 2,
-                    px: 2,
-                    py: 1,
-                    fontWeight: 600,
-                    width: "100%",
-                    borderRadius: 3,
-                    textDecoration: "none",
-                    ":hover": { backgroundColor: hoverOrangeButton },
-                    ":focus": { backgroundColor: pressedOrangeButton},
-                  }}
-                  onClick={handleEdit}
-                >
-                  Edit Course
-                </Button>
-              </Grid>
-              <Grid item mr={2}>
-                <Button
-                  sx={{
-                    backgroundColor: activeOrangeButton,
-                    fontFamily: fontType,
-                    color: neural900,
-                    fontSize: 14,
-                    mb: 2,
-                    px: 2,
-                    py: 1,
-                    fontWeight: 600,
-                    width: "100%",
-                    borderRadius: 3,
-                    textDecoration: "none",
-                    ":hover": { backgroundColor: hoverOrangeButton },
-                    ":focus": { backgroundColor: pressedOrangeButton},
+                    borderColor: activeBorderBlueButton,
+                    backgroundColor: white,
+                    ":hover": {
+                      borderColor: hoverBorderBlueButton,
+                    },
+                    ":focus": {
+                      bgcolor: pressedBorderBackgroundBlueButton,
+                      borderColor: pressedBorderBlueButton,
+                    },
                   }}
                   onClick={handlePublished}
                 >
-                  {course && course.published ? "Unpublished" : "Published"}
+                   {course && course.published ? "Unpublished" : "Published"}
                 </Button>
-              </Grid>
-
-              <Grid item mr={2}>
-                <Button
-                  sx={{
-                    backgroundColor: activeOrangeButton,
-                    fontFamily: fontType,
-                    color: neural900,
-                    fontSize: 14,
-                    mb: 2,
-                    px: 2,
-                    py: 1,
-                    fontWeight: 600,
-                    width: "100%",
-                    borderRadius: 3,
-                    textDecoration: "none",
-                    ":hover": { backgroundColor: hoverOrangeButton },
-                    ":focus": { backgroundColor: pressedOrangeButton},
-                  }}
-                  onClick={() =>
-                    navigate(
-                      `/mycourses/checkStudentsEnrollment/${params.slug}`
-                    )
-                  }
-                >
-                  Students Enrollment
-                </Button>
-              </Grid>
 
             </Grid>
-          )}
+            <Grid item display={{xs: "none", md: "flex"}} md={0.25}>
+                <ExpandMenu options={options}/>
+              </Grid>
+          </Grid>
 
           </Div>
 
           <Div>
             {search === "" && lessons && 
               lessons.map((topic) => (
-                <AdminTopic  key={topic._id} topic={topic} />
+                <AdminTopic  key={topic._id} topic={topic} handleEdit={handleEditTopic} handleDelete={handleDeleteTopic} handleView={handleView}/>
               ))}
               {search !== "" && filteredLessons && 
                 filteredLessons.map((topic) => (
-                <AdminTopic key={topic._id} topic={topic}  />
+                <AdminTopic key={topic._id} topic={topic} handleEdit={handleEditTopic} handleDelete={handleDeleteTopic} handleView={handleView}/>
               ))}
         </Div>
         </>

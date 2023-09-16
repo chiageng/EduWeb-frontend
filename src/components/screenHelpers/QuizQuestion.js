@@ -16,7 +16,6 @@ export default function QuizQuestion({
   onClick,
   chosenAnswer,
   correctAnswer,
-  admin,
 }) {
   if (chosenAnswer) {
     return (

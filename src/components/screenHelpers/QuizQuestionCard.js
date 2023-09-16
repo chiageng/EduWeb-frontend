@@ -22,7 +22,6 @@ export default function QuizQuestionCard({question}) {
 
   return (
     <>
-      {/* Quiz card for Webpage */}
       <Card
         sx={{
           display: "flex",

@@ -18,13 +18,12 @@ import MyProfileScreen from "./screens/StudentScreen/MyProfileScreen";
 import CreateCourseScreen from "./screens/AdminScreen/CreateCourseScreen";
 import CreateTopicScreen from "./screens/AdminScreen/CreateTopicScreen";
 import EditCourseScreen from "./screens/AdminScreen/EditCourseScreen";
-import CreateQuizScreen from "./screens/StudentScreen/CreateQuizScreen";
+import CreateQuizScreen from "./screens/AdminScreen/CreateQuizScreen";
 import EditTopicScreen from "./screens/AdminScreen/EditTopicScreen";
 import CourseScreen from "./screens/StudentScreen/CourseScreen";
 import AdminQuizScreen from "./screens/AdminScreen/AdminQuizScreen";
-import CreateQuizQuestionScreen from "./screens/StudentScreen/CreateQuizQuestion";
+import CreateQuizQuestionScreen from "./screens/AdminScreen/CreateQuizQuestion";
 import EditQuizQuestionScreen from "./screens/AdminScreen/EditQuizQuestion";
-import EditQuizScreen from "./screens/StudentScreen/EditQuizScreen";
 import EditProfileScreen from "./screens/StudentScreen/EditProfileScreen";
 import StudentEnrollments from "./screens/StudentScreen/StudentEnrollments";
 import AdminLoginScreen from "./screens/AdminScreen/AdminLoginScreen";
@@ -33,6 +32,8 @@ import AdminCourses from "./screens/AdminScreen/AdminCourses";
 import { Main } from "./navbar/AdminAppBar";
 import AdminQuizzesScreen from "./screens/AdminScreen/AdminQuizzes";
 import AdminCourseScreen from "./screens/AdminScreen/AdminCourse";
+import EditQuizScreen from "./screens/AdminScreen/EditQuizScreen";
+import AdminVideoScreen from "./screens/AdminScreen/AdminVideoScreen";
 
 function App() {
   return (
@@ -61,23 +62,13 @@ function App() {
             path="/mycourses/:slug/myquiz"
             element={<MyQuizzesScreen></MyQuizzesScreen>}
           ></Route>
-          <Route
-            path="/mycourses/:slug/myquiz/create"
-            element={<CreateQuizScreen></CreateQuizScreen>}
-          ></Route>
-          <Route
-            path="/mycourses/:slug/myquiz/:quizSlug/edit"
-            element={<EditQuizScreen></EditQuizScreen>}
-          ></Route>
+          
           <Route
             path="/mycourses/:slug/myquiz/:quizSlug"
             element={<MyQuizScreen></MyQuizScreen>}
           ></Route>
 
-          <Route
-            path="/mycourses/:slug/myquiz/:quizSlug/instructor/create"
-            element={<CreateQuizQuestionScreen></CreateQuizQuestionScreen>}
-          ></Route>
+          
 
           <Route
             path="/myprofile"
@@ -110,7 +101,7 @@ function App() {
             element={<AdminCourseScreen></AdminCourseScreen>}
           ></Route>
           <Route
-            path="/admin/courses/:slug/quizzes"
+            path="/admin/courses/:slug/quiz"
             element={<AdminQuizzesScreen></AdminQuizzesScreen>}
           ></Route>
           <Route
@@ -128,6 +119,22 @@ function App() {
           <Route
             path="/admin/courses/:slug/quiz/:quizSlug/:questionId"
             element={<EditQuizQuestionScreen></EditQuizQuestionScreen>}
+          ></Route>
+          <Route
+            path="/admin/courses/:slug/quiz/create"
+            element={<CreateQuizScreen></CreateQuizScreen>}
+          ></Route>
+          <Route
+            path="/admin/courses/:slug/quiz/:quizSlug/edit"
+            element={<EditQuizScreen></EditQuizScreen>}
+          ></Route>
+          <Route
+            path="/admin/courses/:slug/quiz/:quizSlug/create"
+            element={<CreateQuizQuestionScreen></CreateQuizQuestionScreen>}
+          ></Route>
+          <Route
+            path="/admin/courses/:slug/:topicSlug"
+            element={<AdminVideoScreen />}
           ></Route>
         </Routes>
       </main>

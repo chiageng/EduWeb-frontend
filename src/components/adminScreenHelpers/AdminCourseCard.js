@@ -32,11 +32,11 @@ import {
   red,
   orange,
 } from "../../design/color";
-import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
 import { fontType } from "../../design/font";
 import { Divider, Grid } from "@mui/material";
 
-function AdminCourseCard({ course }) {
+function AdminCourseCard({ course, handleDelete }) {
   const colors = [purplishBlue, hotPink, skyBlue];
   const useColor = colors[course._id % 3];
   const navigate = useNavigate();
@@ -211,6 +211,7 @@ function AdminCourseCard({ course }) {
           justifyContent="right"
           alignItems="center"
         >
+          
           <Grid item mr={1} mt={1} 
           sx={{ ":hover": { cursor: "pointer" } }}
           onClick={() => navigate(`/admin/courses/${course.slug}/edit`)}
@@ -221,7 +222,7 @@ function AdminCourseCard({ course }) {
           </Grid>
           <Grid item mr={1} mt={1}
           sx={{ ":hover": { cursor: "pointer" } }}
-          onClick={() => navigate(`/admin/courses/${course.slug}/quizzes`)}
+          onClick={() => navigate(`/admin/courses/${course.slug}/quiz`)}
           >
             <Tooltip title="View Quiz">
               <QuizOutlinedIcon style={{ color: orange }} />
@@ -237,7 +238,7 @@ function AdminCourseCard({ course }) {
           </Grid>
           <Grid item mr={1} mt={1}
            sx={{ ":hover": { cursor: "pointer" } }}
-           onClick={() => console.log("delete")}
+           onClick={() => handleDelete(course.published, course.slug)}
           >
             <Tooltip title="Delete Course">
               <DeleteOutlineOutlinedIcon style={{ color: red }} />

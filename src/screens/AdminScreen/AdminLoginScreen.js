@@ -61,7 +61,7 @@ export default function AdminLoginScreen() {
 
   useEffect(() => {
     if (user) {
-      navigate("/admin/mycourses");
+      navigate("/admin/courses");
     }
   }, [userLogin, user]);
 

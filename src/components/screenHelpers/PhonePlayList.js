@@ -21,12 +21,18 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function PhonePlayList({lessons, title, instructor}) {
+export default function PhonePlayList({lessons, title, instructor, admin}) {
   const [state, setState] = useState(false);
 
   const toggleDrawer = (open) => () => {
     setState(open);
   };
+  
+  let navigationHeader = `/mycourses`
+
+  if (admin) {
+    navigationHeader = `/admin/courses`
+  }
 
   const navigate = useNavigate();
   const params = useParams();
@@ -34,7 +40,7 @@ export default function PhonePlayList({lessons, title, instructor}) {
   const output= lessons && lessons.map(lesson => (
     <ListItem sx={{ py: "8px" }} key={lesson._id}>
       <Button
-        onClick={() => navigate(`/mycourses/${params.slug}/${lesson.slug}`)}
+        onClick={() => navigate(`${navigationHeader}/${params.slug}/${lesson.slug}`)}
         style={{ textAlign: "left" }}
         sx={{
           p: 0,

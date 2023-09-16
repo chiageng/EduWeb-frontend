@@ -26,26 +26,10 @@ import {
 } from "../../design/color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { deleteTopic } from "../../actions/courseActions";
-import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
 
-export default function AdminTopic({ topic }) {
-  const dispatch = useDispatch();
-  const params = useParams();
-  const navigate = useNavigate();
 
-  const handleEdit = () => {
-    navigate(`/admin/courses/${params.slug}/edittopic/${topic._id}`);
-  };
-
-  const handleDelete = () => {
-    const confirm = window.confirm("Are you sure want to delete?");
-    if (!confirm) {
-      return;
-    }
-    dispatch(deleteTopic({ slug: params.slug, lesson_id: topic._id }));
-  };
+export default function AdminTopic({ topic, handleEdit, handleDelete, handleView }) {
 
   return (
     <>
@@ -61,7 +45,7 @@ export default function AdminTopic({ topic }) {
         <CardMedia
           component="img"
           sx={{ width: 64, mx: 2, height: 64 }}
-          image={topic && topic.image.Location}
+          image={topic && topic.image && topic.image.Location}
         />
         <Box
           sx={{
@@ -112,7 +96,24 @@ export default function AdminTopic({ topic }) {
                 ":hover": { cursor: "pointer" },
                 mr: 0.5,
               }}
-              onClick={handleEdit}
+              onClick={() => handleView(topic.slug)}
+            >
+              <Tooltip title="View Topic">
+                <PlayCircleOutlineOutlinedIcon
+                  fontSize="small"
+                  style={{ color: neural900 }}
+                />
+              </Tooltip>
+            </Box>
+
+            <Box sx={{ display: { xs: "none", sm: "flex" }, mr: 1 }}></Box>
+
+            <Box
+              sx={{
+                ":hover": { cursor: "pointer" },
+                mr: 0.5,
+              }}
+              onClick={() => handleEdit(topic._id)}
             >
               <Tooltip title="Edit Topic">
                 <EditOutlinedIcon
@@ -128,7 +129,7 @@ export default function AdminTopic({ topic }) {
                 ":hover": { cursor: "pointer" },
                 mr: 0.5,
               }}
-              onClick={handleDelete}
+              onClick={() => handleDelete(topic._id)}
             >
               <Tooltip title="Delete Topic">
                 <DeleteOutlineIcon fontSize="small" style={{ color: red }} />

@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Box, Typography, Container, Grid, Button, InputAdornment, TextField } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Container,
+  Grid,
+  Button,
+  InputAdornment,
+  TextField,
+  Divider,
+} from "@mui/material";
 import {
   neural500,
   neural900,
@@ -19,22 +28,34 @@ import {
   disabledButton,
   disabledButtonText,
   neural700,
+  activeBorderBlueButton,
+  hoverBorderBlueButton,
+  pressedBorderBackgroundBlueButton,
+  pressedBorderBlueButton,
 } from "../../design/color";
 import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteQuiz, viewQuiz } from "../../actions/quizAction";
+import {
+  deleteQuiz,
+  deleteQuizQuestion,
+  viewQuiz,
+} from "../../actions/quizAction";
 import QuizQuestionCard from "../../components/screenHelpers/QuizQuestionCard";
 import axios from "axios";
 import Loader from "../../components/universal/Loader";
-import { QUIZZES_VIEW_RESET, QUIZ_DELETE_RESET } from "../../constants/quiz";
+import {
+  QUIZZES_VIEW_RESET,
+  QUIZ_DELETE_RESET,
+  QUIZ_QUESTION_DELETE_RESET,
+  QUIZ_VIEW_RESET,
+} from "../../constants/quiz";
 import { Div } from "../../navbar/AdminAppBar";
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import QuizQuestion from "../../components/screenHelpers/QuizQuestion";
 import QuizDisplayQuestion from "../../components/screenHelpers/QuizDisplayQuestion";
-
-
+import ExpandMenu from "../../components/universal/ExpandMenu";
 
 function AdminQuizScreen() {
   const [toggle, setToggle] = useState(false);
@@ -50,16 +71,17 @@ function AdminQuizScreen() {
   const quizView = useSelector((state) => state.quizView);
   const { loading, quiz, course, error, questions } = quizView;
 
-  const quizDelete = useSelector(state => state.quizDelete);
-  const { success:deleteSuccess } = quizDelete;
+  const quizDelete = useSelector((state) => state.quizDelete);
+  const { success: deleteSuccess } = quizDelete;
+
+  const quizQuestionDelete = useSelector((state) => state.quizQuestionDelete);
+  const { success: questionDeleteSuccess } = quizQuestionDelete;
 
   const leftBar = useSelector((state) => state.leftBar);
   const { open } = leftBar;
 
   const handleAddQuestion = () => {
-    navigate(
-      `/mycourses/${params.slug}/myquiz/${params.quizSlug}/instructor/create`
-    );
+    navigate(`/admin/courses/${params.slug}/quiz/${params.quizSlug}/create`);
   };
 
   const handlePublished = async () => {
@@ -90,12 +112,36 @@ function AdminQuizScreen() {
   };
 
   const handleDelete = () => {
-    dispatch(deleteQuiz({ slug: params.slug, quizSlug: params.quizSlug }))
+    if (quiz.published) {
+      window.alert("You are not allowed to delete a published quiz");
+    } else {
+      let answer = window.confirm("Are you sure you want to delete the quiz?");
+      if (answer) {
+        dispatch(deleteQuiz({ slug: params.slug, quizSlug: params.quizSlug }));
+      }
+    }
   };
 
-  const handleEdit = (questionId) => {
-    navigate(`/admin/courses/${params.slug}/quiz/${params.quizSlug}/${questionId}`);
+  const handleDeleteQuestion = (questionId) => {
+    let confirm = window.confirm("Are you sure to delete this question?");
+    if (confirm) {
+      dispatch(
+        deleteQuizQuestion({
+          slug: params.slug,
+          quizSlug: params.quizSlug,
+          questionId: questionId,
+        })
+      );
+    }
   };
+
+  const handleEditQuestion = (questionId) => {
+    navigate(
+      `/admin/courses/${params.slug}/quiz/${params.quizSlug}/${questionId}`
+    );
+  };
+
+  const options = [{ title: "Delete Quiz", action: handleDelete }];
 
   useEffect(() => {
     if (!quiz || params.quizSlug !== quiz.slug) {
@@ -110,10 +156,17 @@ function AdminQuizScreen() {
 
   useEffect(() => {
     if (deleteSuccess) {
-      dispatch({ type: QUIZ_DELETE_RESET })
-      navigate(`/mycourses/${params.slug}/myquiz`)
+      dispatch({ type: QUIZ_DELETE_RESET });
+      navigate(`/admin/courses/${params.slug}/quiz`);
     }
-  }, [deleteSuccess])
+  }, [deleteSuccess]);
+
+  useEffect(() => {
+    if (questionDeleteSuccess) {
+      dispatch({ type: QUIZ_VIEW_RESET });
+      dispatch({ type: QUIZ_QUESTION_DELETE_RESET });
+    }
+  }, [questionDeleteSuccess]);
 
   const breadcrumb = (
     <Breadcrumbs
@@ -182,13 +235,17 @@ function AdminQuizScreen() {
 
   return (
     <>
-      {loading && <Div><Loader /></Div>}
+      {loading && (
+        <Div>
+          <Loader />
+        </Div>
+      )}
       {!loading && (
         <>
-        <Div style={{ backgroundColor: white }}>
-          {breadcrumb}
-          <Grid container display="flex" alignItems="center" justifyContent="space-between">
-              <Grid item xs={12} md={7}>
+          <Div style={{ backgroundColor: white }}>
+            {breadcrumb}
+            <Grid container display="flex" alignItems="center">
+              <Grid item xs={12} md={8.5}>
                 <Typography
                   variant="h3"
                   fontFamily="Poppins"
@@ -210,16 +267,16 @@ function AdminQuizScreen() {
                     fontWeight: 600,
                     fontStyle: "normal",
                     color: neural700,
+                    mb: "18px",
                   }}
                 >
-                  {quiz && quiz.title }
+                  {quiz && quiz.title}
                 </Typography>
               </Grid>
-             
 
               <Grid item xs={12} md={1.5}>
                 <Button
-                  endIcon={<AddOutlinedIcon/>}
+                  endIcon={<AddOutlinedIcon />}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -240,133 +297,65 @@ function AdminQuizScreen() {
                   Add Question
                 </Button>
               </Grid>
-            </Grid>
 
-          {/* Buttons */}
-          {/* {user && user.user.is_staff && (
-            <Grid container display="flex" width="100%">
-              <Grid item mr={2}>
+              <Grid item xs={false} md={0.15}></Grid>
+
+              <Grid item xs={12} md={1.25} mt={1}>
                 <Button
+                  variant="outlined"
+                  fullWidth
                   sx={{
-                    backgroundColor: orangeLight,
-                    fontFamily: fontType,
-                    color: neural900,
-                    fontSize: 14,
-                    mb: 2,
-                    mr: 2,
-                    px: 2,
-                    py: 1,
+                    color: purplishBlueDark,
+                    py: 1.5,
+                    borderRadius: 2,
+                    textTransform: "capitalize",
+                    fontSize: 12,
                     fontWeight: 600,
-                    width: "100%",
-                    borderRadius: 3,
-                    textDecoration: "none",
-                    ":hover": { backgroundColor: orangeLight },
+                    borderColor: activeBorderBlueButton,
+                    backgroundColor: white,
+                    ":hover": {
+                      borderColor: hoverBorderBlueButton,
+                    },
+                    ":focus": {
+                      bgcolor: pressedBorderBackgroundBlueButton,
+                      borderColor: pressedBorderBlueButton,
+                    },
                   }}
-                  onClick={handleAddQuestion}
-                >
-                  Add Question
-                </Button>
-              </Grid>
-              <Grid item mr={2}>
-                <Button
-                  sx={{
-                    backgroundColor: orangeLight,
-                    fontFamily: fontType,
-                    color: neural900,
-                    fontSize: 14,
-                    mb: 2,
-                    px: 2,
-                    py: 1,
-                    fontWeight: 600,
-                    width: "100%",
-                    borderRadius: 3,
-                    textDecoration: "none",
-                    ":hover": { backgroundColor: orangeLight },
-                  }}
-                  onClick={handleEdit}
-                >
-                  Edit Quiz
-                </Button>
-              </Grid>
-              <Grid item mr={2}>
-                <Button
-                  sx={{
-                    backgroundColor: orangeLight,
-                    fontFamily: fontType,
-                    color: neural900,
-                    fontSize: 14,
-                    px: 2,
-                    py: 1,
-                    mb: 2,
-                    fontWeight: 600,
-                    width: "100%",
-                    borderRadius: 3,
-                    textDecoration: "none",
-                    ":hover": { backgroundColor: orangeLight },
-                  }}
-                  onClick={handlePublished}
                   disabled={questions && questions.length === 0}
+                  onClick={handlePublished}
                 >
                   {quiz && quiz.published ? "Unpublished" : "Published"}
                 </Button>
               </Grid>
-              <Grid item mr={2}>
-                <Button
-                  sx={{
-                    backgroundColor: activeBlueButton,
-                    fontFamily: fontType,
-                    color: white,
-                    fontSize: 14,
-                    width: "100%",
-                    borderRadius: 3,
-                    textDecoration: "none",
-                    px: 2,
-                    py: 1,
-                    mb: 2,
-                    ":hover": { backgroundColor: hoverBlueButton },
-                    ":focus": { backgroundColor: pressedBlueButton },
-                  }}
-                  onClick={() => navigate(`/mycourses/${params.slug}/myquiz`)}
-                >
-                  Go Back
-                </Button>
-              </Grid>
-              <Grid item mr={2}>
-                <Button
-                  sx={{
-                    backgroundColor: activeRedButton,
-                    fontFamily: fontType,
-                    color: white,
-                    fontSize: 14,
-                    borderRadius: 3,
-                    p: 1,
-                    ":hover": { backgroundColor: hoverRedButton },
-                    ":active": { backgroundColor: pressedRedButton },
-                    ":disabled": {
-                      backgroundColor: disabledButton,
-                      color: disabledButtonText,
-                    },
-                  }}
-                  onClick={handleDelete}
-                >
-                  Delete Quiz
-                </Button>
+              <Grid item display={{ xs: "none", md: "flex" }} md={0.15}>
+                <ExpandMenu options={options} />
               </Grid>
             </Grid>
-          )} */}
           </Div>
-          
-          <Div>
 
-          <Grid container spacing={2} mt={1}>
-            {questions &&
-              questions.map((item) => (
-                <Grid key={item.question._id} item xs={12} >
-                  <QuizDisplayQuestion questions={questions} currentQuestion={questions.indexOf(item)} admin={true} handleEdit={handleEdit}/>
-                  <QuizQuestion question={item.question} selections={item.choice} chosenAnswer={item.question.answer} correctAnswer={item.question.answer}/>
-                </Grid>
-              ))}
-          </Grid>
+          <Div>
+            <Grid container spacing={2} mt={1}>
+              {questions &&
+                questions.map((item) => (
+                  <>
+                    <Grid key={item.question._id} item xs={12}>
+                      <QuizDisplayQuestion
+                        questions={questions}
+                        currentQuestion={questions.indexOf(item)}
+                        admin={true}
+                        handleEdit={handleEditQuestion}
+                        handleDelete={handleDeleteQuestion}
+                      />
+                      <QuizQuestion
+                        question={item.question}
+                        selections={item.choice}
+                        chosenAnswer={item.question.answer}
+                        correctAnswer={item.question.answer}
+                      />
+                    </Grid>
+                  </>
+                ))}
+            </Grid>
           </Div>
         </>
       )}

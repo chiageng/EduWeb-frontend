@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import {
   Box,
   Typography,
@@ -33,12 +33,18 @@ import {
 import QuizCard from "../../components/screenHelpers/QuizCard";
 import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
-import { viewQuizzes, viewUserQuizzes } from "../../actions/quizAction";
+import {
+  deleteQuiz,
+  viewQuizzes,
+  viewUserQuizzes,
+} from "../../actions/quizAction";
 import Loader from "../../components/universal/Loader";
 import SearchIcon from "@mui/icons-material/Search";
 import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
 import AdminQuizCard from "../../components/adminScreenHelpers/AdminQuizCard";
 import { Div } from "../../navbar/AdminAppBar";
+import { QUIZZES_VIEW_RESET, QUIZ_DELETE_RESET } from "../../constants/quiz";
+import ExpandMenu from "../../components/universal/ExpandMenu";
 
 function AdminQuizzesScreen() {
   const params = useParams();
@@ -59,9 +65,23 @@ function AdminQuizzesScreen() {
   const leftBar = useSelector((state) => state.leftBar);
   const { open } = leftBar;
 
+  const quizDelete = useSelector((state) => state.quizDelete);
+  const { success } = quizDelete;
+
   const handleCreate = () => {
-    navigate(`/mycourses/${params.slug}/myquiz/create`);
+    navigate(`/admin/courses/${params.slug}/quiz/create`);
   };
+
+  const options = [
+    {
+      title: "View Course",
+      action: () => navigate(`/admin/courses/${params.slug}`),
+    },
+    {
+      title: "Student Enrollment",
+      action: () => navigate(`/admin/courses/${params.slug}/enrollment`),
+    },
+  ];
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -77,22 +97,42 @@ function AdminQuizzesScreen() {
     setFilteredQuizzes(updatedList);
   };
 
+  const handleView = (quizSlug) => {
+    navigate(`/admin/courses/${params.slug}/quiz/${quizSlug}`);
+  };
+
+  const handleEdit = (quizSlug) => {
+    navigate(`/admin/courses/${params.slug}/quiz/${quizSlug}/edit`);
+  };
+
+  const handleDelete = (isPublished, quizSlug) => {
+    if (isPublished) {
+      window.alert("You are not allowed to delete a published quiz");
+    } else {
+      let answer = window.confirm("Are you confirm to delete the quiz?");
+
+      if (answer) {
+        dispatch(deleteQuiz({ slug: params.slug, quizSlug }));
+      }
+    }
+  };
+
   useEffect(() => {
-    if (!quizzes && user.user.is_staff) {
-      dispatch(viewQuizzes(params.slug));
-    }
-    if (!quizzes && !user.user.is_staff) {
-      dispatch(viewUserQuizzes(params.slug));
-    }
-
-    if (quizzes && course.slug !== params.slug && user.user.is_staff) {
+    if (!quizzes) {
       dispatch(viewQuizzes(params.slug));
     }
 
-    if (quizzes && course.slug !== params.slug && !user.user.is_staff) {
-      dispatch(viewUserQuizzes(params.slug));
+    if (quizzes && course.slug !== params.slug) {
+      dispatch(viewQuizzes(params.slug));
     }
   }, [course, quizzes, params, open]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch({ type: QUIZ_DELETE_RESET });
+      dispatch({ type: QUIZZES_VIEW_RESET });
+    }
+  }, [success]);
 
   const breadcrumb = (
     <Breadcrumbs
@@ -183,7 +223,7 @@ function AdminQuizzesScreen() {
                     color: neural900,
                   }}
                 >
-                  {course && course.title }
+                  {course && course.title}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={3}>
@@ -198,7 +238,7 @@ function AdminQuizzesScreen() {
                   InputProps={{
                     style: {
                       backgroundColor: white,
-                      height: "48px"
+                      height: "48px",
                     },
                     startAdornment: (
                       <InputAdornment position="start">
@@ -212,7 +252,7 @@ function AdminQuizzesScreen() {
 
               <Grid item xs={12} md={1.5}>
                 <Button
-                  endIcon={<FileUploadOutlinedIcon/>}
+                  endIcon={<FileUploadOutlinedIcon />}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -233,6 +273,10 @@ function AdminQuizzesScreen() {
                   Upload Quiz
                 </Button>
               </Grid>
+
+              <Grid item display={{ xs: "none", md: "flex" }} md={0.25}>
+                <ExpandMenu options={options} />
+              </Grid>
             </Grid>
           </Div>
 
@@ -250,6 +294,9 @@ function AdminQuizzesScreen() {
                       score={quiz.score}
                       done={quiz.done}
                       published={quiz.quiz.published}
+                      handleEdit={handleEdit}
+                      handleDelete={handleDelete}
+                      handleView={handleView}
                     />
                   </Grid>
                 ))}
@@ -264,6 +311,9 @@ function AdminQuizzesScreen() {
                       score={quiz.score}
                       done={quiz.done}
                       published={quiz.quiz.published}
+                      handleEdit={handleEdit}
+                      handleDelete={handleDelete}
+                      handleView={handleView}
                     />
                   </Grid>
                 ))}

@@ -15,6 +15,7 @@ import { Div } from "../../navbar/AdminAppBar";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
 import unslugify from "unslugify"
+import Message from "../../components/universal/Message";
 
 function CreateTopicScreen() {
   const [title, setTitle] = useState("");
@@ -30,7 +31,7 @@ function CreateTopicScreen() {
   const { user } = userLogin;
 
   const topicCreate = useSelector((state) => state.topicCreate);
-  const { loading , success } = topicCreate;
+  const { loading , success, error } = topicCreate;
 
   const imageUpload = useSelector(state => state.imageUpload);
   const { loading: imageLoading, image:data, error:imageError} = imageUpload;
@@ -150,6 +151,7 @@ function CreateTopicScreen() {
   return (
     <>
       {loading && <Div><Loader /></Div>}
+      {!loading && error && <Message type="error">{error}</Message>}
       {!loading && (
         <>
         <Div style ={{ backgroundColor: white}}>

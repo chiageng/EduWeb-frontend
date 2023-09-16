@@ -1,5 +1,13 @@
+import {
+  Typography,
+  TextField,
+  Grid,
+  Card,
+  MenuItem,
+  Select,
+  Button,
+} from "@mui/material";
 import React from "react";
-import { Typography, TextField, Grid, Card, Button } from "@mui/material";
 import {
   neural900,
   neural500,
@@ -7,30 +15,43 @@ import {
   purplishBlueDark,
   purplishBluePale,
   purplishBlue,
+  red,
+  hoverBlueButton,
+  pressedBlueButton,
+  activeBlueButton,
+  pressedBorderBlueButton,
+  pressedBorderBackgroundBlueButton,
+  hoverBorderBlueButton,
+  activeBorderBlueButton,
+  hoverRedButton,
+  pressedRedButton,
 } from "../../design/color";
 import { fontType } from "../../design/font";
+import Loader from "../universal/Loader";
+import { useNavigate, useParams } from "react-router-dom";
+
 function QuizForm({
   setTitle,
   title,
-  handleSubmit
+  handleSubmit,
+  update,
 }) {
+  const navigate = useNavigate();
+  const params = useParams()
 
   return (
-    <Grid container>
-      <Grid item xs={0} sm={3}></Grid>
-      <Grid item xs={12} sm={6}>
-        <Card>
-          <Grid container spacing={3} m={1} width="90%">
+    <Card>
+          <Grid container spacing={3} m={1} width="95%">
             <Grid item xs={12} pb={2}>
               <Typography
                 sx={{
                   fontFamily: fontType,
                   fontWeight: 600,
-                  fontSize: 16,
+                  fontSize: 14,
                   color: neural500,
                 }}
               >
-                Quiz Title
+                Quiz Title*
               </Typography>
               <TextField
                 inputProps={{
@@ -43,43 +64,66 @@ function QuizForm({
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 required
-                id="TopicTitle"
-                name="topicTitle"
+                id="quizTitle"
+                name="quizTitle"
                 fullWidth
                 size="small"
               />
             </Grid>
-            <Grid item xs={8} sm={10}></Grid>
-            <Grid item xs={4} sm={2} pb={2}>
-              <Button
-                sx={{
-                  mr: 2,
-                  color: neural900,
-                  display: "block",
-                  fontSize: 16,
-                  fontWeight: 400,
-                  lineHeight: "140%",
-                  backgroundColor: purplishBlue,
-                  color: white,
-                  ":hover": {
-                    backgroundColor: purplishBlueDark,
-                  },
-                  ":disabled": {
-                    backgroundColor: neural500,
-                    color: white,
-                  }
-                  
-                }}
-                onClick={handleSubmit}
-              >
-                Save
-              </Button>
+
+            {/* Button */}
+            <Grid container justifyContent="center" display="flex" pb={4}>
+              <Grid item xs={12} sm={2} mt={1.5}>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  sx={{
+                    color: purplishBlueDark,
+                    py: 1,
+                    borderRadius: 2,
+                    textTransform: "capitalize",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    borderColor: activeBorderBlueButton,
+                    backgroundColor: white,
+                    ":hover": {
+                      borderColor: hoverBorderBlueButton,
+                    },
+                    ":focus": {
+                      bgcolor: pressedBorderBackgroundBlueButton,
+                      borderColor: pressedBorderBlueButton,
+                    },
+                  }}
+                  onClick={() => navigate(`/admin/courses/${params.slug}/quiz`)}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item sm={0.25} xs={false} mt={1}></Grid>
+              <Grid item xs={12} sm={2} mt={1.5}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  onClick={handleSubmit}
+                  variant="contained"
+                  sx={{
+                    backgroundColor: activeBlueButton,
+                    fontFamily: fontType,
+                    fontWeight: 400,
+                    fontSize: 12,
+                    borderRadius: 2,
+                    py: 1,
+                    textTransform: "capitalize",
+                    ":hover": { backgroundColor: hoverBlueButton },
+                    ":focus": { backgroundColor: pressedBlueButton },
+                  }}
+                >
+                  {update ? "Update Quiz" : "Create Quiz"}
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Card>
-      </Grid>
-      <Grid item></Grid>
-    </Grid>
   );
 }
 

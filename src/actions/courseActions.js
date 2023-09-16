@@ -3,6 +3,10 @@ import {
   COURSE_CREATE_REQUEST,
   COURSE_CREATE_SUCCESS,
 
+  COURSE_DELETE_FAIL,
+  COURSE_DELETE_REQUEST,
+  COURSE_DELETE_SUCCESS,
+
   COURSE_EDIT_FAIL,
   COURSE_EDIT_REQUEST,
   COURSE_EDIT_SUCCESS,
@@ -281,6 +285,36 @@ export const editCourse =
     } catch (error) {
       dispatch({
         type: COURSE_EDIT_FAIL,
+        payload: error.response.data,
+      });
+    }
+  };
+
+  export const deleteCourse =
+  ({ slug }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: COURSE_DELETE_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.put(
+        `/api/course/${slug}`,
+        config
+      );
+
+      dispatch({
+        type: COURSE_DELETE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: COURSE_DELETE_FAIL,
         payload: error.response.data,
       });
     }
