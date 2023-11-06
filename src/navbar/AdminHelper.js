@@ -29,7 +29,7 @@ function AdminHelper({ AppBar, open, toggleDrawer, user, anchorElUser, handleClo
                 alignItems: "center",
               }}
             >
-              <Grid item xs={false} sm={8}>
+              <Grid item>
                 <Grid container display={{ xs: "none", sm: "flex" }}>
                   <Grid item>
                     <IconButton

@@ -52,16 +52,17 @@ function AccordionHelper({ open, icon, title, arrayItem}) {
             </AccordionSummary>
           </ListItemButton>
           {arrayItem && arrayItem.map(item => (<ListItemButton
-            key={item}
+            key={item.item}
             sx={{
               minHeight: 48,
               justifyContent: open ? "initial" : "center",
               px: 2.5,
               py: 0,
             }}
+            onClick = {item.navigation}
           >
             <AccordionDetails sx={{ p: 0}}>
-              <Typography ml={5} sx={{ color: neural500}}>{item}</Typography>
+              <Typography ml={5} sx={{ color: neural500}}>{item.item}</Typography>
             </AccordionDetails>
           </ListItemButton>))}
         </Accordion>

@@ -62,6 +62,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import LinearProgress from "@mui/material/LinearProgress";
 import { nanoid } from "@reduxjs/toolkit";
+import { Div } from "../../navbar/AdminAppBar";
 
 const columns = [
   { id: "name", label: "Student", minWidth: 170 },
@@ -226,11 +227,9 @@ export default function StudentEnrollments() {
               }}
             />
           </Box>
-          <Typography
-            variant="body2"
-            color={neural500}
-            fontWeight={600}
-          >50%</Typography>
+          <Typography variant="body2" color={neural500} fontWeight={600}>
+            50%
+          </Typography>
         </Box>
       </TableCell>
     );
@@ -269,6 +268,9 @@ export default function StudentEnrollments() {
   const { loading: removeLoading, success: removeSucces } =
     studentEnrollmentRemove;
 
+  const leftBar = useSelector((state) => state.leftBar);
+  const { open } = leftBar;
+
   const rows =
     enrollment &&
     enrollment.map((item) => createData(item.user, item.enrollment.enroll));
@@ -281,7 +283,7 @@ export default function StudentEnrollments() {
     >
       <Typography
         as={Link}
-        to="/mycourses"
+        to="/admin"
         sx={{
           textDecoration: "none",
           ":hover": { textDecoration: "underline" },
@@ -289,29 +291,40 @@ export default function StudentEnrollments() {
         key="1"
         color={neural500}
       >
-        My Course
+        Home
       </Typography>
       <Typography
-        style={{ textDecoration: "none" }}
-        underline="none"
         as={Link}
-        to={`/mycourses/${params.slug}`}
-        key="1"
+        to="/admin/courses"
         sx={{
           textDecoration: "none",
           ":hover": { textDecoration: "underline" },
         }}
+        key="1"
         color={neural500}
       >
-        {course && course.title} (Instructor Page)
+        Students
+      </Typography>
+      <Typography
+        as={Link}
+        to="/admin/courses"
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        Students Enrollment
       </Typography>
       <Typography
         style={{ textDecoration: "none" }}
         underline="none"
         key="1"
         color={neural500}
+        textTransform="capitalize"
       >
-        Student Enrollments
+        {course && course.title}
       </Typography>
     </Breadcrumbs>
   );
@@ -334,26 +347,41 @@ export default function StudentEnrollments() {
   }, [success, removeSucces]);
 
   return (
-    <Container>
-      <Box height="750px" pt={5} pb={10}>
+    <>
+      <Div style={{ backgroundColor: white }}>
         {breadcrumb}
 
-        <Typography
-          variant="h3"
-          fontFamily="Poppins"
-          sx={{
-            fontSize: 32,
-            fontWeight: 600,
-            fontStyle: "normal",
-            color: neural900,
-            mb: "18px",
-          }}
-        >
-          Students Enrollment
-        </Typography>
-
         <Grid container mb={2}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={5.75}>
+            <Typography
+              variant="h3"
+              fontFamily="Poppins"
+              sx={{
+                fontSize: 24,
+                fontWeight: 600,
+                fontStyle: "normal",
+                color: neural900,
+                mb: "18px",
+              }}
+            >
+              Student Enrollment
+            </Typography>
+            <Typography
+              variant="h3"
+              fontFamily="Poppins"
+              sx={{
+                fontSize: 16,
+                fontWeight: 600,
+                fontStyle: "normal",
+                color: neural500,
+                textTransform: "capitalize",
+              }}
+            >
+              {course && course.title}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} md={3}>
             <TextField
               margin="normal"
               fullWidth
@@ -375,29 +403,68 @@ export default function StudentEnrollments() {
             />
           </Grid>
 
-          <Grid item xs={false} md={1}></Grid>
+          <Grid item xs={false} md={0.25}></Grid>
 
-          <Grid item xs={12} md={4} mt={2}>
-            <FormControl sx={{ minWidth: 200 }}>
-              <InputLabel id="demo-simple-select-helper-label">
-                Status
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                value=""
-                label="Status"
-                // onChange={handleChange}
-                sx={{ minWidth: "200px", backgroundColor: white, fontSize: 14 }}
-              >
-                <MenuItem value="enrolled">Enrolled</MenuItem>
-                <MenuItem value="requested">Requested</MenuItem>
-              </Select>
-            </FormControl>
+          <Grid item xs={12} md={3} mt={2}>
+            <Grid container display="flex" alignItems="center">
+              <Grid item mr={2}>
+                <Typography
+                  variant="h3"
+                  fontFamily="Poppins"
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 400,
+                    fontStyle: "normal",
+                    color: neural900,
+                  }}
+                >
+                  Sort by
+                </Typography>
+              </Grid>
+              <Grid item>
+                <FormControl sx={{ minWidth: 200 }}>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Status
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value=""
+                    label="Status"
+                    // onChange={handleChange}
+                    sx={{
+                      minWidth: "200px",
+                      backgroundColor: white,
+                      fontSize: 14,
+                    }}
+                  >
+                    <MenuItem value="enrolled">Enrolled</MenuItem>
+                    <MenuItem value="requested">Requested</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
+      </Div>
 
+      <Div>
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <Box ml={2} my={2}>
+            <Typography
+              variant="h3"
+              fontFamily="Poppins"
+              sx={{
+                fontSize: 16,
+                fontWeight: 600,
+                fontStyle: "normal",
+                color: neural900,
+              }}
+            >
+              All Students
+            </Typography>
+          </Box>
+
           <TableContainer sx={{ maxHeight: 600 }}>
             <Table
               stickyHeader
@@ -410,21 +477,21 @@ export default function StudentEnrollments() {
                 },
               }}
             >
-              <TableHead sx={{ fontWeight: 500 }}>
+              <TableHead sx={{ fontWeight: 500, backgroundColor: purplishBlue, color: purplishBlueDark }}>
                 <TableRow>
                   {columns.map((column) => (
-                      <TableCell
-                        key={column.label}
-                        align="center"
-                        style={{ minWidth: column.minWidth }}
-                        sx={{
-                          fontWeight: 600,
-                          backgroundColor: white,
-                          color: neural300,
-                        }}
-                      >
-                        {column.label}
-                      </TableCell>
+                    <TableCell
+                      key={column.label}
+
+                      style={{ minWidth: column.minWidth }}
+                      sx={{
+                        fontWeight: 600,
+                        backgroundColor: white,
+                        color: neural300,
+                      }}
+                    >
+                      {column.label}
+                    </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
@@ -442,7 +509,11 @@ export default function StudentEnrollments() {
                         >
                           {columns.map((column) => {
                             const value = row[column.id];
-                            return <React.Fragment key={nanoid()}>{value}</React.Fragment>;
+                            return (
+                              <React.Fragment key={nanoid()}>
+                                {value}
+                              </React.Fragment>
+                            );
                           })}
                         </TableRow>
                       );
@@ -460,7 +531,7 @@ export default function StudentEnrollments() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-      </Box>
-    </Container>
+      </Div>
+    </>
   );
 }

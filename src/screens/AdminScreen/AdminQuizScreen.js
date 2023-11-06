@@ -333,6 +333,29 @@ function AdminQuizScreen() {
             </Grid>
           </Div>
 
+          {/* If no quiz */}
+          {!questions ||
+            (questions.length === 0 && (
+              <Box mt={3} mx={1.5}>
+                <Div style={{ backgroundColor: white }}>
+                <Typography
+                  variant="h3"
+                  fontFamily="Poppins"
+                  sx={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    fontStyle: "normal",
+                    color: neural500,
+                    textAlign: "center",
+                    py: 2,
+                  }}
+                >
+                  No question currently. Add your first question.
+                </Typography>
+                </Div>
+              </Box>
+            ))}
+
           <Div>
             <Grid container spacing={2} mt={1}>
               {questions &&

@@ -83,7 +83,7 @@ function AdminVideoScreen() {
     >
       <Typography
         as={Link}
-        to="/mycourses"
+        to="/admin"
         sx={{
           textDecoration: "none",
           ":hover": { textDecoration: "underline" },
@@ -91,11 +91,23 @@ function AdminVideoScreen() {
         key="1"
         color={neural500}
       >
-        My Course
+        Home
       </Typography>
       <Typography
         as={Link}
-        to={`/mycourses/${params.slug}`}
+        to="/admin/courses"
+        sx={{
+          textDecoration: "none",
+          ":hover": { textDecoration: "underline" },
+        }}
+        key="1"
+        color={neural500}
+      >
+        Courses
+      </Typography>
+      <Typography
+        as={Link}
+        to={`/admin/courses/${params.slug}`}
         sx={{
           textDecoration: "none",
           ":hover": { textDecoration: "underline" },

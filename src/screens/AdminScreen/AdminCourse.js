@@ -72,7 +72,7 @@ function AdminCourseScreen() {
     { title: "View Quiz", action: () => navigate(`/admin/courses/${params.slug}/quiz`) },
     {
       title: "Student Enrollment",
-      action: () => navigate(`/admin/courses/${params.slug}/enrollemnt`),
+      action: () => navigate(`/admin/courses/checkStudentsEnrollment/${params.slug}`),
     },
   ];
 
@@ -233,7 +233,7 @@ function AdminCourseScreen() {
                   fontSize: 16,
                   fontWeight: 600,
                   fontStyle: "normal",
-                  color: neural900,
+                  color: neural500,
                 }}
               >
                 {course && course.title }
@@ -323,6 +323,29 @@ function AdminCourseScreen() {
           </Grid>
 
           </Div>
+
+          {/* If no quiz */}
+          {!lessons ||
+            (lessons.length === 0 && (
+              <Box mt={3} mx={1.5}>
+                <Div style={{ backgroundColor: white }}>
+                <Typography
+                  variant="h3"
+                  fontFamily="Poppins"
+                  sx={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    fontStyle: "normal",
+                    color: neural500,
+                    textAlign: "center",
+                    py: 2,
+                  }}
+                >
+                  No lesson currently. Add your first lesson.
+                </Typography>
+                </Div>
+              </Box>
+            ))}
 
           <Div>
             {search === "" && lessons && 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { neural500, neural900, white } from "../../design/color";
 import { fontType } from "../../design/font";
 import { useDispatch, useSelector } from "react-redux";
@@ -85,7 +85,7 @@ function AdminCourses() {
         key="1"
         color={neural500}
       >
-        My Courses
+        Courses
       </Typography>
     </Breadcrumbs>
   );
@@ -110,6 +110,30 @@ function AdminCourses() {
               My Courses
             </Typography>
           </Div>
+
+          {/* If no quiz */}
+          {!courses ||
+            (courses.length === 0 && (
+              <Box mt={3} mx={1.5}>
+                <Div style={{ backgroundColor: white }}>
+                <Typography
+                  variant="h3"
+                  fontFamily="Poppins"
+                  sx={{
+                    fontSize: 16,
+                    fontWeight: 400,
+                    fontStyle: "normal",
+                    color: neural500,
+                    textAlign: "center",
+                    py: 2,
+                  }}
+                >
+                  No course currently. Add your first course.
+                </Typography>
+                </Div>
+              </Box>
+            ))}
+
           <Div>
             {courses && (
               <Grid container spacing={3}>

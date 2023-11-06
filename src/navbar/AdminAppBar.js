@@ -306,6 +306,7 @@ function AdminAppBar({ user }) {
           handleCloseUserMenu={handleCloseUserMenu}
           user={user}
           toggleDrawer={toggleDrawer}
+          handleLogout={handleLogout}
           searchBar={true}
         />
       </Box>
@@ -318,6 +319,7 @@ function AdminAppBar({ user }) {
           AppBar={PhoneBar}
           handleOpenUserMenu={handleOpenUserMenu}
           handleCloseUserMenu={handleCloseUserMenu}
+          handleLogout={handleLogout}
           user={user}
           toggleDrawer={toggleDrawer}
           searchBar={false}

@@ -61,7 +61,10 @@ export default function LoginScreen() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    console.log(user);
+    if (user && (user.user.is_staff || user.user.is_instructor)) {
+      navigate("/admin/courses");
+    } else if (user) {
       navigate("/mycourses");
     }
   }, [userLogin, user]);

@@ -14,29 +14,52 @@ import Typography from "@mui/material/Typography";
 import { neural900 } from "../design/color";
 import AccordionHelper from "./AccordionHelper";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function LeftBar({ logo, open, Drawer }) {
   const [expanded, setExpanded] = React.useState("panel1");
+
+  const navigate = useNavigate();
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-
   return (
-    
     <Drawer variant="permanent" open={open} float="left">
       {logo}
       <Divider />
 
       <List sx={{ minHeight: "400px" }}>
-        <AccordionHelper open={open} title="Dashboard" icon={<HomeOutlinedIcon sx={{ color: neural900 }}/>} />
+        <AccordionHelper
+          open={open}
+          title="Dashboard"
+          icon={<HomeOutlinedIcon sx={{ color: neural900 }} />}
+        />
 
-        <AccordionHelper open={open} title="Student" icon={<SchoolOutlinedIcon sx={{ color: neural900 }}/>} arrayItem={["All Students"]} />
+        <AccordionHelper
+          open={open}
+          title="Student"
+          icon={<SchoolOutlinedIcon sx={{ color: neural900 }} />}
+          arrayItem={[{item: "All Students", navigation: () => navigate(`/admin/`)}]}
+        />
 
-        <AccordionHelper open={open} title="Teacher" icon={<PeopleAltOutlinedIcon sx={{ color: neural900 }} />} arrayItem={["All Teachers"]} />
+        <AccordionHelper
+          open={open}
+          title="Teacher"
+          icon={<PeopleAltOutlinedIcon sx={{ color: neural900 }} />}
+          arrayItem={[{item : "All Teachers", navigation: () => navigate(`/admin/`)}]}
+        />
 
-        <AccordionHelper open={open} title="Courses" icon={<LibraryBooksOutlinedIcon sx={{ color: neural900 }} />} arrayItem={["My Course", "Create Course"]} />
+        <AccordionHelper
+          open={open}
+          title="Courses"
+          icon={<LibraryBooksOutlinedIcon sx={{ color: neural900 }} />}
+          arrayItem={[
+            { item: "My Course", navigation: () => navigate(`/admin/courses`) },
+            {item: "Create Course", navigation : () => navigate(`/admin/createcourse`)},
+          ]}
+        />
 
         <ListItem disablePadding sx={{ display: "block" }}>
           <ListItemButton

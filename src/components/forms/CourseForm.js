@@ -49,6 +49,10 @@ export const CourseForm = ({
   update,
 }) => {
   const navigate = useNavigate();
+  const pending = !title || !description || !category || !level || !preview
+
+
+
   return (
     <>
       {loading && <Loader />}
@@ -291,6 +295,7 @@ export const CourseForm = ({
                     ":hover": { backgroundColor: hoverBlueButton },
                     ":focus": { backgroundColor: pressedBlueButton },
                   }}
+                  disabled={pending}
                 >
                   {update ? "Update Course" : "Create Course"}
                 </Button>

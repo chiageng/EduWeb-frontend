@@ -25,7 +25,7 @@ import AdminQuizScreen from "./screens/AdminScreen/AdminQuizScreen";
 import CreateQuizQuestionScreen from "./screens/AdminScreen/CreateQuizQuestion";
 import EditQuizQuestionScreen from "./screens/AdminScreen/EditQuizQuestion";
 import EditProfileScreen from "./screens/StudentScreen/EditProfileScreen";
-import StudentEnrollments from "./screens/StudentScreen/StudentEnrollments";
+import StudentEnrollments from "./screens/AdminScreen/StudentEnrollments";
 import AdminLoginScreen from "./screens/AdminScreen/AdminLoginScreen";
 import AdminDashboard from "./screens/AdminScreen/AdminDashboard";
 import AdminCourses from "./screens/AdminScreen/AdminCourses";
@@ -49,10 +49,7 @@ function App() {
             path="/mycourses/:slug"
             element={<MyCourseScreen></MyCourseScreen>}
           ></Route>
-          <Route
-            path="/mycourses/checkStudentsEnrollment/:slug"
-            element={<StudentEnrollments />}
-          ></Route>
+          
           <Route
             path="/courses/:slug"
             element={<CourseScreen></CourseScreen>}
@@ -135,6 +132,10 @@ function App() {
           <Route
             path="/admin/courses/:slug/:topicSlug"
             element={<AdminVideoScreen />}
+          ></Route>
+          <Route
+            path="/admin/courses/checkStudentsEnrollment/:slug"
+            element={<StudentEnrollments />}
           ></Route>
         </Routes>
       </main>
